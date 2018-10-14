@@ -1,0 +1,99 @@
+<div class="container mt-5">
+	<div class="row">
+	<a href="#!"><button type="button" class="btn btn-link pull-right"><i class="fa fa-arrow-left" aria-hidden="true"></i>
+			Back</button></a>
+		<div class="col-md-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="text-center">
+						<strong>Order summary</strong>
+					</h3>
+				</div>
+				<div class="panel-body">
+					<div class="table-responsive">
+						<table class="table table-condensed">
+							<thead>
+								<tr>
+									<td><strong>Movie</strong></td>
+									<td class="text-center"><strong>Print Type</strong></td>
+									<td class="text-center"><strong>Price</strong></td>
+									<td class="text-center"><strong>Quantity</strong></td>
+									<td class="text-right"><strong>Total</strong></td>
+								</tr>
+							</thead>
+							<tbody ng-repeat="item in cart">
+								<tr>
+									<td>{{item.data.movieName}}</td>
+									<td class="text-center">{{item.data.printType}}</td>
+									<td class="text-center">{{item.data.price}}</td>
+									<td class="text-center"><button class="btn btn-sm" ng-click="removeFromCart(item);"><i class="fa fa-minus-square" aria-hidden="true"></i></button>{{item.length}}
+									<button class="btn btn-sm" ng-click="addToCart(item);"><i class="fa fa-plus-square" aria-hidden="true"></i></button></td>
+									<td class="text-right">{{item.total}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="table-responsive">
+						<table class="table table-condensed">
+							<tbody>
+								<tr>
+									<td class="highrow"></td>
+									<td class="highrow"></td>
+									<td class="highrow"></td>
+									<td class="highrow text-right"><strong>Subtotal</strong></td>
+									<td class="highrow text-right">${{totalBillAmount}}</td>
+								</tr>
+								<tr ng-if="discountReceived.length>0">
+									<td class="emptyrow"></td>
+									<td class="emptyrow"></td>
+									<td class="emptyrow"></td>
+									<td class="emptyrow text-right">
+									<strong>Discount Types</strong></td>
+									<td class="emptyrow text-right">
+									<span ng-repeat="d in discountReceived">{{d.discountType}}
+									<br/></span>
+									</td>
+								</tr>
+								<tr ng-if="discountReceived.length>0">
+									<td class="emptyrow"></td>
+									<td class="emptyrow"></td>
+									<td class="emptyrow"></td>
+									<td class="emptyrow text-right"><strong>Discount Amount</strong></td>
+									<td class="emptyrow text-right">
+									<span  ng-repeat="d in discountReceived">{{d.discount}}
+									<br/></span>
+									</td>
+								</tr>
+								<tr>
+									<td class="emptyrow"></td>
+									<td class="emptyrow"></td>
+									<td class="emptyrow"></td>
+									<td class="emptyrow text-right"><strong>Savings</strong></td>
+									<td class="emptyrow text-right">${{discountAmount}}</td>
+								</tr>
+								<tr>
+									<td class="emptyrow"></td>
+									<td class="emptyrow"></td>
+									<td class="emptyrow"></td>
+									<td class="emptyrow text-right"><strong>Amount Payable</strong></td>
+									<td class="emptyrow text-right">${{discountedAmount}}</td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<button type="button" class="btn btn-link pull-right" ng-click="order();">Order<i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+</div>
+<style>
+.table>tbody>tr>.emptyrow {
+	border-top: none;
+}
+
+.table>tbody>tr>.highrow {
+	border-top: 3px solid;
+}
+</style>

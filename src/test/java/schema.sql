@@ -1,0 +1,14 @@
+--CREATE TABLE movie (
+--    id   INTEGER      NOT NULL AUTO_INCREMENT,
+--    movieName VARCHAR(128),
+--    printType VARCHAR(128),
+--    price VARCHAR(128),
+--    PRIMARY KEY (id)
+--);
+--
+--CREATE TABLE user (
+--    id   INTEGER      NOT NULL AUTO_INCREMENT,
+--    userName VARCHAR(128),
+--    password VARCHAR(128),
+--    PRIMARY KEY (id)
+--);

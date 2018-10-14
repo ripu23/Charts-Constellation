@@ -1,0 +1,61 @@
+{
+    "title": "Atheletes in each Olympic game.",
+    "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+    "mark": {
+        "type": "bar"
+    },
+    "data": {
+        "url": "../dataset/original/games.csv"
+    },
+    "encoding": {
+        "x": {
+            "field": "Games",
+            "type": "ordinal",
+            "axis": {
+                "title": "Olympic Game"
+            },
+            "scale": {
+
+            }
+        },
+        "y": {
+            "aggregate": "count",
+            "type": "quantitative",
+            "axis": {
+                "title": "Count of teams"
+            }
+        }
+    },
+    "layer": [{
+        "mark": "bar",
+        "encoding": {
+            "color": {
+                "field": "*",
+                "aggregate": "count",
+                "type": "quantitative",
+                "legend": null
+            }
+        }
+            }, {
+        "mark": "text",
+        "encoding": {
+            "text": {
+                "aggregate": "count",
+                "field": "*",
+                "type": "quantitative"
+            }
+        }
+            }],
+    "width": 800,
+    "height": 400,
+    "dateTime": {
+        "fullTime": "July 20 2018",
+        "year": "2018",
+        "month": "07",
+        "date": "20"
+    },
+    "user": "ArunSankar",
+    "chartType": "bar",
+    "description": "This dataset reveals that Summer Olympics attract more than 4 times athlete participation than Winter Olympics. Since the nature of these events and the number of athletes participating vary significantly, let's analyze these 2 separately."
+
+}

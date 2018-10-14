@@ -1,0 +1,39 @@
+<div>
+	<div class="jumbotron jumbotron-fluid">
+		<div class="container">
+			<h1 class="display-4">Welcome to The Pirate shop.</h1>
+			<p class="lead">Find the list of available movies below.</p>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-3  col-md-4 col-sm-6"
+				ng-repeat="movie in availableMovies">
+				<div class="card" style="margin-bottom: 1rem;">
+					<div class="card-body">
+						<h5 class="card-title">{{movie.movieName}} -
+							{{movie.printType}}</h5>
+						<p class="card-text">
+							<small class="text-muted">${{movie.price}}</small>
+							<button ng-click="addToCart(movie);"
+								class="btn btn-sm pull-right" id="{{$index}}-tag" data-toggle="tooltip" title="Add">
+								<i class="fa fa-plus-square" aria-hidden="true"></i>
+							</button>
+							<button ng-click="removeFromCart(movie);"
+								class="btn btn-sm pull-right" id="{{$index}}-tag" data-toggle="tooltip" title="Remove">
+								<i class="fa fa-minus-square" aria-hidden="true"></i>
+							</button>
+
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer class="footer">
+		<div class="container">
+			<a href="#!checkout"><button type="button" class="btn btn-link pull-right"><i class="fa fa-check" aria-hidden="true"></i>
+			Check out</button></a>
+		</div>
+	</footer>
+</div>

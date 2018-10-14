@@ -1,0 +1,42 @@
+{
+    "title": "Number of events by year",
+    "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+    "data": {
+        "url": "dataset/original/year-count.csv"
+    },
+    "width": 500,
+    "height": 300,
+    "mark": {
+        "type": "line",
+        "point": true
+    },
+    "encoding": {
+        "x": {
+            "field": "Year",
+            "type": "temporal",
+            "scale": {
+                "zero": false
+            }
+        },
+        "y": {
+            "field": "Number-of-Games",
+            "type": "quantitative",
+            "scale": {
+                "zero": false
+            }
+        },
+        "order": {
+            "field": "year",
+            "type": "temporal"
+        }
+    },
+    "dateTime": {
+        "fullTime": "Wed Sept 30 2018", 
+        "year": "2018", 
+        "month": "09", 
+        "date": "30"
+    },
+    "user":"Randi",
+    "chartType":"scatterplot",
+    "description":"Number of events that took place over the period of time. Highest number of events were organised in the year 1980."
+}

@@ -1,0 +1,49 @@
+{
+    "title": "Participation of country by year",
+    "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+    "mark": {
+        "type": "bar"
+    },
+    "data": {
+        "url": "../dataset/original/TeamCountYear.csv"
+    },
+    "encoding": {
+        "x": {
+            "timeUnit": "year",
+            "field": "Year",
+            "type": "ordinal",
+            "axis": {
+                "title": "Year"
+            },
+            "scale": {
+
+            }
+        },
+        "y": {
+            "field": "CountOfTeam",
+            "aggregate": "quantitative",
+            "type": "quantitative",
+            "axis": {
+                "title": "Count of teams"
+            }
+        },
+        "color": {
+            "field": "Year",
+            "type": "nominal",
+            "legend": null
+        }
+
+    },
+    "width": 800,
+    "height": 400,
+    "dateTime": {
+        "fullTime": "Sept 15 2018", 
+        "year": "2018", 
+        "month": "09", 
+        "date": "15"
+    },
+    "user":"Saduman",
+    "chartType":"bar",
+    "description":"The chart shows participation of countries aggregated by year. As can been, 1991 saw the highest participation."
+
+}

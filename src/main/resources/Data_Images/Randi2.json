@@ -1,0 +1,44 @@
+{
+    "title": "Number of participating teams by year",
+    "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+    "data": {
+        "url": "dataset/original/Team-year.csv"
+    },
+    "width": 800,
+    "height": 200,
+    "mark": {
+        "type": "line",
+        "point": true
+    },
+    "encoding": {
+        "x": {
+            "timeUnit": "year",
+            "field": "Year",
+            "type": "temporal",
+            "scale": {
+                "zero": false
+            }
+        },
+        "y": {
+            "field": "Participating Teams",
+            "type": "quantitative",
+            "scale": {
+                "zero": false,
+                "nice": 5000
+            }
+        },
+        "order": {
+            "field": "year",
+            "type": "temporal"
+        }
+    },
+    "dateTime": {
+        "fullTime": "May 10 2018", 
+        "year": "2018", 
+        "month": "05", 
+        "date": "10"
+    },
+    "user":"Randi",
+    "chartType":"scatterplot",
+    "description":"Number of particiating teams over the period of time. Year 1990 saw a dramatic increase in number of teams."
+}

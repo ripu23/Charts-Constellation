@@ -1,0 +1,36 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+  "description": "A simple bar chart with embedded data.",
+  "data": {
+    "url": "../dataset/original/Country-Medal.json"
+  },
+  "encoding": {
+    "y": {
+      "field": "Teams",
+      "type": "ordinal"
+    },
+    "x": {
+      "field": "Total",
+      "type": "quantitative"
+    },
+    "color": {
+      "value": "#a2fbb9"
+    }
+  },
+  "layer": [{
+    "mark": "bar"
+  }, {
+    "mark": {
+      "type": "text",
+      "align": "left",
+      "baseline": "middle",
+      "dx": 3
+    },
+    "encoding": {
+      "text": {
+        "field": "Total",
+        "type": "quantitative"
+      }
+    }
+  }]
+}

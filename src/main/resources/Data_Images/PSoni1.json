@@ -1,0 +1,45 @@
+{
+    "title": "Age distribution of Gold Medalist",
+    "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+    "mark": {
+        "type": "bar",
+        "color": "green
+    },
+    "encoding": {
+        "x": {
+            "bin": {
+                "maxbins": 30,
+                "step": 2
+            },
+            "field": "Age",
+            "type": "quantitative",
+            "axis": {
+                "title": "Age"
+            }
+        },
+        "y": {
+            "aggregate": "count",
+            "type": "quantitative"
+        }
+    },
+    "data": {
+        "url": "dataset/original/Age-Medal-Distribution.csv"
+    },
+    "transform": [{
+        "filter": {
+            "field": "Medal",
+            "oneOf": ["Gold"]
+        }
+            }],
+    "width": 800,
+    "height": 400,
+    "dateTime": {
+        "fullTime": "Oct 02 2018",
+        "year": "2018",
+        "month": "10",
+        "date": "02"
+    },
+    "user": "Randi",
+    "chartType": "histogram",
+    "description": "Historgram, which shows the age of gold medal winner. It can be said the most of the gold winners are in the age group 24-26."
+}

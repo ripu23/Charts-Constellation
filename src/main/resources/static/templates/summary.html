@@ -1,0 +1,67 @@
+<div class="container">
+	<div>
+		<div class="card text-center">
+			<div class="card-header">Order placed</div>
+			<div class="card-body">
+				<h5 class="card-title">Summary</h5>
+				<div class="table-responsive">
+						<table class="table table-condensed">
+							<thead>
+								<tr>
+									<td><strong>Movie</strong></td>
+									<td class="text-center"><strong>Price</strong></td>
+									<td class="text-center"><strong>Quantity</strong></td>
+								</tr>
+							</thead>
+							<tbody ng-repeat="item in cart">
+								<tr>
+									<td>{{item.data.movieName}}-{{item.data.printType}}</td>
+									<td class="text-center">{{item.data.price}}</td>
+									<td class="text-center	">{{item.length}}</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="table-responsive">
+						<table class="table table-condensed">
+							<tbody>
+								<tr>
+									<td class="highrow"></td>
+									<td class="highrow"></td>
+									<td class="highrow"></td>
+									<td class="highrow text-right"><strong>Subtotal</strong></td>
+									<td class="highrow text-right">${{totalBillAmount}}</td>
+								</tr>
+								<tr>
+									<td class="emptyrow"></td>
+									<td class="emptyrow"></td>
+									<td class="emptyrow"></td>
+									<td class="emptyrow text-right"><strong>Savings</strong></td>
+									<td class="emptyrow text-right">${{discountAmount}}</td>
+								</tr>
+								<tr>
+									<td class="emptyrow"></td>
+									<td class="emptyrow"></td>
+									<td class="emptyrow"></td>
+									<td class="emptyrow text-right"><strong>Amount Paid</strong></td>
+									<td class="emptyrow text-right">${{discountedAmount}}</td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+					</div>
+			</div>
+
+		</div>
+	</div>
+	<button type="button" class="btn btn-link pull-right" ng-click="reset();"><i class="fa fa-shopping-bag" aria-hidden="true"></i>Shop Again</button>
+</div>
+<style>
+.table>tbody>tr>.emptyrow {
+	border-top: none;
+}
+
+.table>tbody>tr>.highrow {
+	border-top: 3px solid;
+}
+</style>

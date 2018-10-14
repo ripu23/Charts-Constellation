@@ -1,0 +1,59 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+  "data": {
+    "url": "../dataset/original/YearMedal.csv"
+  },
+  "width": 600,
+  "title": "[Heatmap] Mean Age of Medal Winners in Summer Olympic games.",
+  "config": {
+    "view": {
+      "strokeWidth": 0
+    },
+    "scale": {
+      "rangeStep": 13
+    },
+    "axis": {
+      "domain": false
+    }
+  },
+  "mark": "rect",
+  "encoding": {
+    "x": {
+      "field": "Year",
+      "timeUnit": "year",
+      "type": "ordinal",
+      "title": "Summer Game Year",
+      "axis": {
+        "labelAngle": 0
+      }
+    },
+    "y": {
+      "field": "Medal",
+      "type": "ordinal",
+      "title": "Medal"
+    },
+    "color": {
+      "aggregate": "count",
+      "type": "quantitative",
+      "legend": {
+        "title": null
+      }
+    }
+  },
+  "config": {
+    "range": {
+      "heatmap": {
+        "scheme": "greens"
+      }
+    }
+  },
+  "dateTime": {
+    "fullTime": "July 20 2018",
+    "year": "2018",
+    "month": "07",
+    "date": "20"
+  },
+  "user": "ArunSankar",
+  "chartType": "heatmap",
+  "description": "The heatmap shows Mean age of medal winners peaked in 1920 (30 years) and then hit a low during 1976-1988 (24 years) and has now recovered to around 27."
+}
