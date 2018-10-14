@@ -20,7 +20,7 @@ public class HomeController {
 	
 	@RequestMapping("/")
 	public ModelAndView loginRender() {
-		return new ModelAndView("login.html");
+		return new ModelAndView("index.html");
 	}
 	
 	@RequestMapping("/register")
