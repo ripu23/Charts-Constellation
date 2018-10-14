@@ -1,7 +1,10 @@
 package chartconstellation.app;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.stream.Stream;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -14,15 +17,33 @@ public class Test {
 		test.run();
 
 	}
-	
+
 	private void run() {
-		ObjectMapper mapper =  new ObjectMapper();
+		ObjectMapper mapper = new ObjectMapper();
+
+		String path = "/Users/ripu/Documents/projects/Workspace_DV/chartconstellation/src/main/resources/Data_Images";
 		try {
-			Chart chart = mapper.readValue(new File("/Users/ripu/Documents/ASU/STUDY/DV - 578/Project/chartconstellation/Data_Images/ArunSankar1.json"), Chart.class);
-			System.out.println(chart);
-		} catch (IOException e) {
-			e.printStackTrace();
+			Stream<Path> paths = Files.walk(Paths.get(path));
+			paths.forEach(filePath -> {
+				if (Files.isRegularFile(filePath)) {
+
+					try {
+						
+							System.out.println(filePath.getFileName());
+							if(filePath.getFileName().toString().contains("json")) {
+								Chart chart = mapper.readValue(filePath.toFile(), Chart.class);
+								System.out.println(chart);
+							}
+						
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
+
 	}
 
 }

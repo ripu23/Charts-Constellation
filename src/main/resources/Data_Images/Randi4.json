@@ -1,47 +1,47 @@
 {
-    "title": "Domination of Germany in the year 1936",
-    "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
-    "data": {
-        "url": "dataset/original/Germany-Domination.csv"
-    },
-    "transform": [{
-        "filter": {
-            "field": "Medal",
-            "oneOf": ["Gold", "Silver", "Bronze"]
-        }
-            }],
-    "width": 800,
-    "height": 400,
-    "mark": "bar",
-    "encoding": {
-        "x": {
-            "aggregate": "count",
-            "field": "Medal",
-            "type": "nominal"
-        },
-        "y": {
-            "field": "Team",
-            "type": "nominal",
-            "axis": {
-                "title": "Countries"
-            }
-        },
-        "color": {
-            "field": "Medal",
-            "type": "nominal",
-            "scale": {
-                "domain": ["Gold", "Silver", "Bronze"],
-                "range": ["#e7ba52", "#c7c7c7", "#aec7e8"]
-            },
-        }
-    },
-    "dateTime": {
-        "fullTime": "Sept 10 2018", 
-        "year": "2018", 
-        "month": "09", 
-        "date": "10"
-    },
-    "user":"Randi",
-    "chartType":"stackedBarChart",
-    "description":"Germany performed the best in the year 1936. The worst part is, the Nazis put on the best Olympics show ever. They even invented rituals such as the torch relay that we still include in the Olympics today."
+	"title": "Domination of Germany in the year 1936",
+	"$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+	"data": {
+		"url": "dataset/original/Germany-Domination.csv"
+	},
+	"transform": [{
+		"filter": {
+			"field": "Medal",
+			"oneOf": ["Gold", "Silver", "Bronze"]
+		}
+	}],
+	"width": 800,
+	"height": 400,
+	"mark": "bar",
+	"encoding": {
+		"x": {
+			"aggregate": "count",
+			"field": "Medal",
+			"type": "nominal"
+		},
+		"y": {
+			"field": "Team",
+			"type": "nominal",
+			"axis": {
+				"title": "Countries"
+			}
+		},
+		"color": {
+			"field": "Medal",
+			"type": "nominal",
+			"scale": {
+				"domain": ["Gold", "Silver", "Bronze"],
+				"range": ["#e7ba52", "#c7c7c7", "#aec7e8"]
+			}
+		}
+	},
+	"dateTime": {
+		"fullTime": "Sept 10 2018",
+		"year": "2018",
+		"month": "09",
+		"date": "10"
+	},
+	"user": "Randi",
+	"chartType": "stackedBarChart",
+	"description": "Germany performed the best in the year 1936. The worst part is, the Nazis put on the best Olympics show ever. They even invented rituals such as the torch relay that we still include in the Olympics today."
 }

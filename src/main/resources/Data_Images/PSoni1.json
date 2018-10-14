@@ -3,7 +3,7 @@
     "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
     "mark": {
         "type": "bar",
-        "color": "green
+        "color": "green"
     },
     "encoding": {
         "x": {
