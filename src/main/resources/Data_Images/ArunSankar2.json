@@ -1,59 +1,60 @@
 {
-    "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
-    "data": {
-        "url": "../dataset/original/YearSport.csv"
+  "id": 2,
+  "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+  "data": {
+    "url": "../dataset/original/YearSport.csv"
+  },
+  "width": 600,
+  "title": "[Heatmap] Number of events in each sport over years",
+  "config": {
+    "view": {
+      "strokeWidth": 0
     },
-    "width": 600,
-    "title": "[Heatmap] Number of events in each sport over years",
-    "config": {
-        "view": {
-            "strokeWidth": 0
-        },
-        "scale": {
-            "rangeStep": 13
-        },
-        "axis": {
-            "domain": false
-        }
+    "scale": {
+      "rangeStep": 13
     },
-    "mark": "rect",
-    "encoding": {
-        "x": {
-            "field": "Year",
-            "timeUnit": "year",
-            "type": "ordinal",
-            "title": "Game Year",
-            "axis": {
-                "labelAngle": 0
-            }
-        },
-        "y": {
-            "field": "Sport",
-            "type": "ordinal",
-            "title": "Sport"
-        },
-        "color": {
-            "aggregate": "count",
-            "type": "quantitative",
-            "legend": {
-                "title": null
-            }
-        }
+    "axis": {
+      "domain": false
+    }
+  },
+  "mark": "rect",
+  "encoding": {
+    "x": {
+      "field": "Year",
+      "timeUnit": "year",
+      "type": "ordinal",
+      "title": "Game Year",
+      "axis": {
+        "labelAngle": 0
+      }
     },
-    "config": {
-        "range": {
-            "heatmap": {
-                "scheme": "redyellowgreen"
-            }
-        }
+    "y": {
+      "field": "Sport",
+      "type": "ordinal",
+      "title": "Sport"
     },
-    "dateTime": {
-        "fullTime": "July 20 2018",
-        "year": "2018",
-        "month": "07",
-        "date": "20"
-    },
-    "user": "ArunSankar",
-    "chartType": "heatmap",
-    "description": "The heatmap shows the number of events in each sport over the years."
+    "color": {
+      "aggregate": "count",
+      "type": "quantitative",
+      "legend": {
+        "title": null
+      }
+    }
+  },
+  "config": {
+    "range": {
+      "heatmap": {
+        "scheme": "redyellowgreen"
+      }
+    }
+  },
+  "dateTime": {
+    "fullTime": "July 20 2018",
+    "year": "2018",
+    "month": "07",
+    "date": "20"
+  },
+  "user": "ArunSankar",
+  "chartType": "heatmap",
+  "description": "The heatmap shows the number of events in each sport over the years."
 }

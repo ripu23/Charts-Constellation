@@ -1,4 +1,5 @@
 {
+"id": 6,
     "title": "Age distribution of Gold Medalist",
     "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
     "mark": {

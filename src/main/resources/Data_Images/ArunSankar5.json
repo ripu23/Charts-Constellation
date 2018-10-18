@@ -1,6 +1,7 @@
 {
+  "id": 5,
   "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
-  "description": "A simple bar chart with embedded data.",
+  "description": "Top countries with total medals in summer olympic games. USA has bagged a lot of medals in Swimming and Athletics.",
   "data": {
     "url": "../dataset/original/Country-Medal.json"
   },

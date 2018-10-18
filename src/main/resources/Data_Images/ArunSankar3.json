@@ -1,57 +1,58 @@
 {
-	"$schema": "https://vega.github.io/schema/vega-lite/v2.json",
-	"data": {
-		"url": "../dataset/original/YearSex.csv"
-	},
-	"transform": [{
-		"calculate": "datum.Male / datum.Female",
-		"as": "Ratio"
-	}],
-	"height": 400,
-	"width": 500,
-	"title": "Male vs Female Athletes in Olympic games.",
-	"encoding": {
-		"x": {
-			"field": "Male",
+  "id": 3,
+  "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+  "data": {
+    "url": "../dataset/original/YearSex.csv"
+  },
+  "transform": [{
+    "calculate": "datum.Male / datum.Female",
+    "as": "Ratio"
+  }],
+  "height": 400,
+  "width": 500,
+  "title": "Male vs Female Athletes in Olympic games.",
+  "encoding": {
+    "x": {
+      "field": "Male",
 
-			"type": "quantitative",
-			"axis": {
-				"title": "Male"
-			}
-		},
-		"y": {
-			"field": "Female",
+      "type": "quantitative",
+      "axis": {
+        "title": "Male"
+      }
+    },
+    "y": {
+      "field": "Female",
 
-			"type": "quantitative",
-			"axis": {
-				"title": "Female"
-			}
-		},
-		"color": {
-			"field": "Year",
-			"type": "ordinal",
-			"legend": null
-		}
-	},
-	"layer": [{
-		"mark": "point"
-	}, {
-		"mark": "text",
-		"encoding": {
-			"text": {
-				"field": "Year",
-				"type": "ordinal"
-			}
-		}
-	}],
-	"dateTime": {
-		"fullTime": "June 4 2018",
-		"year": "2018",
-		"month": "06",
-		"date": "04"
-	},
-	"description": "The scatterplot shows male versus female athletes in olympic games. We can also look at the gender ratio from this. Hence, according to the graph, highest ratio was observed in 2016.",
-	"user": "ArunSankar",
-	"chartType": "scatterplot"
+      "type": "quantitative",
+      "axis": {
+        "title": "Female"
+      }
+    },
+    "color": {
+      "field": "Year",
+      "type": "ordinal",
+      "legend": null
+    }
+  },
+  "layer": [{
+    "mark": "point"
+  }, {
+    "mark": "text",
+    "encoding": {
+      "text": {
+        "field": "Year",
+        "type": "ordinal"
+      }
+    }
+  }],
+  "dateTime": {
+    "fullTime": "June 4 2018",
+    "year": "2018",
+    "month": "06",
+    "date": "04"
+  },
+  "description": "The scatterplot shows male versus female athletes in olympic games. We can also look at the gender ratio from this. Hence, according to the graph, highest ratio was observed in 2016.",
+  "user": "ArunSankar",
+  "chartType": "scatterplot"
 
 }
