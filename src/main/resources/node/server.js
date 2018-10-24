@@ -1,6 +1,36 @@
-var express = require('express');
-var stringSimilarity = require('string-similarity');
+const fs = require('fs');
+const stringSimilarity = require('string-similarity');
+const testFolder = '../Data_Images';
+let data= [];
+console.log("-----Starting-----");
+let i = 0;
 
-var config = require('../Data_Images/ArunSankar1.json');
+var temp = fs.readdirSync(testFolder);
 
-console.log(config.description);
+temp.forEach(file => {
+  if (!file.includes("png") && !file.includes("Book1")) {
+    console.log("File:  " + file);
+    var content = require(testFolder + "/" + file);
+    data[i] = content;
+    i++;
+    console.log("----------");
+  };
+});
+console.log("-----Parsing ends-----");
+console.log("data: " + data[0].description);
+let obj = {};
+console.log("--------Calculation starts-------");
+data.forEach(parent => {
+  obj[parent.id] = [];
+  data.forEach(child => {
+    if (parent.id != child.id) {
+      const distance = stringSimilarity.compareTwoStrings(parent.description, child.description);
+      obj[parent.id].push({
+        id: child.id,
+        distance: distance
+      })
+    }
+  })
+});
+console.log("--------Calculation ends-------");
+console.log(JSON.stringify(obj));

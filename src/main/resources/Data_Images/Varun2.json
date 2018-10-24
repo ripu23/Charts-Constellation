@@ -1,101 +1,101 @@
 {
-"id": 14,
-  "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
-  "title": "Sex ratio over time.",
-  "width": 600,
-  "height": 425,
-  "data": {
-    "url": "../dataset/original/Sex-year-season.csv",
-    "format": {
-      "type": "csv"
-    }
-  },
-  "transform": [{
-    "filter": {
-      "field": "Sex",
-      "equal": "M"
-    }
-  }, {
-    "window": [{
-      "op": "count",
-      "field": "Sex",
-      "as": "MaleCount"
-    }]
-  }],
-  "transform": [{
-      "filter": {
-        "field": "Sex",
-        "equal": "F"
-      }
-    }, {
-      "window": [{
-        "op": "count",
-        "field": "Sex",
-        "as": "FemaleCount"
-      }],
-    },
-    {
-      "calculate": "datum.MaleCount/datum.FemaleCount * 100",
-      "as": "ratio"
-    }
-  ],
-  "layer": [{
-      "selection": {
-        "highlight": {
-          "type": "single",
-          "on": "mouseover",
-          "nearest": "true",
-          "fields": ["Season"]
-        }
-      },
-      "mark": "point",
-      "encoding": {
-        "x": {
-          "field": "Year",
-          "type": "temporal",
-          "axis": {
-            "format": "%Y",
-            "labelAngle": 0
-          }
-        },
-        "y": {
-          "field": "Sex",
-          "aggregate": "count",
-          "type": "quantitative"
-        },
-        "color": {
-          "field": "Season",
-          "type": "nominal"
-        }
-      }
-    },
-    {
-      "mark": "line",
-      "encoding": {
-        "x": {
-          "field": "Year",
-          "type": "temporal",
-          "axis": null
-        },
-        "y": {
-          "field": "Sex",
-          "aggregate": "count",
-          "type": "quantitative"
-        },
-        "color": {
-          "field": "Season",
-          "type": "nominal"
-        }
-      }
-    }
-  ],
-  "dateTime": {
-      "fullTime": "Feb 28 2018",
-      "year": "2018",
-      "month": "02",
-      "date": "28"
-  },
-  "user": "Varun Sukumar",
-  "chartType": "line",
-  "description": "When the olympics started no women participated in the Olympics. In 1900 women started participating in the olympics. As years passed the sex ratio i.e. the ratio of men to women became smaller. After 2000 the ratio started to move towards 1, which means that the olympics now are more diverse than they used to be, which great."
+	"id": 14,
+	"$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+	"title": "Sex ratio over time.",
+	"width": 600,
+	"height": 425,
+	"data": {
+		"url": "../dataset/original/Sex-year-season.csv",
+		"format": {
+			"type": "csv"
+		}
+	},
+	"transform": [{
+		"filter": {
+			"field": "Sex",
+			"equal": "M"
+		}
+	}, {
+		"window": [{
+			"op": "count",
+			"field": "Sex",
+			"as": "MaleCount"
+		}]
+	}],
+	"transform": [{
+			"filter": {
+				"field": "Sex",
+				"equal": "F"
+			}
+		}, {
+			"window": [{
+				"op": "count",
+				"field": "Sex",
+				"as": "FemaleCount"
+			}]
+		},
+		{
+			"calculate": "datum.MaleCount/datum.FemaleCount * 100",
+			"as": "ratio"
+		}
+	],
+	"layer": [{
+			"selection": {
+				"highlight": {
+					"type": "single",
+					"on": "mouseover",
+					"nearest": "true",
+					"fields": ["Season"]
+				}
+			},
+			"mark": "point",
+			"encoding": {
+				"x": {
+					"field": "Year",
+					"type": "temporal",
+					"axis": {
+						"format": "%Y",
+						"labelAngle": 0
+					}
+				},
+				"y": {
+					"field": "Sex",
+					"aggregate": "count",
+					"type": "quantitative"
+				},
+				"color": {
+					"field": "Season",
+					"type": "nominal"
+				}
+			}
+		},
+		{
+			"mark": "line",
+			"encoding": {
+				"x": {
+					"field": "Year",
+					"type": "temporal",
+					"axis": null
+				},
+				"y": {
+					"field": "Sex",
+					"aggregate": "count",
+					"type": "quantitative"
+				},
+				"color": {
+					"field": "Season",
+					"type": "nominal"
+				}
+			}
+		}
+	],
+	"dateTime": {
+		"fullTime": "Feb 28 2018",
+		"year": "2018",
+		"month": "02",
+		"date": "28"
+	},
+	"user": "Varun Sukumar",
+	"chartType": "line",
+	"description": "When the olympics started no women participated in the Olympics. In 1900 women started participating in the olympics. As years passed the sex ratio i.e. the ratio of men to women became smaller. After 2000 the ratio started to move towards 1, which means that the olympics now are more diverse than they used to be, which great."
 }

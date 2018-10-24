@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "fs": "0.0.1-security",
     "jaccard-similarity-sentences": "^1.0.2",
     "string-similarity": "^2.0.0"
   }
