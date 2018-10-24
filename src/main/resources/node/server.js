@@ -1,6 +1,7 @@
 const fs = require('fs');
 const stringSimilarity = require('string-similarity');
 const testFolder = '../Data_Images';
+const writeFolder = '../Distances/';
 let data= [];
 console.log("-----Starting-----");
 let i = 0;
@@ -23,7 +24,7 @@ console.log("--------Calculation starts-------");
 data.forEach(parent => {
   obj[parent.id] = [];
   data.forEach(child => {
-    if (parent.id != child.id) {
+    if (parent.id != child.id && parent.description && child.description) {
       const distance = stringSimilarity.compareTwoStrings(parent.description, child.description);
       obj[parent.id].push({
         id: child.id,
@@ -33,4 +34,11 @@ data.forEach(parent => {
   })
 });
 console.log("--------Calculation ends-------");
-console.log(JSON.stringify(obj));
+fs.writeFile(writeFolder + "/test.json", JSON.stringify(obj), function(err) {
+    if(err) {
+        return console.log(err);
+    }
+
+    console.log("The file was saved!");
+});
+// console.log(JSON.stringify(obj));
