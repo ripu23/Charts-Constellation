@@ -22,4 +22,12 @@ public class AttributeDistance {
     public void setIdValues(List<IdValue> idValues) {
         this.idValues = idValues;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id='" + id + '\'' +
+                ", idValues=" + idValues +
+                '}';
+    }
 }

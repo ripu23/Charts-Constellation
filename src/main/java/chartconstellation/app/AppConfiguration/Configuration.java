@@ -12,6 +12,8 @@ public class Configuration {
     private String inputPath;
     private String mongoDatabase;
     private String olympicchartcollection;
+    private String attributeDistanceCollection;
+    private String descriptionDistancePath;
 
     public String getInputPath() {
         return inputPath;
@@ -37,12 +39,30 @@ public class Configuration {
         this.olympicchartcollection = olympicchartcollection;
     }
 
+    public String getAttributeDistanceCollection() {
+        return attributeDistanceCollection;
+    }
+
+    public void setAttributeDistanceCollection(String attributeDistanceCollection) {
+        this.attributeDistanceCollection = attributeDistanceCollection;
+    }
+
+    public String getDescriptionDistancePath() {
+        return descriptionDistancePath;
+    }
+
+    public void setDescriptionDistancePath(String descriptionDistancePath) {
+        this.descriptionDistancePath = descriptionDistancePath;
+    }
+
     @Override
     public String toString() {
         return "Configuration{" +
                 "inputPath='" + inputPath + '\'' +
                 ", mongoDatabase='" + mongoDatabase + '\'' +
                 ", olympicchartcollection='" + olympicchartcollection + '\'' +
+                ", attributeDistanceCollection='" + attributeDistanceCollection + '\'' +
+                ", descriptionDistancePath='" + descriptionDistancePath + '\'' +
                 '}';
     }
 }
