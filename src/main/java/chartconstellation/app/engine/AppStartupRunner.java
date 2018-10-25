@@ -1,6 +1,7 @@
 package chartconstellation.app.engine;
 
 import chartconstellation.app.AppConfiguration.Configuration;
+import chartconstellation.app.entities.AttributeDistance;
 import chartconstellation.app.entities.Chart;
 import com.mongodb.*;
 import com.mongodb.client.MongoCollection;
@@ -43,12 +44,14 @@ public class AppStartupRunner implements ApplicationRunner {
 
         List<DBObject> dobobjects = docutil.convertToDBObjectList(configuration.getInputPath());
 
-        dbUtil.updateDB(dobobjects);
+        dbUtil.updateDBDocs(dobobjects);
 
         DBCollection collection = mongoClient.getDB(configuration.getMongoDatabase())
                 .getCollection(configuration.getOlympicchartcollection());
 
-        attributeUtil.computerAttributeDistance(collection);
+        List<AttributeDistance> attrDistances = attributeUtil.computerAttributeDistance(collection);
+
+       dbUtil.updateAttrDistace(attrDistances);
 
     }
 }
