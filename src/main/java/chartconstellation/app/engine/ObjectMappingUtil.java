@@ -24,9 +24,8 @@ public class ObjectMappingUtil {
 				if (Files.isRegularFile(filePath)) {
 
 					try {
-
-						System.out.println(filePath.getFileName());
 						if (filePath.getFileName().toString().contains("json")) {
+							System.out.println(filePath.getFileName());
 							Object chart = mapper.readValue(filePath.toFile(), classType);
 							list.add(chart);
 						}

@@ -13,7 +13,7 @@ public class DistanceCalculationMain {
 		ObjectMappingUtil util = new ObjectMappingUtil();
 		
 		List<Chart> list = new ArrayList<>();
-		String path = "/Users/ripu/Documents/projects/Workspace_DV/chartconstellation/src/main/resources/Data_Images";
+		String path = "/Users/manojyaramsetty/chartconstellation/src/main/resources/Data_Images";
 		util.convertToObject(path, Chart.class, list);
 		System.out.println(list.size());
 

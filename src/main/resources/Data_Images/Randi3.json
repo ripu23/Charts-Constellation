@@ -1,7 +1,6 @@
 {
-"id": 9,
+    "id": 9,
     "title": "Countries with most art medals",
-    "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
     "data": {
         "url": "dataset/original/Country-Medal1.json"
     },
