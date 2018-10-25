@@ -1,6 +1,5 @@
 {
   "id": 2,
-  "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
   "data": {
     "url": "../dataset/original/YearSport.csv"
   },

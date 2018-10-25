@@ -49,7 +49,4 @@ public class Chart {
 		return "Chart [description=" + description + ", userName=" + userName + ", dateTime=" + dateTime + ", chartType="
 				+ chartType + ", title=" + title + "]";
 	}
-	
-	
-	
 }

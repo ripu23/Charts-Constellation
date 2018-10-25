@@ -1,7 +1,6 @@
 {
-"id": 12,
+    "id": 12,
     "title": "Participation of country by year",
-    "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
     "mark": {
         "type": "bar"
     },

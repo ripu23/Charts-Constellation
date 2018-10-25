@@ -1,28 +1,48 @@
 package chartconstellation.app.AppConfiguration;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties("app")
+@ConfigurationProperties
+@JsonIgnoreProperties
 public class Configuration {
 
-    private String mongodb_Host;
-    private String mongodb_Port;
+    private String inputPath;
+    private String mongoDatabase;
+    private String olympicchartcollection;
 
-    public String getMongodb_Host() {
-        return mongodb_Host;
+    public String getInputPath() {
+        return inputPath;
     }
 
-    public void setMongodb_Host(String mongodb_Host) {
-        this.mongodb_Host = mongodb_Host;
+    public void setInputPath(String inputPath) {
+        this.inputPath = inputPath;
     }
 
-    public void setMongodb_Port(String mongodb_Port) {
-        this.mongodb_Port = mongodb_Port;
+    public String getMongoDatabase() {
+        return mongoDatabase;
     }
 
-    public String getMongodb_Port() {
-        return mongodb_Port;
+    public void setMongoDatabase(String mongoDatabase) {
+        this.mongoDatabase = mongoDatabase;
+    }
+
+    public String getOlympicchartcollection() {
+        return olympicchartcollection;
+    }
+
+    public void setOlympicchartcollection(String olympicchartcollection) {
+        this.olympicchartcollection = olympicchartcollection;
+    }
+
+    @Override
+    public String toString() {
+        return "Configuration{" +
+                "inputPath='" + inputPath + '\'' +
+                ", mongoDatabase='" + mongoDatabase + '\'' +
+                ", olympicchartcollection='" + olympicchartcollection + '\'' +
+                '}';
     }
 }
