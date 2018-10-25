@@ -2,7 +2,7 @@ package chartconstellation.app.entities;
 
 import java.util.List;
 
-public class AttributeDistance {
+public class FeatureDistance {
 
     private String id;
     private List<IdValue> idValues;

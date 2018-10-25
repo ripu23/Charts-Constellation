@@ -1,6 +1,6 @@
 package chartconstellation.app.engine;
 
-import chartconstellation.app.entities.AttributeDistance;
+import chartconstellation.app.entities.FeatureDistance;
 import chartconstellation.app.entities.IdValue;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -14,7 +14,7 @@ import java.util.List;
 @Component
 public class AttributeUtil {
 
-    public List<AttributeDistance> computerAttributeDistance(DBCollection collection) {
+    public List<FeatureDistance> computerAttributeDistance(DBCollection collection) {
 
         DBCursor cursor = collection.find();
         List<DBObject> docs = new ArrayList<>();
@@ -23,10 +23,10 @@ public class AttributeUtil {
             docs.add(obj);
         }
 
-        List<AttributeDistance> distances = new ArrayList<>();
+        List<FeatureDistance> distances = new ArrayList<>();
 
         for (DBObject obj1 : docs) {
-            AttributeDistance indDistance = new AttributeDistance();
+            FeatureDistance indDistance = new FeatureDistance();
             int id1 = (int) obj1.get("id");
             indDistance.setId(String.valueOf(id1));
             List<IdValue> values = new ArrayList<>();
