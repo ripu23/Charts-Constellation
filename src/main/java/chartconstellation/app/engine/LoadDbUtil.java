@@ -1,11 +1,10 @@
 package chartconstellation.app.engine;
 
 import chartconstellation.app.AppConfiguration.Configuration;
-import chartconstellation.app.entities.AttributeDistance;
+import chartconstellation.app.entities.FeatureDistance;
 import com.google.gson.Gson;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,21 +31,21 @@ public class LoadDbUtil {
                 .insert(dobobjects);
     }
 
-    public void updateAttrDistace(List<AttributeDistance> attrDistances) {
+    public void updateAttributeCollection(String database, String collection, List<FeatureDistance> attrDistances) {
 
-        mongoClient.getDatabase(configuration.getMongoDatabase())
-                .getCollection(configuration.getAttributeDistanceCollection())
+        mongoClient.getDatabase(database)
+                .getCollection(collection)
                 .drop();
 
         List<DBObject> dbObjects = new ArrayList<>();
 
-        for(AttributeDistance attributeDistance : attrDistances) {
+        for(FeatureDistance attributeDistance : attrDistances) {
             Gson gson=new Gson();
             dbObjects.add((DBObject) JSON.parse(gson.toJson(attributeDistance)));
         }
 
-        mongoClient.getDB(configuration.getMongoDatabase())
-                .getCollection(configuration.getAttributeDistanceCollection())
+        mongoClient.getDB(database)
+                .getCollection(collection)
                 .insert(dbObjects);
     }
 }
