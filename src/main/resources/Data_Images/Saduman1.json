@@ -1,7 +1,6 @@
 {
-"id": 11,
+    "id": 11,
     "title": "Turkey's chances of winning gold",
-    "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
     "mark": {
         "type": "bar"
     },

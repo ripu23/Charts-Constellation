@@ -1,7 +1,6 @@
 {
-"id": 8,
+    "id": 8,
     "title": "Number of participating teams by year",
-    "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
     "data": {
         "url": "dataset/original/Team-year.csv"
     },

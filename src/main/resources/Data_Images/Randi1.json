@@ -1,7 +1,6 @@
 {
-"id": 7,
+    "id": 7,
     "title": "Number of events by year",
-    "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
     "data": {
         "url": "dataset/original/year-count.csv"
     },

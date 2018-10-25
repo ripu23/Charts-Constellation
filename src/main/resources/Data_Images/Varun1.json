@@ -1,6 +1,5 @@
 {
-"id": 13,
-  "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+  "id": 13,
   "title": "Number of participants in the olympics over time",
   "width": 600,
   "height": 425,
@@ -11,34 +10,34 @@
     }
   },
   "layer": [{
-      "selection": {
-        "highlight": {
-          "type": "single",
-          "on": "mouseover",
-          "nearest": "true",
-          "fields": ["Season"]
-        }
-      },
-      "mark": "point",
-      "encoding": {
-        "x": {
-          "field": "Year",
-          "type": "temporal",
-          "axis": {
-            "format": "%Y",
-            "labelAngle": 0
-          }
-        },
-        "y": {
-          "aggregate": "count",
-          "type": "quantitative"
-        },
-        "color": {
-          "field": "Season",
-          "type": "nominal"
-        }
+    "selection": {
+      "highlight": {
+        "type": "single",
+        "on": "mouseover",
+        "nearest": "true",
+        "fields": ["Season"]
       }
     },
+    "mark": "point",
+    "encoding": {
+      "x": {
+        "field": "Year",
+        "type": "temporal",
+        "axis": {
+          "format": "%Y",
+          "labelAngle": 0
+        }
+      },
+      "y": {
+        "aggregate": "count",
+        "type": "quantitative"
+      },
+      "color": {
+        "field": "Season",
+        "type": "nominal"
+      }
+    }
+  },
     {
       "mark": "line",
       "encoding": {
@@ -59,10 +58,10 @@
     }
   ],
   "dateTime": {
-      "fullTime": "Feb 28 2018",
-      "year": "2018",
-      "month": "02",
-      "date": "28"
+    "fullTime": "Feb 28 2018",
+    "year": "2018",
+    "month": "02",
+    "date": "28"
   },
   "user": "Varun Sukumar",
   "chartType": "line",
