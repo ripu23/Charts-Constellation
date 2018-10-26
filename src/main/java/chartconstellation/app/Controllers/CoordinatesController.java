@@ -11,15 +11,16 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
-public class DefaultController {
+public class CoordinatesController {
 
     @Autowired
     Configuration configuration;
 
     @RequestMapping(value="/login", method= RequestMethod.GET)
-    public ModelAndView login(@RequestParam("descWeight") String descWeight,
-                              @RequestParam("attrWeight") String attrWeight,
-                              @RequestParam("chartEncodingWeight") String chartEncodingWeight) {
+    public ModelAndView login(@RequestParam("descWeight") Double descWeight,
+                              @RequestParam("attrWeight") Double attrWeight,
+                              @RequestParam("chartEncodingWeight") Double chartEncodingWeight) {
+
 
 
         return null;

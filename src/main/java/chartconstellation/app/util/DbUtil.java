@@ -1,4 +1,4 @@
-package chartconstellation.app.engine;
+package chartconstellation.app.util;
 
 import chartconstellation.app.appconfiguration.Configuration;
 import chartconstellation.app.entities.FeatureDistance;
