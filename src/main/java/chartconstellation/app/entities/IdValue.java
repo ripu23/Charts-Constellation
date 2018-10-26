@@ -5,6 +5,10 @@ public class IdValue {
     private String id;
     private Double value;
 
+    public IdValue() {
+
+    }
+
     public IdValue(String id, Double value) {
         this.id = id;
         this.value = value;

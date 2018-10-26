@@ -1,10 +1,10 @@
 package chartconstellation.app.engine;
 
-import chartconstellation.app.AppConfiguration.Configuration;
+import chartconstellation.app.appconfiguration.Configuration;
 import chartconstellation.app.entities.FeatureDistance;
+import chartconstellation.app.entities.FeatureVector;
+import chartconstellation.app.entities.MongoCollections;
 import com.mongodb.*;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,10 @@ public class AppStartupRunner implements ApplicationRunner {
     AttributeUtil attributeUtil;
 
     @Autowired
-    LoadDbUtil dbUtil;
+    DbUtil dbUtil;
+
+    @Autowired
+    FeatureMergeUtil featureMergeUtil;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -57,11 +60,19 @@ public class AppStartupRunner implements ApplicationRunner {
             List<FeatureDistance> descriptionDistances =
                     docutil.convertJsonToFeatureList(configuration.getDescriptionDistancePath());
 
-            System.out.println(descriptionDistances.size());
-
             dbUtil.updateAttributeCollection(configuration.getMongoDatabase()
                     , configuration.getDescriptionCollection()
                     , descriptionDistances );
+
+            MongoCollections mongoCollections = dbUtil.getCollections(configuration.getMongoDatabase());
+
+            List<FeatureVector> featureVectors = featureMergeUtil.mergeAllFeatures(mongoCollections);
+
+            System.out.println(featureVectors.size());
+
+            dbUtil.updateFeaturesCollection(configuration.getMongoDatabase()
+                            , configuration.getTotalFeatureCollection()
+            , featureVectors);
         }
     }
 }

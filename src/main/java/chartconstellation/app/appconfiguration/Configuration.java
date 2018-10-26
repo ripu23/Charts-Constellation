@@ -1,4 +1,4 @@
-package chartconstellation.app.AppConfiguration;
+package chartconstellation.app.appconfiguration;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -15,8 +15,17 @@ public class Configuration {
     private String olympicchartcollection;
     private String descriptionCollection;
     private String attributeDistanceCollection;
+    private String totalFeatureCollection;
     private String descriptionDistancePath;
     private WeightConfig featureWeights;
+
+    public String getTotalFeatureCollection() {
+        return totalFeatureCollection;
+    }
+
+    public void setTotalFeatureCollection(String totalFeatureCollection) {
+        this.totalFeatureCollection = totalFeatureCollection;
+    }
 
     public boolean isUpdateData() {
         return updateData;

@@ -1,7 +1,9 @@
 package chartconstellation.app.engine;
 
-import chartconstellation.app.AppConfiguration.Configuration;
+import chartconstellation.app.appconfiguration.Configuration;
 import chartconstellation.app.entities.FeatureDistance;
+import chartconstellation.app.entities.FeatureVector;
+import chartconstellation.app.entities.MongoCollections;
 import com.google.gson.Gson;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
@@ -10,10 +12,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.mongodb.util.JSON;
 
 @Component
-public class LoadDbUtil {
+public class DbUtil {
 
     @Autowired
     MongoClient mongoClient;
@@ -47,5 +50,37 @@ public class LoadDbUtil {
         mongoClient.getDB(database)
                 .getCollection(collection)
                 .insert(dbObjects);
+    }
+
+    public void updateFeaturesCollection(String database, String collection, List<FeatureVector> features) {
+
+        mongoClient.getDatabase(database)
+                .getCollection(collection)
+                .drop();
+
+        List<DBObject> dbObjects = new ArrayList<>();
+
+        for(FeatureVector feature : features) {
+            System.out.println(feature.toString());
+            Gson gson=new Gson();
+            dbObjects.add((DBObject) JSON.parse(gson.toJson(feature)));
+        }
+
+        mongoClient.getDB(database)
+                .getCollection(collection)
+                .insert(dbObjects);
+    }
+
+    public MongoCollections getCollections(String database) {
+
+        MongoCollections mongoCollections = new MongoCollections();
+
+        mongoCollections.setDescriptionCollection(mongoClient.getDB(configuration.getMongoDatabase())
+                .getCollection(configuration.getDescriptionCollection()));
+
+        mongoCollections.setAttributeCollection(mongoClient.getDB(configuration.getMongoDatabase())
+                .getCollection(configuration.getAttributeDistanceCollection()));
+
+        return mongoCollections;
     }
 }

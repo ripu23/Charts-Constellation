@@ -1,4 +1,4 @@
-package chartconstellation.app.AppConfiguration;
+package chartconstellation.app.appconfiguration;
 
 public class WeightConfig {
 
