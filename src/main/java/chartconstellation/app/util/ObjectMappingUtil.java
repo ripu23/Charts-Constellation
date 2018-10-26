@@ -1,4 +1,4 @@
-package chartconstellation.app.engine;
+package chartconstellation.app.util;
 
 import java.io.IOException;
 import java.nio.file.Files;

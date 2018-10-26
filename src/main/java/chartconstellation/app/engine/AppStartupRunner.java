@@ -1,12 +1,14 @@
 package chartconstellation.app.engine;
 
-import chartconstellation.app.AppConfiguration.Configuration;
-import chartconstellation.app.entities.AttributeDistance;
-import chartconstellation.app.entities.Chart;
+import chartconstellation.app.appconfiguration.Configuration;
+import chartconstellation.app.entities.FeatureDistance;
+import chartconstellation.app.entities.FeatureVector;
+import chartconstellation.app.entities.MongoCollections;
+import chartconstellation.app.util.AttributeUtil;
+import chartconstellation.app.util.DbUtil;
+import chartconstellation.app.util.DocumentUtil;
+import chartconstellation.app.util.FeatureMergeUtil;
 import com.mongodb.*;
-import com.mongodb.client.MongoCollection;
-import org.bson.Document;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,6 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -34,7 +35,10 @@ public class AppStartupRunner implements ApplicationRunner {
     AttributeUtil attributeUtil;
 
     @Autowired
-    LoadDbUtil dbUtil;
+    DbUtil dbUtil;
+
+    @Autowired
+    FeatureMergeUtil featureMergeUtil;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -42,17 +46,38 @@ public class AppStartupRunner implements ApplicationRunner {
 
         System.out.println(configuration.toString());
 
-        List<DBObject> dobobjects = docutil.convertToDBObjectList(configuration.getInputPath());
+        if(configuration.isUpdateData()) {
 
-        dbUtil.updateDBDocs(dobobjects);
+            List<DBObject> dobobjects = docutil.convertToDBObjectList(configuration.getInputPath());
 
-        DBCollection collection = mongoClient.getDB(configuration.getMongoDatabase())
-                .getCollection(configuration.getOlympicchartcollection());
+            dbUtil.updateDBDocs(dobobjects);
 
-        List<AttributeDistance> attrDistances = attributeUtil.computerAttributeDistance(collection);
+            DBCollection collection = mongoClient.getDB(configuration.getMongoDatabase())
+                    .getCollection(configuration.getOlympicchartcollection());
 
-       dbUtil.updateAttrDistace(attrDistances);
+            List<FeatureDistance> attrDistances = attributeUtil.computerAttributeDistance(collection);
 
+            dbUtil.updateAttributeCollection(configuration.getMongoDatabase(),
+                    configuration.getAttributeDistanceCollection(),
+                    attrDistances);
+
+            List<FeatureDistance> descriptionDistances =
+                    docutil.convertJsonToFeatureList(configuration.getDescriptionDistancePath());
+
+            dbUtil.updateAttributeCollection(configuration.getMongoDatabase()
+                    , configuration.getDescriptionCollection()
+                    , descriptionDistances );
+
+            MongoCollections mongoCollections = dbUtil.getCollections(configuration.getMongoDatabase());
+
+            List<FeatureVector> featureVectors = featureMergeUtil.mergeAllFeatures(mongoCollections);
+
+            System.out.println(featureVectors.size());
+
+            dbUtil.updateFeaturesCollection(configuration.getMongoDatabase()
+                            , configuration.getTotalFeatureCollection()
+            , featureVectors);
+        }
     }
 }
 
