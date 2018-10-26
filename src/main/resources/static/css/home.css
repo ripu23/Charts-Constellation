@@ -1,0 +1,12 @@
+.menu {
+  background: #333;
+}
+
+.menu a {
+  color: white;
+  font-family: Verdana;
+}
+
+.menu li:hover{
+  background-color: gray;
+}

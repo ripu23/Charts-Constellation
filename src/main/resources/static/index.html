@@ -1,11 +1,26 @@
-<!DOCTYPE html>
-<html ng-app="mainApp">
+<!doctype html>
+<html class="no-js" dir="ltr" ng-app="mainApp">
 
 	<head>
 		<meta charset="UTF-8">
-		<title>Chart Constellation</title>
-		<link rel="stylesheet" href="lib/css/bootstrap.min.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<title>Charts Constellation</title>
+
+
+		<!-- CSS -->
+		<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/alertify.min.css" />
+		<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/themes/default.min.css" />
+		<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/themes/semantic.min.css" />
+		<link rel="stylesheet" href="lib/foundation/css/foundation.css">
+		<link rel="stylesheet" href="lib/foundation/css/app.css">
+		<link rel="stylesheet" href="css/home.css">
 		<link rel="stylesheet" href="lib/font-awesome/css/font-awesome.min.css">
+
+
+
+		<!-- JavaScript -->
+		<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/alertify.min.js"></script>
 		<script src="lib/js/jquery-3.3.1.js"></script>
 		<script src="lib/js/popper.min.js"></script>
 		<script src="lib/js/bootstrap.min.js"></script>
@@ -13,6 +28,8 @@
 		<script src="lib/js/lodash.js"></script>
 		<script src="lib/js/angular-route.min.js"></script>
 		<script src="js/app.js"></script>
+		<script src="js/service/coordinate.service.js"></script>
+		<script src="js/service/distance.service.js"></script>
 		<script src="js/HomeController.js"></script>
 		<script src="js/IndexController.js"></script>
 
@@ -20,16 +37,18 @@
 	</head>
 
 	<body ng-controller="IndexController">
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="height:38px;">
-			<a class="navbar-brand" href="#"></i>Chart Constellation</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarNavDropdown">
-
-			</div>
-		</nav>
+		<ul class="menu">
+			<li><a href="#">Show Images</a></li>
+			<li><a href="#">Show Chart Names</a></li>
+			<li><a href="#">New Chart</a></li>
+			<li><a href="#">Delete Chart</a></li>
+		</ul>
+		<div ng-include src="'templates/LeftBar.html'"></div>
 		<div ng-view></div>
+		<script src="lib/foundation/js/vendor/jquery.js"></script>
+		<script src="lib/foundation/js/vendor/what-input.js"></script>
+		<script src="lib/foundation/js/vendor/foundation.js"></script>
+		<script src="lib/foundation/js/app.js"></script>
 	</body>
 
 </html>

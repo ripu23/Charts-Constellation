@@ -1,5 +1,5 @@
 'use strict'
-var app =angular.module("mainApp");
+var app = angular.module("mainApp");
 
 app.factory("CoordinateService", function($http){
   return{
