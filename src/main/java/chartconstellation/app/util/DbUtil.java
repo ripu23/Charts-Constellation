@@ -3,8 +3,10 @@ package chartconstellation.app.util;
 import chartconstellation.app.appconfiguration.Configuration;
 import chartconstellation.app.entities.FeatureDistance;
 import chartconstellation.app.entities.FeatureVector;
+import chartconstellation.app.entities.IdValue;
 import chartconstellation.app.entities.MongoCollections;
 import com.google.gson.Gson;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,5 +84,18 @@ public class DbUtil {
                 .getCollection(configuration.getAttributeDistanceCollection()));
 
         return mongoCollections;
+    }
+
+    public List<FeatureVector>  getDocsFromCollection(String database, String collection) {
+
+        DBCursor cursor = mongoClient.getDB(database).getCollection(collection).find();
+        List<FeatureVector> featureVectors = new ArrayList<>();
+        Gson gson = new Gson();
+        while (cursor.hasNext()) {
+            DBObject obj = cursor.next();
+            FeatureVector featureVector = gson.fromJson(obj.toString(), FeatureVector.class);
+            featureVectors.add(featureVector);
+        }
+        return featureVectors;
     }
 }
