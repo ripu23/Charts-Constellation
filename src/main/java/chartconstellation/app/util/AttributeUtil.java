@@ -5,14 +5,52 @@ import chartconstellation.app.entities.IdValue;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class AttributeUtil {
+
+    public double jaccardSimilarity(Set<String> s1, Set<String> s2) {
+
+        final int sa = s1.size();
+        final int sb = s2.size();
+        s1.retainAll(s2);
+        final int intersection = s1.size();
+        return 1d / (sa + sb - intersection) * intersection;
+    }
+
+    public Set<String> getAllAttributes(JSONObject jsonObj) {
+
+        Set<String> attrs = new HashSet<>();
+
+        try {
+            String attr = jsonObj.getJSONObject("encoding").getJSONObject("x").get("field").toString();
+            attrs.add(attr);
+        } catch(Exception e) {
+
+        }
+
+        try {
+
+            JSONArray arr = jsonObj.getJSONArray("layer");
+            for(int i=0 ;i < arr.length(); i++) {
+                JSONObject obj = arr.getJSONObject(i);
+                String attr = obj.getJSONObject("encoding").getJSONObject("x").get("field").toString();
+                attrs.add(attr);
+            }
+
+        } catch(Exception e) {
+
+        }
+        return attrs;
+    }
 
     public List<FeatureDistance> computerAttributeDistance(DBCollection collection) {
 
@@ -36,15 +74,14 @@ public class AttributeUtil {
                 if (id1 != id2) {
                     try {
                         JSONObject jsonObj1 = new JSONObject(obj1.toString());
-                        String val1 = jsonObj1.getJSONObject("encoding").getJSONObject("x").get("field").toString();
                         JSONObject jsonObj2 = new JSONObject(obj2.toString());
-                        String val2 = jsonObj2.getJSONObject("encoding").getJSONObject("x").get("field").toString();
 
-                        if(val1.equals(val2)) {
-                            values.add(new IdValue(String.valueOf(id2), 1.0));
-                        } else {
-                            values.add(new IdValue(String.valueOf(id2), 0.0));
-                        }
+                        Double val = jaccardSimilarity(
+                                getAllAttributes(jsonObj1),
+                                getAllAttributes(jsonObj2)
+                        );
+
+                        values.add(new IdValue(String.valueOf(id2), val));
 
                     } catch (Exception e) {
 
