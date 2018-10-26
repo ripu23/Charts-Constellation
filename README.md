@@ -1,4 +1,4 @@
-# Charts Constellation
+# Chart Constellations: Effective Chart Summarization for Collaborative and Multi-User Analyses
 This system is part Data Visualization course (CSE-578). It is based on this [paper,](https://jeffjianzhao.bitbucket.io/papers/constellations.pdf) [ video.](https://www.youtube.com/watch?v=2ltqB_hQc2A) <br/>
 Following technologies have been used `Java`, `Springboot`, `Angular.js`, `D3`, `Bubbleset.js`, `Maven`.
 Database: `MongoDB`. <br/>
