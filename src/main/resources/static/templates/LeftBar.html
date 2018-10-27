@@ -1,35 +1,61 @@
-<div class="float-left">
-  <div class="card" style="width: 180px;">
-    <div class="card-divider">Options</div>
-    <div class="card-section">
-      <ul class="accordion" data-accordion>
-        <li class="accordion-item" data-accordion-item>
-          <a href="#" class="accordion-title">Distance Weight</a>
-          <div class="accordion-content" data-tab-content>
-            <p>Panel 1. Lorem ipsum dolor</p>
-            <a href="#">Nowhere to Go</a>
-          </div>
-        </li>
-        <li class="accordion-item" data-accordion-item>
-          <a href="" class="accordion-title">User List</a>
-          <div class="accordion-content" data-tab-content>
-            <p>working</p>
-          </div>
-        </li>
-        <li class="accordion-item" data-accordion-item>
-          <a href="" class="accordion-title">Chart Type List</a>
-          <div class="accordion-content" data-tab-content>
-            <p>working</p>
-          </div>
-        </li>
-        <li class="accordion-item" data-accordion-item>
-          <a href="" class="accordion-title">Attribute List</a>
-          <div class="accordion-content" data-tab-content>
-            <p>working</p>
-          </div>
-        </li>
-      </ul>
-    </div>
+<script src="lib/foundation/js/vendor/foundation.js"></script>
+<script src="lib/foundation/js/app.js"></script>
+<!-- <div class="row"> -->
+<div class="card" style="width: 180px;">
+  <div class="card-divider">Filter Board</div>
+  <div class="card-section">
+    <ul class="accordion" data-accordion data-allow-all-closed="true">
+      <li class="accordion-item" data-accordion-item>
+        <a href="#" class="accordion-title">Distance Weight</a>
+        <div class="accordion-content" data-tab-content>
+          <p>Panel 1. Lorem ipsum dolor</p>
+          <a href="#">Nowhere to Go</a>
+        </div>
+      </li>
+    </ul>
   </div>
+</div>
+<div class="card" style="width: 180px;">
+  <div class="card-divider">Options</div>
+  <div class="card-section">
+    <ul class="accordion" data-accordion data-allow-all-closed="true">
+      <li class="accordion-item" data-accordion-item>
+        <a href="" class="accordion-title">Distance Weight</a>
+        <div class="accordion-content" data-tab-content>
+          <p class="left-p text-center">Data Coverage</p>
+          <div class="grid-y">
+            <div class="cell large-1">
+              <div class="slider" data-slider data-initial-start="1" data-end="1" data-step="0.1">
+                <span class="slider-handle" data-slider-handle role="slider" tabindex="1" aria-controls="sliderOutput1"></span>
+                <span class="slider-fill" data-slider-fill></span>
+              </div>
+            </div>
+            <div class="cell large-1">
+              <input class="left-input" type="number" id="sliderOutput1">
+            </div>
+          </div>
+        </div>
+      </li>
+      <li class="accordion-item" data-accordion-item>
+        <a href="" class="accordion-title">User List</a>
+        <div class="accordion-content" data-tab-content>
+          <p>working</p>
+        </div>
+      </li>
+      <li class="accordion-item" data-accordion-item>
+        <a href="" class="accordion-title">Chart Type List</a>
+        <div class="accordion-content" data-tab-content>
+          <p>working</p>
+        </div>
+      </li>
+      <li class="accordion-item" data-accordion-item>
+        <a href="" class="accordion-title">Attribute List</a>
+        <div class="accordion-content" data-tab-content>
+          <p>working</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+
 
 </div>

@@ -13,7 +13,6 @@
 		<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/themes/default.min.css" />
 		<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/themes/semantic.min.css" />
 		<link rel="stylesheet" href="lib/foundation/css/foundation.css">
-		<link rel="stylesheet" href="lib/foundation/css/app.css">
 		<link rel="stylesheet" href="css/home.css">
 		<link rel="stylesheet" href="lib/font-awesome/css/font-awesome.min.css">
 
@@ -23,7 +22,6 @@
 		<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/alertify.min.js"></script>
 		<script src="lib/js/jquery-3.3.1.js"></script>
 		<script src="lib/js/popper.min.js"></script>
-		<script src="lib/js/bootstrap.min.js"></script>
 		<script src="lib/js/angular.min.js"></script>
 		<script src="lib/js/lodash.js"></script>
 		<script src="lib/js/angular-route.min.js"></script>
@@ -43,12 +41,16 @@
 			<li><a href="#">New Chart</a></li>
 			<li><a href="#">Delete Chart</a></li>
 		</ul>
-		<div ng-include src="'templates/LeftBar.html'"></div>
-		<div ng-view></div>
+		<div class="grid-x">
+			<div class="cell large-2" ng-include="'templates/LeftBar.html'">12/6/4 cells</div>
+			<div class="cell auto">12/6/8 cells</div>
+		</div>
+		<!-- <div ng-view></div> -->
 		<script src="lib/foundation/js/vendor/jquery.js"></script>
 		<script src="lib/foundation/js/vendor/what-input.js"></script>
 		<script src="lib/foundation/js/vendor/foundation.js"></script>
 		<script src="lib/foundation/js/app.js"></script>
+
 	</body>
 
 </html>
