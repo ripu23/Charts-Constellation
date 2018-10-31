@@ -12,11 +12,17 @@
 }
 
 .left-input{
-    height: 2rem;
-    width: 5rem;
-    margin: 1rem;
+  height: 1rem;
+  width: 3rem;
+  margin-left: 2rem;
+  font-size: 0.6rem;
+  margin-top: -20px;
 }
 
 .left-p{
   font-size: 0.8rem;
+}
+.button-left-custom {
+  font-family: Verdana;
+  background-color: black;
 }

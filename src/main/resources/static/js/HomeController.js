@@ -23,5 +23,6 @@ console.log('%cReached home contrlloler', 'color :red');
   });
 
   */
+  
 
 }]);
