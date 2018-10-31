@@ -26,3 +26,9 @@
   font-family: Verdana;
   background-color: black;
 }
+.svg-custom {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  margin-top: 10px;
+}
