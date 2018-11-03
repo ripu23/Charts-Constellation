@@ -33,9 +33,7 @@ app.controller("IndexController", ['$scope', function($scope) {
     });
   }
 
-  function appendSVG(parent, name) {
-    return parent.appendChild(document.createElementNS("http://www.w3.org/2000/svg", name));
-  }
+
 
   function removeAllChilds(parent) {
     while (parent.firstChild) {
@@ -101,17 +99,21 @@ app.controller("IndexController", ['$scope', function($scope) {
       }
     };
 
+    function appendSVG(parent, name) {
+      return parent.appendChild(document.createElementNS("http://www.w3.org/2000/svg", name));
+    }
     function addRect(rectangles, color, cx, cy) {
       var width = 40;
       var height = 30;
       var x = cx - width * 0.5;
       var y = cy - height * 0.5;
-      var elem = appendSVG(items, "rect");
+      var elem = appendSVG(items, "circle"); //creates a rectangle
       attr(elem, {
-        x: x,
-        y: y,
-        width: width,
-        height: height,
+        cx: x,
+        cy: y,
+        r: 10
+        // width: width,
+        // height: height,
       });
       style(elem, {
         "stroke": "black",
