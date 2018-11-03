@@ -3,8 +3,8 @@ var app = angular.module("mainApp");
 
 app.controller("IndexController", ['$scope',
  'ShareData',
- 'ColorService',
- function($scope, ShareData, ColorService) {
+ 'ClusterService',
+ function($scope, ShareData, ClusterService) {
   console.log('Reached index controller');
   $scope.clearFilter = function() {
     console.log("reached Clear");
@@ -15,8 +15,9 @@ app.controller("IndexController", ['$scope',
   const distances = ShareData.distances;
   const coordinates = ShareData.coordinates;
   let users = ShareData.users;
-  let colors = ColorService.getColors(users.length);
-  
+  let colors = ClusterService.getColors(users.length);
+  let clusters = ClusterService.createClusters();
+  //Uncomment this when everything is ready;
   // _.forEach(users, function(user){
   //   user.color = colors[user.id];
   // });
@@ -70,7 +71,7 @@ app.controller("IndexController", ['$scope',
     }
 
     function updateOutline(rectangles, otherRectangles, color, path) {
-      var pad = 5;
+      var pad = 0.1;
       var list = bubbles.createOutline(
         BubbleSet.addPadding(rectangles, pad),
         BubbleSet.addPadding(otherRectangles, pad),
