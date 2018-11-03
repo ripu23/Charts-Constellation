@@ -2,58 +2,18 @@
 var app = angular.module("mainApp");
 
 app.controller("IndexController", ['$scope',
- 'ShareData',
- 'ClusterService',
- function($scope, ShareData, ClusterService) {
-  console.log('Reached index controller');
-  $scope.clearFilter = function() {
-    console.log("reached Clear");
-  }
-  $scope.updateFilter = function() {
-    console.log("reached update");
-  }
-  const distances = ShareData.distances;
-  const coordinates = ShareData.coordinates;
-  let users = ShareData.users;
-  let colors = ClusterService.getColors(users.length);
-  let clusters = ClusterService.createClusters();
-  //Uncomment this when everything is ready;
-  // _.forEach(users, function(user){
-  //   user.color = colors[user.id];
-  // });
-
-  function attr(elem, attr) {
-    _.forEach(attr, function(val, key) {
-      var value = attr[key];
-      if (value === null) {
-        elem.removeAttribute(key);
-      } else {
-        elem.setAttribute(key, value);
-      }
-    });
-  }
-
-
-  function style(elem, style) {
-    _.forEach(attr, function(val, key) {
-      var value = style[key];
-      if (value === null) {
-        delete elem.style.removeProperty(key);
-      } else {
-        elem.style.setProperty(key, value);
-      }
-    });
-  }
-
-
-
-  function removeAllChilds(parent) {
-    while (parent.firstChild) {
-      parent.removeChild(parent.firstChild);
-    }
-  }
-
-  $scope.start = function() {
+  'ShareData',
+  'ClusterService',
+  function($scope, ShareData, ClusterService) {
+    console.log('Reached index controller');
+    const distances = ShareData.distances;
+    const coordinates = ShareData.coordinates;
+    const users = ShareData.users;
+    // let colors = ClusterService.getColors(users.length);
+    let clusters = ClusterService.getClusters();
+    $scope.dataCoverageCoefficient = ShareData.dataCoverageCoefficient;
+    $scope.encodingCoefficient = ShareData.encodingCoefficient;
+    $scope.descriptionCoefficient = ShareData.descriptionCoefficient;
     var bubbles = new BubbleSet();
     var rectanglesA = [];
     var rectanglesB = [];
@@ -64,6 +24,50 @@ app.controller("IndexController", ['$scope',
     var debug = appendSVG(main, "g");
     bubbles.debug(false);
     var debugFor = pathA;
+
+    //Uncomment this when everything is ready;
+    // _.forEach(users, function(user){
+    //   user.color = colors[user.id];
+    // });
+
+    $scope.clearFilter = function() {
+      console.log("reached Clear");
+    }
+
+    $scope.updateFilter = function() {
+      console.log("reached update");
+    }
+
+    function attr(elem, attr) {
+      _.forEach(attr, function(val, key) {
+        var value = attr[key];
+        if (value === null) {
+          elem.removeAttribute(key);
+        } else {
+          elem.setAttribute(key, value);
+        }
+      });
+    }
+
+
+    function style(elem, style) {
+      _.forEach(attr, function(val, key) {
+        var value = style[key];
+        if (value === null) {
+          delete elem.style.removeProperty(key);
+        } else {
+          elem.style.setProperty(key, value);
+        }
+      });
+    }
+
+
+
+    function removeAllChilds(parent) {
+      while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+      }
+    }
 
     function update() {
       updateOutline(rectanglesA, rectanglesB, "crimson", pathA);
@@ -114,6 +118,7 @@ app.controller("IndexController", ['$scope',
     function appendSVG(parent, name) {
       return parent.appendChild(document.createElementNS("http://www.w3.org/2000/svg", name));
     }
+
     function addRect(rectangles, color, cx, cy) {
       var width = 40;
       var height = 30;
@@ -154,6 +159,7 @@ app.controller("IndexController", ['$scope',
       addRect(rectanglesB, "crimson", e.offsetX, e.offsetY);
       e.preventDefault();
     };
-  }
 
-}]);
+
+  }
+]);

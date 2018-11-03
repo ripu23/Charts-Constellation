@@ -1,15 +1,14 @@
 var app = angular.module("mainApp");
 
 app.factory('ShareData', function() {
-	let distances = {};
-  let coordinates = {};
-  let users = {};
-	distances.main = [];
-  coordinates.main = [];
-  users.main = [];
+  let data = {};
+  data.dataCoverageCoefficient = 1;
+  data.encodingCoefficient = 1;
+  data.descriptionCoefficient = 1;
+	data.distances = [];
+  data.coordinates = [];
+  data.users = [];
 	return {
-    distances,
-    coordinates,
-    users
+    data: data
   }
 });
