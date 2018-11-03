@@ -1,7 +1,10 @@
 'use strict'
 var app = angular.module("mainApp");
 
-app.controller("IndexController", ['$scope', function($scope) {
+app.controller("IndexController", ['$scope',
+ 'ShareData',
+ 'ColorService',
+ function($scope, ShareData, ColorService) {
   console.log('Reached index controller');
   $scope.clearFilter = function() {
     console.log("reached Clear");
@@ -9,6 +12,14 @@ app.controller("IndexController", ['$scope', function($scope) {
   $scope.updateFilter = function() {
     console.log("reached update");
   }
+  const distances = ShareData.distances;
+  const coordinates = ShareData.coordinates;
+  let users = ShareData.users;
+  let colors = ColorService.getColors(users.length);
+  
+  // _.forEach(users, function(user){
+  //   user.color = colors[user.id];
+  // });
 
   function attr(elem, attr) {
     _.forEach(attr, function(val, key) {
@@ -107,7 +118,7 @@ app.controller("IndexController", ['$scope', function($scope) {
       var height = 30;
       var x = cx - width * 0.5;
       var y = cy - height * 0.5;
-      var elem = appendSVG(items, "circle"); //creates a rectangle
+      var elem = appendSVG(items, "circle"); //creates a circle
       attr(elem, {
         cx: x,
         cy: y,
