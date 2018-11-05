@@ -6,6 +6,10 @@ mainApp.config(['$routeProvider', function($routeProvider){
     templateUrl: 'templates/home.html',
     controller: 'HomeController'
   })
+  .when('/images',{
+    templateUrl: 'templates/imageViewer.html',
+    controller: 'ImageViewController'
+  })
   .otherwise({
     redirectTo : '/'
   })
