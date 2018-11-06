@@ -2,11 +2,11 @@ var app = angular.module("mainApp");
 
 app.factory('ShareData', function() {
   let data = {};
-  data.dataCoverageCoefficient = 1;
-  data.encodingCoefficient = 1;
-  data.descriptionCoefficient = 1;
+  data.attrWeight = 1;
+  data.chartEncodingWeight = 1;
+  data.descWeight = 1;
 	data.distances = [];
-  data.coordinates = [];
+  data.clusters = [];
   data.users = [];
 	return {
     data: data
