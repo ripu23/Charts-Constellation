@@ -15,6 +15,7 @@ app.controller("HomeController", ['$scope',
     // let coordinates = [];
     //let clusters = [];
     let clustersUI = {};
+    let paths = [];
     const distances = ShareData.distances;
     const coordinates = ShareData.coordinates;
     const users = ShareData.users;
@@ -70,13 +71,20 @@ app.controller("HomeController", ['$scope',
     //Creation of clusers
     function createClusters(clusters){
       _.forEach(clusters, function(cluster, i){
-        clustersUI[i] = [];
+        clustersUI[cluster.clusterId] = [];
         _.forEach(cluster.point, function(point){
-          addRect(clustersUI[i], "red", point.x + offset.left, point.y + offset.right);
+          addRect(clustersUI[cluster.clusterId], "red", point.x + offset.left, point.y + offset.right);
         })
         update();
       });
     }
+    //Creation of paths and append to SVG;
+    _.forEach(clustersUI, function(cluster, idx) {
+      paths.push({
+        id: cluster.clusterId,
+        svg: appendSVG(main, "path")
+      })
+    });
 
 
     //Uncomment this when everything is ready;
