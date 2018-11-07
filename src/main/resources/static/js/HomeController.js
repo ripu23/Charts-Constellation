@@ -8,52 +8,19 @@ app.controller("HomeController", ['$scope',
   'ShareData',
   'UserService',
   'ClusterService',
-  function($scope, DistanceService, CoordinateService, ShareData, ClusterService) {
+  function($scope, DistanceService, CoordinateService, ShareData, UserService, ClusterService) {
 
     console.log('%cReached home contrlloler', 'color :red');
-    DistanceService.getAllDistances().then(function(data) {
-      distances = data;
-      ShareData.distances = data;
-      alertify.success('Successfully imported the data.');
-    }, function(err) {
-      alertify.error('Something is wrong with the API --> DistanceService --> getAllDistances')
-      if (err) throw err;
-    });
 
-    
-    CoordinateService.getCoordinates().then(function(data) {
-      coordinates = data;
-      ShareData.coordinates = data;
-      alertify.success('Successfully imported the data.');
-    }, function(err) {
-      alertify.error('Something is wrong with the API --> DistanceService --> getAllDistances')
-      if (err) throw err;
-    });
-
-    UserService.getUsers().then(function(data) {
-      alertify.success('Successfully imported users');
-      ShareData.users = data;
-    }, function(err) {
-      alertify.error('Something is wrong with API --> UserService --> getUsers')
-    })
-    var dir = "resources/Data_Images/";
-    var fileextension = ".png";
-    $.ajax({
-      //This will retrieve the contents of the folder if the folder is configured as 'browsable'
-      url: dir,
-      success: function(data) {
-        //List all .png file names in the page
-        $(data).find("a:contains(" + fileextension + ")").each(function() {
-          var filename = this.href.replace(window.location.host, "").replace("http://", "");
-          $("body").append("<img src='" + dir + filename + "'>");
-        });
-      }
-    });
+    // let coordinates = [];
+    //let clusters = [];
+    let clustersUI = {};
+    let paths = [];
     const distances = ShareData.distances;
     const coordinates = ShareData.coordinates;
     const users = ShareData.users;
+    const offSet = $("#charts").offset();
     // let colors = ClusterService.getColors(users.length);
-    let clusters = ClusterService.getClusters;
     $scope.dataCoverageCoefficient = ShareData.dataCoverageCoefficient;
     $scope.encodingCoefficient = ShareData.encodingCoefficient;
     $scope.descriptionCoefficient = ShareData.descriptionCoefficient;
@@ -68,17 +35,94 @@ app.controller("HomeController", ['$scope',
     bubbles.debug(false);
     var debugFor = pathA;
 
+
+    //Get all distances
+    // DistanceService.getAllDistances().then(function(data) {
+    //   distances = data;
+    //   ShareData.distances = data;
+    //   alertify.success('Successfully imported the data.');
+    // }, function(err) {
+    //   alertify.error('Something is wrong with the API --> DistanceService --> getAllDistances')
+    //   if (err) throw err;
+    // });
+    //
+    // //Get all coordinates
+    // CoordinateService.getCoordinates({
+    //   "descWeight": 1,
+    //   "attrWeight": 1,
+    //   "chartEncodingWeight": 1
+    // }).then(function(data) {
+    //   clusters = data;
+    //   ShareData.clusters = data;
+    //   createClusters(clusters);
+    //   alertify.success('Successfully imported the data.');
+    // }, function(err) {
+    //   alertify.error('Something is wrong with the API --> CoordinateService --> getCoordinates')
+    //   if (err) throw err;
+    // });
+    //
+    // UserService.getUsers().then(function(data) {
+    //   alertify.success('Successfully imported users');
+    //   ShareData.users = data;
+    // }, function(err) {
+    //   alertify.error('Something is wrong with API --> UserService --> getUsers')
+    // })
+
+    //Creation of clusers
+    function createClusters(clusters){
+      _.forEach(clusters, function(cluster, i){
+        clustersUI[cluster.clusterId] = [];
+        _.forEach(cluster.point, function(point){
+          addRect(clustersUI[cluster.clusterId], "red", point.x + offset.left, point.y + offset.right);
+        })
+        update();
+      });
+    }
+    //Creation of paths and append to SVG;
+    _.forEach(clustersUI, function(cluster, idx) {
+      paths.push({
+        id: cluster.clusterId,
+        svg: appendSVG(main, "path")
+      })
+    });
+
+
     //Uncomment this when everything is ready;
     // _.forEach(users, function(user){
     //   user.color = colors[user.id];
     // });
 
     $scope.clearFilter = function() {
-      console.log("reached Clear");
+      $scope.descWeight = 1;
+      $scope.attrWeight = 1;
+      $scope.chartEncodingWeight = 1;
+      CoordinateService.getCoordinates({
+        "descWeight": $scope.descWeight,
+        "attrWeight": $scope.attrWeight,
+        "chartEncodingWeight": $scope.chartEncodingWeight
+      }).then(function(data) {
+        clusters = data;
+        ShareData.clusters = data;
+        createClusters(clusters);
+      }, function(err) {
+        if (err) throw err;
+      });
     }
 
     $scope.updateFilter = function() {
       console.log("reached update");
+      CoordinateService.getCoordinates({
+        "descWeight": $scope.descWeight,
+        "attrWeight": $scope.attrWeight,
+        "chartEncodingWeight": $scope.chartEncodingWeight
+      }).then(function(data) {
+        clusters = data;
+        ShareData.clusters = data;
+        createClusters(clusters);
+      }, function(err) {
+        if (err) throw err;
+      });
+
     }
 
     function attr(elem, attr) {
@@ -162,7 +206,7 @@ app.controller("HomeController", ['$scope',
       return parent.appendChild(document.createElementNS("http://www.w3.org/2000/svg", name));
     }
 
-    function addRect(rectangles, color, cx, cy) {
+    function addRect(clustersUI, color, cx, cy, idx) {
       var width = 40;
       var height = 30;
       var x = cx - width * 0.5;
@@ -180,7 +224,7 @@ app.controller("HomeController", ['$scope',
         "stroke-width": 1,
         "fill": color,
       });
-      rectangles.push({
+      clustersUI.push({
         x: x,
         y: y,
         width: width,
