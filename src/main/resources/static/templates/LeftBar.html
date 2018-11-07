@@ -1,5 +1,5 @@
-<script src="lib/foundation/js/vendor/foundation.js"></script>
-<script src="lib/foundation/js/app.js"></script>
+<!-- <script src="lib/foundation/js/vendor/foundation.js"></script>
+<script src="lib/foundation/js/app.js"></script> -->
 <!-- <div class="row"> -->
 <div class="grid-container grid-container-padded">
   <div class="grid-y">
@@ -34,7 +34,7 @@
                     <div class="cell">
                       <p class="left-p text-center">Data Coverage</p>
                       <div class="slider" data-slider data-initial-start="0.4" data-end="1" data-step="0.1">
-                        <span class="slider-handle" data-slider-handle role="slider" ng-model="dataCoverageCoefficient" tabindex="1" aria-controls="sliderOutput1"></span>
+                        <span class="slider-handle" data-slider-handle role="slider" ng-model="attrWeight" tabindex="1" aria-controls="sliderOutput1"></span>
                         <span class="slider-fill" data-slider-fill></span>
                       </div>
                       <input class="left-input" type="number" id="sliderOutput1">
@@ -42,7 +42,7 @@
                     <div class="cell">
                       <p class="left-p text-center">Encoding Distance</p>
                       <div class="slider" data-slider data-initial-start="0.4" data-end="1" data-step="0.1">
-                        <span class="slider-handle" data-slider-handle role="slider" ng-model="encodingCoefficient" tabindex="1" aria-controls="sliderOutput2"></span>
+                        <span class="slider-handle" data-slider-handle role="slider" ng-model="chartEncodingWeight" tabindex="1" aria-controls="sliderOutput2"></span>
                         <span class="slider-fill" data-slider-fill></span>
                       </div>
                       <input class="left-input" type="number" id="sliderOutput2">
@@ -50,7 +50,7 @@
                     <div class="cell">
                       <p class="left-p text-center">Description</p>
                       <div class="slider" data-slider data-initial-start="0.4" data-end="1" data-step="0.1">
-                        <span class="slider-handle" data-slider-handle role="slider" ng-model="descriptionCoefficient" tabindex="1" aria-controls="sliderOutput3"></span>
+                        <span class="slider-handle" data-slider-handle role="slider" ng-model="descWeight" tabindex="1" aria-controls="sliderOutput3"></span>
                         <span class="slider-fill" data-slider-fill></span>
                       </div>
                       <input class="left-input" type="number" id="sliderOutput3">

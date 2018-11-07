@@ -1,11 +1,11 @@
 package chartconstellation.app.clustering;
 
-import chartconstellation.app.entities.response.IdCoordinates;
-import chartconstellation.app.entities.response.Point;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import chartconstellation.app.entities.response.IdCoordinates;
 
 @Component
 public class Clustering {
