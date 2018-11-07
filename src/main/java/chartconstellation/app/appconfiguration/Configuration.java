@@ -18,6 +18,24 @@ public class Configuration {
     private String totalFeatureCollection;
     private String descriptionDistancePath;
     private WeightConfig featureWeights;
+    private ClusterParams clusterParams;
+    private ScalingConfig mdsScalingConfig;
+
+    public ClusterParams getClusterParams() {
+        return clusterParams;
+    }
+
+    public void setClusterParams(ClusterParams clusterParams) {
+        this.clusterParams = clusterParams;
+    }
+
+    public ScalingConfig getMdsScalingConfig() {
+        return mdsScalingConfig;
+    }
+
+    public void setMdsScalingConfig(ScalingConfig mdsScalingConfig) {
+        this.mdsScalingConfig = mdsScalingConfig;
+    }
 
     public String getTotalFeatureCollection() {
         return totalFeatureCollection;
