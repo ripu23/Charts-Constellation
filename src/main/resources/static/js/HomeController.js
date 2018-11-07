@@ -73,8 +73,7 @@ app.controller("HomeController", ['$scope',
       _.forEach(clustersArray, function(clusters, i) {
         clustersUI[i] = [];
         _.forEach(clusters, function(cluster) {
-          addRect(clustersUI[i], "red", cluster.point.x + offSet.left + 100, cluster.point.y + offSet.top + 100);
-          update();
+          addRect(clustersUI[i], "red", cluster.point.x + offSet.left, cluster.point.y + offSet.top);
         })
       });
       createPaths();
@@ -86,6 +85,8 @@ app.controller("HomeController", ['$scope',
           svg: appendSVG(main, "path")
         })
       });
+      updateOutline(clustersUI[0], clustersUI[1], "grey", paths[0].svg);
+      updateOutline(clustersUI[1], clustersUI[0], "grey", paths[1].svg);
     }
 
 
@@ -159,12 +160,22 @@ app.controller("HomeController", ['$scope',
     }
 
     function update() {
+      // if(clustersUI.length == 1){
+      //
+      // }else{
+      //
+      // }
+      // _.forEach(clustersUI, function(cluster1, idx){
+      //   _.forEach(clustersUI, function(cluster2, idx){
+      //       updateOutline(cluster1, cluster2, "crimson", path)
+      //   }
+      // });
       updateOutline(rectanglesA, rectanglesB, "crimson", pathA);
       updateOutline(rectanglesB, rectanglesA, "cornflowerblue", pathB);
     }
 
     function updateOutline(rectangles, otherRectangles, color, path) {
-      var pad = 0.1;
+      var pad = 5;
       var list = bubbles.createOutline(
         BubbleSet.addPadding(rectangles, pad),
         BubbleSet.addPadding(otherRectangles, pad),
@@ -217,9 +228,7 @@ app.controller("HomeController", ['$scope',
       attr(elem, {
         cx: cx,
         cy: cy,
-        r: 10
-        // width: width,
-        // height: height,
+        r: 10,
       });
       style(elem, {
         "stroke": "black",
@@ -230,8 +239,9 @@ app.controller("HomeController", ['$scope',
         x: cx,
         y: cy,
         elem: elem,
+        width: width,
+        height: height
       });
-      update();
     }
 
     main.onclick = function(e) {
