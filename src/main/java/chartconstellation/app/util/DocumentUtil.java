@@ -4,6 +4,7 @@ import chartconstellation.app.entities.FeatureDistance;
 import chartconstellation.app.entities.IdValue;
 import com.mongodb.DBObject;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -66,16 +69,21 @@ public class DocumentUtil {
         return list;
     }
 
-    public List<FeatureDistance>  convertJsonToFeatureList(String filePath) {
+    public List<FeatureDistance>  convertJsonToFeatureList(String filePath) throws JSONException {
         String jsonData = readFile(filePath);
         JSONArray jsonArray = new JSONArray(jsonData);
         List<FeatureDistance> distances = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject explrObject = jsonArray.getJSONObject(i);
-            Set<String> keySey = explrObject.keySet();
+            //Set<String> keySey = explrObject.keys();
+            Set<String> setKeys = new HashSet<String>();
+            Iterator itr = explrObject.keys();
+            while(itr.hasNext()) {
+            		setKeys.add(itr.next().toString());
+            }
             FeatureDistance featureDistance = new FeatureDistance();
             List<IdValue> values = new ArrayList<>();
-            for(String key : explrObject.keySet()) {
+            for(String key : setKeys) {
                 featureDistance.setId(key);
                 JSONArray arr = explrObject.getJSONArray(key);
                 for (int j = 0; j < arr.length(); j++) {

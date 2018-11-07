@@ -13,7 +13,7 @@ app.controller("HomeController", ['$scope',
     console.log('%cReached home contrlloler', 'color :red');
 
     // let coordinates = [];
-    //let clusters = [];
+    let clusters = [];
     let clustersUI = {};
     let paths = [];
     const distances = ShareData.distances;
@@ -47,19 +47,19 @@ app.controller("HomeController", ['$scope',
     // });
     //
     // //Get all coordinates
-    // CoordinateService.getCoordinates({
-    //   "descWeight": 1,
-    //   "attrWeight": 1,
-    //   "chartEncodingWeight": 1
-    // }).then(function(data) {
-    //   clusters = data;
-    //   ShareData.clusters = data;
-    //   createClusters(clusters);
-    //   alertify.success('Successfully imported the data.');
-    // }, function(err) {
-    //   alertify.error('Something is wrong with the API --> CoordinateService --> getCoordinates')
-    //   if (err) throw err;
-    // });
+    CoordinateService.getCoordinates({
+      "descWeight": 1.0,
+      "attrWeight": 1.0,
+      "chartEncodingWeight": 1.0
+    }).then(function(data) {
+      clusters = data.data;
+      ShareData.clusters = data;
+      createClusters(clusters);
+      alertify.success('Successfully imported the data.');
+    }, function(err) {
+      alertify.error('Something is wrong with the API --> CoordinateService --> getCoordinates')
+      if (err) throw err;
+    });
     //
     // UserService.getUsers().then(function(data) {
     //   alertify.success('Successfully imported users');
@@ -69,22 +69,24 @@ app.controller("HomeController", ['$scope',
     // })
 
     //Creation of clusers
-    function createClusters(clusters){
-      _.forEach(clusters, function(cluster, i){
-        clustersUI[cluster.clusterId] = [];
-        _.forEach(cluster.point, function(point){
-          addRect(clustersUI[cluster.clusterId], "red", point.x + offset.left, point.y + offset.right);
+    function createClusters(clustersArray) {
+      _.forEach(clustersArray, function(clusters, i) {
+        clustersUI[i] = [];
+        _.forEach(clusters, function(cluster) {
+          addRect(clustersUI[i], "red", cluster.point.x + offSet.left + 100, cluster.point.y + offSet.top + 100);
+          update();
         })
-        update();
       });
+      createPaths();
     }
     //Creation of paths and append to SVG;
-    _.forEach(clustersUI, function(cluster, idx) {
-      paths.push({
-        id: cluster.clusterId,
-        svg: appendSVG(main, "path")
-      })
-    });
+    function createPaths() {
+      _.forEach(clustersUI, function(cluster, idx) {
+        paths.push({
+          svg: appendSVG(main, "path")
+        })
+      });
+    }
 
 
     //Uncomment this when everything is ready;
@@ -206,15 +208,15 @@ app.controller("HomeController", ['$scope',
       return parent.appendChild(document.createElementNS("http://www.w3.org/2000/svg", name));
     }
 
-    function addRect(clustersUI, color, cx, cy, idx) {
+    function addRect(clustersUI, color, cx, cy) {
       var width = 40;
       var height = 30;
-      var x = cx - width * 0.5;
-      var y = cy - height * 0.5;
+      //      var x = cx - width * 0.5;
+      //      var y = cy - height * 0.5;
       var elem = appendSVG(items, "circle"); //creates a circle
       attr(elem, {
-        cx: x,
-        cy: y,
+        cx: cx,
+        cy: cy,
         r: 10
         // width: width,
         // height: height,
@@ -225,10 +227,8 @@ app.controller("HomeController", ['$scope',
         "fill": color,
       });
       clustersUI.push({
-        x: x,
-        y: y,
-        width: width,
-        height: height,
+        x: cx,
+        y: cy,
         elem: elem,
       });
       update();
