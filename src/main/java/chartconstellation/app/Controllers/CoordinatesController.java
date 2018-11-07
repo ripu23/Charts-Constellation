@@ -6,9 +6,9 @@ import chartconstellation.app.clustering.Clustering;
 import chartconstellation.app.entities.response.IdCoordinates;
 import chartconstellation.app.util.CoordinatesScalingUtil;
 import chartconstellation.app.util.CoordinatesUtil;
-import chartconstellation.app.util.ScalingUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
@@ -18,10 +18,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import chartconstellation.app.AppConfiguration.Configuration;
-import chartconstellation.app.clustering.Clustering;
-import chartconstellation.app.entities.response.IdCoordinates;
-import chartconstellation.app.util.CoordinatesUtil;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 
 @RestController
 @RequestMapping("/coordinates")
@@ -42,8 +49,9 @@ public class CoordinatesController {
     @RequestMapping(value="/getCoordinates", method= RequestMethod.GET)
     @ResponseBody
     public Collection<List<IdCoordinates>> coordinates(@RequestParam("descWeight") Double descWeight,
-                                                      @RequestParam("attrWeight") Double attrWeight,
-                                                      @RequestParam("chartEncodingWeight") Double chartEncodingWeight) {
+                                                       @RequestParam("attrWeight") Double attrWeight,
+                                                       @RequestParam("chartEncodingWeight") Double chartEncodingWeight) {
+
 
         List<IdCoordinates> coordinatesList = coordinatesUtil.calculateCoordinates(descWeight, attrWeight, chartEncodingWeight);
 
@@ -72,7 +80,6 @@ public class CoordinatesController {
 
             }
         }
-
         return coordinatesHashMap.values();
     }
 }
