@@ -73,9 +73,9 @@ public class FeatureMergeUtil {
                     //System.out.println(value1.getId()+" "+value2.getId());
                     if(value1.getId().equals(value2.getId())) {
                         list.add(new IdFeatures(value1.getId(),
-                                5 * (1- value2.getValue()),
-                                5 * (1- value1.getValue()),
-                                0.0));
+                                (1- value2.getValue()),
+                                (1- value1.getValue()),
+                                1.0));
                     }
                 }
             }

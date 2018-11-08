@@ -1,17 +1,37 @@
 package chartconstellation.app.Controllers;
 
+import chartconstellation.app.appconfiguration.Configuration;
+import chartconstellation.app.entities.UserCharts;
+import chartconstellation.app.util.UsersUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+
 @RestController
+@RequestMapping("/users")
 public class usersController {
 
-    @RequestMapping(value="/getUsers", method= RequestMethod.GET)
-    @ResponseBody
-    public void getUsers() {
+    @Autowired
+    Configuration configuration;
 
+    @Autowired
+    UsersUtil usersUtil;
+
+    @RequestMapping(value="/getUserCharts", method= RequestMethod.GET)
+    public HashMap<String, UserCharts> getUsers() {
+
+        HashMap<String, UserCharts> map = usersUtil
+                .getAllUserCharts(configuration.getMongoDatabase()
+                        , configuration.getOlympicchartcollection());
+
+        System.out.println(map.size());
+        System.out.println(map);
+
+        return map;
 
     }
 }
