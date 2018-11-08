@@ -1,10 +1,7 @@
 package chartconstellation.app.util;
 
 import chartconstellation.app.appconfiguration.Configuration;
-import chartconstellation.app.entities.FeatureDistance;
-import chartconstellation.app.entities.FeatureVector;
-import chartconstellation.app.entities.IdValue;
-import chartconstellation.app.entities.MongoCollections;
+import chartconstellation.app.entities.*;
 import com.google.gson.Gson;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
@@ -13,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.mongodb.util.JSON;
@@ -63,7 +61,6 @@ public class DbUtil {
         List<DBObject> dbObjects = new ArrayList<>();
 
         for(FeatureVector feature : features) {
-            System.out.println(feature.toString());
             Gson gson=new Gson();
             dbObjects.add((DBObject) JSON.parse(gson.toJson(feature)));
         }
@@ -86,7 +83,7 @@ public class DbUtil {
         return mongoCollections;
     }
 
-    public List<FeatureVector>  getDocsFromCollection(String database, String collection) {
+    public List<FeatureVector>  getFeaturesFromCollection(String database, String collection) {
 
         DBCursor cursor = mongoClient.getDB(database).getCollection(collection).find();
         List<FeatureVector> featureVectors = new ArrayList<>();
@@ -97,5 +94,18 @@ public class DbUtil {
             featureVectors.add(featureVector);
         }
         return featureVectors;
+    }
+
+    public List<Chart> getAttributesFromCollection(String database, String collection) {
+
+        DBCursor cursor = mongoClient.getDB(database).getCollection(collection).find();
+        Gson gson = new Gson();
+        List<Chart> charts = new ArrayList<>();
+        while (cursor.hasNext()) {
+            DBObject obj = cursor.next();
+            Chart chart = gson.fromJson(obj.toString(), Chart.class);
+            charts.add(chart);
+        }
+        return charts;
     }
 }
