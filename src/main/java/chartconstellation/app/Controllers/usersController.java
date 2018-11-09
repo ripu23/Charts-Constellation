@@ -1,16 +1,16 @@
 package chartconstellation.app.Controllers;
 
-import chartconstellation.app.appconfiguration.Configuration;
-import chartconstellation.app.entities.UserCharts;
-import chartconstellation.app.util.ChartsUtil;
+import java.util.Collection;
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
+import chartconstellation.app.appconfiguration.Configuration;
+import chartconstellation.app.entities.UserCharts;
+import chartconstellation.app.util.ChartsUtil;
 
 @RestController
 @RequestMapping("/users")

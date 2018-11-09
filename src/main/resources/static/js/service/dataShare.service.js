@@ -5,10 +5,12 @@ app.factory('ShareData', function() {
   data.attrWeight = 1;
   data.chartEncodingWeight = 1;
   data.descWeight = 1;
-	data.distances = [];
+  data.distances = [];
   data.clusters = [];
   data.users = [];
+  data.chartTypes = [];
+  data.userCharts = [];
 	return {
-    data: data
+		data: data
   }
 });

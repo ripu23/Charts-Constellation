@@ -7,20 +7,21 @@ app.controller("HomeController", ['$scope',
   'CoordinateService',
   'ShareData',
   'UserService',
+  'ChartService',
   'ClusterService',
-  function($scope, DistanceService, CoordinateService, ShareData, UserService, ClusterService) {
+  function($scope, DistanceService, CoordinateService, ShareData, UserService, ChartService, ClusterService) {
 
     console.log('%cReached home contrlloler', 'color :red');
-    // let coordinates = [];
     let clusters = [];
     let clustersUI = {};
     let paths = [];
+    let colors = [];
     const distances = ShareData.distances;
     const coordinates = ShareData.coordinates;
     const users = ShareData.users;
     const offSet = $("#charts").offset();
-    var ready = false;
-    // let colors = ClusterService.getColors(users.length);
+    $scope.userCharts = ShareData.userCharts;
+    $scope.chartTypes = ShareData.chartTypes;
     $scope.dataCoverageCoefficient = ShareData.dataCoverageCoefficient;
     $scope.encodingCoefficient = ShareData.encodingCoefficient;
     $scope.descriptionCoefficient = ShareData.descriptionCoefficient;
@@ -33,35 +34,47 @@ app.controller("HomeController", ['$scope',
     bubbles.debug(false);
 
     // //Get all coordinates
-    CoordinateService.getCoordinates({
-      "descWeight": 1.0,
-      "attrWeight": 1.0,
-      "chartEncodingWeight": 1.0
-    }).then(function(data) {
-      clusters = data.data;
-      ShareData.clusters = data.data;
-      createClusters(clusters);
-      alertify.success('Successfully imported the data.');
-      ready = true;
-    }, function(err) {
-      alertify.error('Something is wrong with the API --> CoordinateService --> getCoordinates')
-      if (err) throw err;
-    });
-    //
-    // UserService.getUsers().then(function(data) {
-    //   alertify.success('Successfully imported users');
-    //   ShareData.users = data;
-    // }, function(err) {
-    //   alertify.error('Something is wrong with API --> UserService --> getUsers')
-    // })
+//     CoordinateService.getCoordinates({
+//       "descWeight": 1.0,
+//       "attrWeight": 1.0,
+//       "chartEncodingWeight": 1.0
+//     }).then(function(data) {
+//       clusters = data.data;
+//       ShareData.clusters = data.data;
+//       createClusters(clusters);
+//       alertify.success('Successfully imported the data.');
+//       ready = true;
+//     }, function(err) {
+//       alertify.error('Something is wrong with the API --> CoordinateService --> getCoordinates')
+//       if (err) throw err;
+//     });
 
-    //Creation of clusers
+    ChartService.getChartTypes().then(function(data) {
+      alertify.success('Successfully imported chartTypes');
+      $scope.chartTypes = data.data.chartTypes;
+      ShareData.chartTypes = data.data.chartTypes;
+    }, function(err) {
+      alertify.error('Something is wrong with API --> ChartService --> getCharts');
+      if(err) throw err;
+    })
+
+    UserService.getUserCharts().then(function(data){
+      if(data && data.data){
+        ShareData.userCharts = data.data;
+        $scope.userCharts = data.data;
+        colors = ClusterService.getColors(data.data.length);
+      }
+    }, function(err) {
+      alertify.error('Something is wrong with API --> UserService --> getUsers');
+      if(err) throw err;
+    })
+
     function createClusters(clustersArray) {
     	clustersUI = {};
       _.forEach(clustersArray, function(clusters, i) {
         clustersUI[i] = [];
         _.forEach(clusters, function(cluster) {
-          addRect(clustersUI[i], "red", cluster.point.x + offSet.left, cluster.point.y + offSet.top);
+          addRect(clustersUI[i], "grey", cluster.point.x + offSet.left, cluster.point.y + offSet.top);
         })
       });
       createPaths();
@@ -81,8 +94,10 @@ app.controller("HomeController", ['$scope',
     function update() {
       _.forEach(clustersUI, function(cluster1, idx1) {
         _.forEach(clustersUI, function(cluster2, idx2) {
-          updateOutline(cluster1, cluster2, "crimson", paths[idx1].svg);
-          updateOutline(cluster2, cluster1, "crimson", paths[idx2].svg);
+        	if(cluster1 != cluster2){
+        		updateOutline(cluster1, cluster2, "grey", paths[idx1].svg);
+                updateOutline(cluster2, cluster1, "grey", paths[idx2].svg);
+        	}
         })
       })
     }
@@ -116,7 +131,7 @@ app.controller("HomeController", ['$scope',
 
 
     	$(document).on('moved.zf.slider', function() {
-        	
+
     		var updatedAttrWeight = $('#attrWeight').attr('aria-valuenow');
             var updatedDescWeight = $('#descWeight').attr('aria-valuenow');
             var updatedChartEncodingWeight = $('#chartEncodingWeight').attr('aria-valuenow');
@@ -134,19 +149,9 @@ app.controller("HomeController", ['$scope',
                 if (err) throw err;
               });
             }
-        	
+
 
         });
-
-
-    //    $(document).foundation({
-    //    	  slider: {
-    //    	    on_change: function(){
-    //    	      // do something when the value changes
-    //    	    	console.log('asd');
-    //    	    }
-    //    	  }
-    //    	});
 
 
     $scope.updateFilter = function() {
@@ -198,7 +203,7 @@ app.controller("HomeController", ['$scope',
 
 
     function updateOutline(rectangles, otherRectangles, color, path) {
-      var pad = 20;
+      var pad = 1;
       var list = bubbles.createOutline(
         BubbleSet.addPadding(rectangles, pad),
         BubbleSet.addPadding(otherRectangles, pad),
@@ -245,13 +250,11 @@ app.controller("HomeController", ['$scope',
     function addRect(clustersUI, color, cx, cy) {
       var width = 40;
       var height = 30;
-      //      var x = cx - width * 0.5;
-      //      var y = cy - height * 0.5;
       var elem = appendSVG(items, "circle"); //creates a circle
       attr(elem, {
         cx: cx,
         cy: cy,
-        r: 10,
+        r: 8,
       });
       style(elem, {
         "stroke": "black",
@@ -267,17 +270,6 @@ app.controller("HomeController", ['$scope',
       });
     }
 
-    main.onclick = function(e) {
-      addRect(rectanglesA, "cornflowerblue", e.offsetX, e.offsetY);
-    };
-    var oldX = Number.NaN;
-    var oldY = Number.NaN;
-    main.oncontextmenu = function(e) {
-      if (oldX === e.offsetX && oldY === e.offsetY) return;
-      oldX = e.offsetX;
-      oldY = e.offsetY;
-      addRect(rectanglesB, "crimson", e.offsetX, e.offsetY);
-      e.preventDefault();
-    };
+
   }
 ]);
