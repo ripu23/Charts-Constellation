@@ -1,16 +1,15 @@
 package chartconstellation.app.util;
 
+import chartconstellation.app.entities.ChartType;
 import chartconstellation.app.entities.Chart;
 import chartconstellation.app.entities.UserCharts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Component
-public class UsersUtil {
+public class ChartsUtil {
 
     @Autowired
     DbUtil dbUtil;
@@ -44,6 +43,25 @@ public class UsersUtil {
         }
 
         return userChartsMap;
+
+    }
+
+    public ChartType getAllChartTypes(String database, String collection) {
+
+        List<Chart> chartsList  = dbUtil.getAttributesFromCollection(database, collection);
+        Set<String> chartTypeSet = new HashSet<>();
+        ChartType chartTypeObj = new ChartType();
+
+        for(Chart chart : chartsList) {
+            String chartType = chart.getChartType();
+            if(chartType != null) {
+                chartTypeSet.add(chartType);
+            }
+        }
+
+        chartTypeObj.setChartTypes(chartTypeSet);
+
+        return chartTypeObj;
 
     }
 }

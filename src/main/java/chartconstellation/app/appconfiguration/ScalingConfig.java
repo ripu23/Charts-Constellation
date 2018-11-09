@@ -5,22 +5,40 @@ import org.springframework.stereotype.Component;
 @Component
 public class ScalingConfig {
 
-    private Double min;
-    private Double max;
+    private Double xmin;
+    private Double xmax;
+    private Double ymin;
+    private Double ymax;
 
-    public Double getMin() {
-        return min;
+    public Double getXmin() {
+        return xmin;
     }
 
-    public void setMin(Double min) {
-        this.min = min;
+    public void setXmin(Double xmin) {
+        this.xmin = xmin;
     }
 
-    public Double getMax() {
-        return max;
+    public Double getXmax() {
+        return xmax;
     }
 
-    public void setMax(Double max) {
-        this.max = max;
+    public void setXmax(Double xmax) {
+        this.xmax = xmax;
+    }
+
+    public Double getYmin() {
+        return ymin;
+    }
+
+    public void setYmin(Double ymin) {
+        this.ymin = ymin;
+    }
+
+    public Double getYmax() {
+        return ymax;
+    }
+
+    public void setYmax(Double ymax) {
+        this.ymax = ymax;
     }
 }

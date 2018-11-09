@@ -6,10 +6,7 @@ import chartconstellation.app.entities.response.Point;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class Kmeans {
@@ -22,14 +19,16 @@ public class Kmeans {
 
     private ClusterParams params;
 
-    public List<Point> intitializeCentroids() {
+    public List<Point> intitializeCentroids(List<IdCoordinates> idCoordinates) {
+
+        int size = idCoordinates.size();
 
         List<Point> points = new ArrayList<>();
 
         for(int i=0; i<clusterParams.getClusterSize(); i++) {
-            double random_X = Math.random() * 0.5;
-            double random_Y = Math.random() * 0.5;
-            points.add(new Point(random_X, random_Y));
+            Random r = new Random();
+            int index = r.nextInt((size - 1) + 1);
+            points.add(new Point(idCoordinates.get(index).getPoint().getX(), idCoordinates.get(index).getPoint().getY()));
         }
 
         return points;
@@ -93,7 +92,7 @@ public class Kmeans {
 
     public List<IdCoordinates> runKmeansCLustering(List<IdCoordinates> idCoordinates) {
 
-        List<Point> centroids = intitializeCentroids();
+        List<Point> centroids = intitializeCentroids(idCoordinates);
         System.out.println(centroids);
         List<IdCoordinates> modifiedCoordinates = new ArrayList<>();
         for(int i=0 ; i<clusterParams.getIterations(); i++) {

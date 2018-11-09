@@ -59,9 +59,9 @@ public class CoordinatesController {
 
         List<IdCoordinates> clusteredCoordinates = clustering.getClusteredCoordinates(5, 50, coordinatesList);
 
-        coordinatesScalingUtil.setCoordinatesList(clusteredCoordinates);
-
-        clusteredCoordinates = coordinatesScalingUtil.getScaledCoordinates(configuration.getMdsScalingConfig());
+//        coordinatesScalingUtil.setCoordinatesList(clusteredCoordinates);
+//
+//        clusteredCoordinates = coordinatesScalingUtil.getScaledCoordinates(configuration.getMdsScalingConfig());
 
 
         HashMap<Integer, List<IdCoordinates>> coordinatesHashMap = new HashMap<>();
@@ -83,17 +83,14 @@ public class CoordinatesController {
             }
         }
 
-//        for(Map.Entry<Integer, List<IdCoordinates>> entry : coordinatesHashMap.entrySet()) {
-//
-//            List<IdCoordinates> idCoordinatesList = entry.getValue();
-//            double i = 1.0;
-//            for(IdCoordinates idCoordinate : idCoordinatesList) {
-//                idCoordinate.setPoint(new Point(idCoordinate.getPoint().getX()+i, idCoordinate.getPoint().getX()+i));
-//                i = Math.pow(i, 2);
-//            }
-//
-//            coordinatesHashMap.put(entry.getKey(), idCoordinatesList);
-//        }
+        for(Map.Entry<Integer, List<IdCoordinates>> entry : coordinatesHashMap.entrySet()) {
+
+            coordinatesScalingUtil.setCoordinatesList(entry.getValue());
+
+            List<IdCoordinates> newIdCoordinatesList = coordinatesScalingUtil.getScaledCoordinates(configuration.getMdsScalingConfig());
+
+            coordinatesHashMap.put(entry.getKey(), newIdCoordinatesList);
+        }
         return coordinatesHashMap.values();
     }
 }

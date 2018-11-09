@@ -11,52 +11,79 @@ import java.util.List;
 public class ScalingUtil {
 
 
-    private Double min;
+    private Double xmin;
+    private Double xmax;
+    private Double ymin;
+    private Double ymax;
+    private List<Double> xValues;
+    private List<Double> yValues;
 
-    private Double max;
-
-    private Double a;
-
-    private Double b;
-
-    private List<Double> values;
-
-    // xnormalized=(b−a)x−min(x)max(x)−min(x)+a
-    public ScalingUtil initialize(List<Double> valueList, Double a, Double b) {
-        this.values = valueList;
-        max = Collections.max(values);
-        min = Collections.min(values);
-        this.a = a;
-        this.b = b;
+    public ScalingUtil initialize(List<Double> xvalueList, List<Double> yvalueList) {
+        this.xValues = xvalueList;
+        xmax = Collections.max(xvalueList);
+        xmin = Collections.min(xvalueList);
+        ymax = Collections.max(yvalueList);
+        ymin = Collections.min(yvalueList);
         return this;
     }
 
-    public Double getScaledvalue(Double val) {
+    public Double getScaledvalueX(Double val, Double a, Double b) {
 
-        return (b - a) * ((val  - min) / (max - min)) + a;
+        return (b - a) * ((val  - xmin) / (xmax - xmin)) + a;
+        //return 2 * val;
     }
 
-    public Double getMin() {
-        return min;
+    public Double getScaledvalueY(Double val, Double a, Double b) {
+
+        return (b - a) * ((val  - ymin) / (ymax - ymin)) + a;
+        //return 2 * val;
     }
 
-    public void setMin(Double min) {
-        this.min = min;
+    public Double getXmin() {
+        return xmin;
     }
 
-    public Double getMax() {
-        return max;
+    public void setXmin(Double xmin) {
+        this.xmin = xmin;
     }
 
-    public void setMax(Double max) {
-        this.max = max;
+    public Double getXmax() {
+        return xmax;
     }
 
-    public List<Double> getValues() {
-        return values;
+    public void setXmax(Double xmax) {
+        this.xmax = xmax;
     }
 
-    public void setValues(List<Double> values) {
-        this.values = values;
+    public Double getYmin() {
+        return ymin;
+    }
+
+    public void setYmin(Double ymin) {
+        this.ymin = ymin;
+    }
+
+    public Double getYmax() {
+        return ymax;
+    }
+
+    public void setYmax(Double ymax) {
+        this.ymax = ymax;
+    }
+
+    public List<Double> getxValues() {
+        return xValues;
+    }
+
+    public void setxValues(List<Double> xValues) {
+        this.xValues = xValues;
+    }
+
+    public List<Double> getyValues() {
+        return yValues;
+    }
+
+    public void setyValues(List<Double> yValues) {
+        this.yValues = yValues;
     }
 }
