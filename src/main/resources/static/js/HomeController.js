@@ -20,7 +20,7 @@ app.controller("HomeController", ['$scope',
     const coordinates = ShareData.coordinates;
     const users = ShareData.users;
     const offSet = $("#charts").offset();
-    $scope.userCharts = ShareData.userCharts;
+    $scope.users = ShareData.users;
     $scope.chartTypes = ShareData.chartTypes;
     $scope.dataCoverageCoefficient = ShareData.dataCoverageCoefficient;
     $scope.encodingCoefficient = ShareData.encodingCoefficient;
@@ -61,13 +61,20 @@ app.controller("HomeController", ['$scope',
     UserService.getUserCharts().then(function(data){
       if(data && data.data){
         ShareData.userCharts = data.data;
-        $scope.userCharts = data.data;
+        $scope.users = data.data;
         colors = ClusterService.getColors(data.data.length);
+        populateColorsForUsers();
       }
     }, function(err) {
       alertify.error('Something is wrong with API --> UserService --> getUsers');
       if(err) throw err;
     })
+
+    function populateColorsForUsers(){
+      _.forEach($scope.users, function(user, idx){
+        $scope.users[idx].color = colors[idx];
+      })
+    }
 
     function createClusters(clustersArray) {
     	clustersUI = {};

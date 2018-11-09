@@ -9,7 +9,7 @@ app.factory('ShareData', function() {
   data.clusters = [];
   data.users = [];
   data.chartTypes = [];
-  data.userCharts = [];
+  data.users = [];
 	return {
 		data: data
   }

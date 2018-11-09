@@ -62,23 +62,27 @@
             <li class="accordion-item" data-accordion-item>
               <a href="" class="accordion-title">User List</a>
               <div class="accordion-content" data-tab-content>
-                
+                <table class="unstriped">
+                  <tr ng-repeat="user in users">
+                    <td><input type="checkbox" id="user-{{$index}}">
+                      <label class="font-chart" for="user-{{$index}}">{{user.userName}}</label></td>
+                    <td style="background-color: #{{user.color}}; width:5px;"></td>
+                  </tr>
+                </table>
+
               </div>
             </li>
             <li class="accordion-item" data-accordion-item>
               <a href="" class="accordion-title">Chart Type List</a>
               <div class="accordion-content" data-tab-content>
-                
-                  
-                   
-                    <ul class="no-bullet">
-                    <li ng-repeat="charts in chartTypes">
+
+                <ul class="no-bullet">
+                  <li ng-repeat="charts in chartTypes">
                     <input type="checkbox" id="charts-{{$index}}" ng-model="options[$index]">
                     <label class="font-chart" for="charts-{{$index}}">{{charts}}</label>
-                    </li>
-                    </ul>
-                  
-                
+                  </li>
+                </ul>
+
               </div>
             </li>
             <li class="accordion-item" data-accordion-item>
