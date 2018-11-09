@@ -57,7 +57,7 @@ public class CoordinatesController {
 
         List<IdCoordinates> coordinatesList = coordinatesUtil.calculateCoordinates(descWeight, attrWeight, chartEncodingWeight);
 
-        List<IdCoordinates> clusteredCoordinates = clustering.getClusteredCoordinates(5, 50, coordinatesList);
+        List<IdCoordinates> clusteredCoordinates = clustering.getClusteredCoordinates(4, 20, coordinatesList);
 
 //        coordinatesScalingUtil.setCoordinatesList(clusteredCoordinates);
 //
