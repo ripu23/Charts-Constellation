@@ -27,21 +27,14 @@ public class CoordinatesScalingUtil {
             yvalues.add(idCoordinate.getPoint().getY());
         }
 
-        scalingUtil.initialize(xvalues, scalingConfig.getMin(), scalingConfig.getMax());
+        scalingUtil.initialize(xvalues, yvalues);
 
         for(int i=0; i<coordinatesList.size(); i++) {
             Point point = coordinatesList.get(i).getPoint();
-            Double scaledXvalue = scalingUtil.getScaledvalue(point.getX());
-            point.setX(2*scaledXvalue);
-            coordinatesList.get(i).setPoint(point);
-        }
-
-        scalingUtil.initialize(yvalues, scalingConfig.getMin(), scalingConfig.getMax());
-
-        for(int i=0; i<coordinatesList.size(); i++) {
-            Point point = coordinatesList.get(i).getPoint();
-            Double scaledYvalue = scalingUtil.getScaledvalue(point.getY());
-            point.setY(2*scaledYvalue);
+            Double scaledXvalue = scalingUtil.getScaledvalueX(point.getX(), scalingConfig.getXmin(), scalingConfig.getXmax());
+            Double scaledYvalue = scalingUtil.getScaledvalueY(point.getY(), scalingConfig.getYmin(), scalingConfig.getYmax());
+            point.setX(scaledXvalue);
+            point.setY(scaledYvalue);
             coordinatesList.get(i).setPoint(point);
         }
 
