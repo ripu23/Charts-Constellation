@@ -32,9 +32,9 @@
                 <div class="grid-container">
                   <div class="grid-y">
                     <div class="cell">
-                      <p class="left-p text-center">Data Coverage</p>
+                      <p class="left-p text-center">Attribute Weight</p>
                       <div class="slider" data-slider data-initial-start="0.4" data-end="1" data-step="0.1">
-                        <span class="slider-handle" data-slider-handle role="slider" ng-model="attrWeight" tabindex="1" aria-controls="sliderOutput1"></span>
+                        <span class="slider-handle" id="attrWeight" data-slider-handle role="slider" tabindex="1" aria-controls="sliderOutput1"></span>
                         <span class="slider-fill" data-slider-fill></span>
                       </div>
                       <input class="left-input" type="number" id="sliderOutput1">
@@ -42,7 +42,7 @@
                     <div class="cell">
                       <p class="left-p text-center">Encoding Distance</p>
                       <div class="slider" data-slider data-initial-start="0.4" data-end="1" data-step="0.1">
-                        <span class="slider-handle" data-slider-handle role="slider" ng-model="chartEncodingWeight" tabindex="1" aria-controls="sliderOutput2"></span>
+                        <span class="slider-handle" id="chartEncodingWeight" data-slider-handle role="slider" ng-model="chartEncodingWeight" tabindex="1" aria-controls="sliderOutput2"></span>
                         <span class="slider-fill" data-slider-fill></span>
                       </div>
                       <input class="left-input" type="number" id="sliderOutput2">
@@ -50,10 +50,10 @@
                     <div class="cell">
                       <p class="left-p text-center">Description</p>
                       <div class="slider" data-slider data-initial-start="0.4" data-end="1" data-step="0.1">
-                        <span class="slider-handle" data-slider-handle role="slider" ng-model="descWeight" tabindex="1" aria-controls="sliderOutput3"></span>
+                        <span class="slider-handle" id="descWeight" data-slider-handle role="slider" ng-model="descWeight" tabindex="1" aria-controls="sliderOutput3"></span>
                         <span class="slider-fill" data-slider-fill></span>
                       </div>
-                      <input class="left-input" type="number" id="sliderOutput3">
+                      <input class="left-input" type="number" ng-model="descWeight" id="sliderOutput3">
                     </div>
                   </div>
                 </div>

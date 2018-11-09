@@ -11,7 +11,6 @@ app.controller("HomeController", ['$scope',
   function($scope, DistanceService, CoordinateService, ShareData, UserService, ClusterService) {
 
     console.log('%cReached home contrlloler', 'color :red');
-
     // let coordinates = [];
     let clusters = [];
     let clustersUI = {};
@@ -20,6 +19,9 @@ app.controller("HomeController", ['$scope',
     const coordinates = ShareData.coordinates;
     const users = ShareData.users;
     const offSet = $("#charts").offset();
+    $scope.descWeight = ShareData.descWeight;
+    $scope.attrWeight = ShareData.attrWeight;
+    $scope.chartEncodingWeight = ShareData.chartEncodingWeight;
     // let colors = ClusterService.getColors(users.length);
     $scope.dataCoverageCoefficient = ShareData.dataCoverageCoefficient;
     $scope.encodingCoefficient = ShareData.encodingCoefficient;
@@ -53,7 +55,7 @@ app.controller("HomeController", ['$scope',
       "chartEncodingWeight": 1.0
     }).then(function(data) {
       clusters = data.data;
-      ShareData.clusters = data;
+      ShareData.clusters = data.data;
       createClusters(clusters);
       alertify.success('Successfully imported the data.');
     }, function(err) {
@@ -85,8 +87,19 @@ app.controller("HomeController", ['$scope',
           svg: appendSVG(main, "path")
         })
       });
-      updateOutline(clustersUI[0], clustersUI[1], "grey", paths[0].svg);
-      updateOutline(clustersUI[1], clustersUI[0], "grey", paths[1].svg);
+      update();
+      // updateOutline(clustersUI[0], clustersUI[1], "grey", paths[0].svg);
+      // updateOutline(clustersUI[1], clustersUI[0], "grey", paths[1].svg);
+    }
+
+    //Updates the padding of each cluster
+    function update() {
+      _.forEach(clustersUI, function(cluster1, idx1) {
+        _.forEach(clustersUI, function(cluster2, idx2) {
+          updateOutline(cluster1, cluster2, "crimson", paths[idx1].svg);
+          updateOutline(cluster2, cluster1, "crimson", paths[idx2].svg);
+        })
+      })
     }
 
 
@@ -104,13 +117,48 @@ app.controller("HomeController", ['$scope',
         "attrWeight": $scope.attrWeight,
         "chartEncodingWeight": $scope.chartEncodingWeight
       }).then(function(data) {
-        clusters = data;
-        ShareData.clusters = data;
+        clusters = data.data;
+        ShareData.clusters = data.data;
         createClusters(clusters);
       }, function(err) {
         if (err) throw err;
       });
     }
+
+    $scope.filterChanged = function() {
+      console.log("here");
+    }
+    $(document).on('moved.zf.slider', function() {
+      $(document).ready(function() {
+        var updatedAttrWeight = $('#attrWeight').attr('aria-valuenow');
+        var updatedDescWeight = $('#descWeight').attr('aria-valuenow');
+        var updatedChartEncodingWeight = $('#chartEncodingWeight').attr('aria-valuenow');
+        if (updatedAttrWeight && updatedDescWeight && updatedChartEncodingWeight) {
+          CoordinateService.getCoordinates({
+            "descWeight": parseFloat(updatedDescWeight),
+            "attrWeight": parseFloat(updatedAttrWeight),
+            "chartEncodingWeight": parseFloat(updatedChartEncodingWeight)
+          }).then(function(data) {
+            clusters = data.data;
+            ShareData.clusters = data.data;
+            createClusters(clusters);
+          }, function(err) {
+            if (err) throw err;
+          });
+        }
+      })
+
+    });
+
+    //    $(document).foundation({
+    //    	  slider: {
+    //    	    on_change: function(){
+    //    	      // do something when the value changes
+    //    	    	console.log('asd');
+    //    	    }
+    //    	  }
+    //    	});
+
 
     $scope.updateFilter = function() {
       console.log("reached update");
@@ -159,23 +207,9 @@ app.controller("HomeController", ['$scope',
       }
     }
 
-    function update() {
-      // if(clustersUI.length == 1){
-      //
-      // }else{
-      //
-      // }
-      // _.forEach(clustersUI, function(cluster1, idx){
-      //   _.forEach(clustersUI, function(cluster2, idx){
-      //       updateOutline(cluster1, cluster2, "crimson", path)
-      //   }
-      // });
-      updateOutline(rectanglesA, rectanglesB, "crimson", pathA);
-      updateOutline(rectanglesB, rectanglesA, "cornflowerblue", pathB);
-    }
 
     function updateOutline(rectangles, otherRectangles, color, path) {
-      var pad = 5;
+      var pad = 20;
       var list = bubbles.createOutline(
         BubbleSet.addPadding(rectangles, pad),
         BubbleSet.addPadding(otherRectangles, pad),
