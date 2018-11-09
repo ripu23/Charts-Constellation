@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/attributes")
+@RequestMapping("/chartType")
 public class ChartTypeController {
 
     @Autowired
@@ -20,7 +20,7 @@ public class ChartTypeController {
     @Autowired
     ChartsUtil chartsUtil;
 
-    @RequestMapping(value="/getAttributes", method= RequestMethod.GET)
+    @RequestMapping(value="/getAllChartTypes", method= RequestMethod.GET)
     public ChartType getAttributes() {
 
         ChartType chartTypeObj = chartsUtil.getAllChartTypes(configuration.getMongoDatabase()

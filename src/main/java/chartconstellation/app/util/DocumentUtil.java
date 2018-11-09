@@ -24,6 +24,8 @@ import java.util.stream.Stream;
 @Component
 public class DocumentUtil {
 
+    private final String imageType = "png";
+
     public String readFile(String filename) {
         String result = "";
         try {
@@ -51,14 +53,13 @@ public class DocumentUtil {
 
 
             if (filePath.getFileName().toString().contains("json")) {
-
-
-
                 String jsonData = readFile(filePath.toAbsolutePath().toString());
                 DBObject dbo = (DBObject) com.mongodb.util.JSON.parse(jsonData);
+                String imagePath = filePath.toAbsolutePath().toString();
+                int imagePathLength = imagePath.length();
+                dbo.put("imgaeUrl", imagePath.substring(0, imagePathLength-4) + imageType);
                 list.add(dbo);
-           }
-
+            }
 
                 }
             });
