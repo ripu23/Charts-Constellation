@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -21,7 +23,7 @@ public class usersController {
     ChartsUtil chartsUtil;
 
     @RequestMapping(value="/getUserCharts", method= RequestMethod.GET)
-    public HashMap<String, UserCharts> getUsers() {
+    public Collection<UserCharts> getUsers() {
 
         HashMap<String, UserCharts> map = chartsUtil
                 .getAllUserCharts(configuration.getMongoDatabase()
@@ -30,7 +32,7 @@ public class usersController {
         System.out.println(map.size());
         System.out.println(map);
 
-        return map;
+        return map.values();
 
     }
 }
