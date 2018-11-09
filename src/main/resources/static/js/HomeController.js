@@ -19,9 +19,7 @@ app.controller("HomeController", ['$scope',
     const coordinates = ShareData.coordinates;
     const users = ShareData.users;
     const offSet = $("#charts").offset();
-    $scope.descWeight = ShareData.descWeight;
-    $scope.attrWeight = ShareData.attrWeight;
-    $scope.chartEncodingWeight = ShareData.chartEncodingWeight;
+    var ready = false;
     // let colors = ClusterService.getColors(users.length);
     $scope.dataCoverageCoefficient = ShareData.dataCoverageCoefficient;
     $scope.encodingCoefficient = ShareData.encodingCoefficient;
@@ -31,23 +29,9 @@ app.controller("HomeController", ['$scope',
     var rectanglesB = [];
     var main = document.getElementById("main");
     var items = appendSVG(main, "g");
-    var pathA = appendSVG(main, "path");
-    var pathB = appendSVG(main, "path");
     var debug = appendSVG(main, "g");
     bubbles.debug(false);
-    var debugFor = pathA;
 
-
-    //Get all distances
-    // DistanceService.getAllDistances().then(function(data) {
-    //   distances = data;
-    //   ShareData.distances = data;
-    //   alertify.success('Successfully imported the data.');
-    // }, function(err) {
-    //   alertify.error('Something is wrong with the API --> DistanceService --> getAllDistances')
-    //   if (err) throw err;
-    // });
-    //
     // //Get all coordinates
     CoordinateService.getCoordinates({
       "descWeight": 1.0,
@@ -58,6 +42,7 @@ app.controller("HomeController", ['$scope',
       ShareData.clusters = data.data;
       createClusters(clusters);
       alertify.success('Successfully imported the data.');
+      ready = true;
     }, function(err) {
       alertify.error('Something is wrong with the API --> CoordinateService --> getCoordinates')
       if (err) throw err;
@@ -72,6 +57,7 @@ app.controller("HomeController", ['$scope',
 
     //Creation of clusers
     function createClusters(clustersArray) {
+    	clustersUI = {};
       _.forEach(clustersArray, function(clusters, i) {
         clustersUI[i] = [];
         _.forEach(clusters, function(cluster) {
@@ -82,14 +68,13 @@ app.controller("HomeController", ['$scope',
     }
     //Creation of paths and append to SVG;
     function createPaths() {
+//      paths = [];
       _.forEach(clustersUI, function(cluster, idx) {
         paths.push({
           svg: appendSVG(main, "path")
         })
       });
       update();
-      // updateOutline(clustersUI[0], clustersUI[1], "grey", paths[0].svg);
-      // updateOutline(clustersUI[1], clustersUI[0], "grey", paths[1].svg);
     }
 
     //Updates the padding of each cluster
@@ -128,27 +113,31 @@ app.controller("HomeController", ['$scope',
     $scope.filterChanged = function() {
       console.log("here");
     }
-    $(document).on('moved.zf.slider', function() {
-      $(document).ready(function() {
-        var updatedAttrWeight = $('#attrWeight').attr('aria-valuenow');
-        var updatedDescWeight = $('#descWeight').attr('aria-valuenow');
-        var updatedChartEncodingWeight = $('#chartEncodingWeight').attr('aria-valuenow');
-        if (updatedAttrWeight && updatedDescWeight && updatedChartEncodingWeight) {
-          CoordinateService.getCoordinates({
-            "descWeight": parseFloat(updatedDescWeight),
-            "attrWeight": parseFloat(updatedAttrWeight),
-            "chartEncodingWeight": parseFloat(updatedChartEncodingWeight)
-          }).then(function(data) {
-            clusters = data.data;
-            ShareData.clusters = data.data;
-            createClusters(clusters);
-          }, function(err) {
-            if (err) throw err;
-          });
-        }
-      })
 
-    });
+
+    	$(document).on('moved.zf.slider', function() {
+        	
+    		var updatedAttrWeight = $('#attrWeight').attr('aria-valuenow');
+            var updatedDescWeight = $('#descWeight').attr('aria-valuenow');
+            var updatedChartEncodingWeight = $('#chartEncodingWeight').attr('aria-valuenow');
+            if (updatedAttrWeight && updatedDescWeight && updatedChartEncodingWeight) {
+              CoordinateService.getCoordinates({
+                "descWeight": parseFloat(updatedDescWeight),
+                "attrWeight": parseFloat(updatedAttrWeight),
+                "chartEncodingWeight": parseFloat(updatedChartEncodingWeight)
+              }).then(function(data) {
+            	removeAllChilds(items);
+                clusters = data.data;
+                ShareData.clusters = data.data;
+                createClusters(clusters);
+              }, function(err) {
+                if (err) throw err;
+              });
+            }
+        	
+
+        });
+
 
     //    $(document).foundation({
     //    	  slider: {
