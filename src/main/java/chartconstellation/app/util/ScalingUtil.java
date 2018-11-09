@@ -33,7 +33,7 @@ public class ScalingUtil {
 
     public Double getScaledvalue(Double val) {
 
-        return (b - a) * ((val  -min) / (max - min)) + a;
+        return (b - a) * ((val  - min) / (max - min)) + a;
     }
 
     public Double getMin() {

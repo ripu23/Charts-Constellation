@@ -4,13 +4,15 @@ import chartconstellation.app.appconfiguration.Configuration;
 import chartconstellation.app.appconfiguration.ScalingConfig;
 import chartconstellation.app.clustering.Clustering;
 import chartconstellation.app.entities.response.IdCoordinates;
+import chartconstellation.app.entities.response.Point;
 import chartconstellation.app.util.CoordinatesScalingUtil;
 import chartconstellation.app.util.CoordinatesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.servlet.ModelAndView;
-import java.util.List;
+
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,9 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,9 +28,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.naming.directory.InitialDirContext;
+
 
 @RestController
 @RequestMapping("/coordinates")
+@CrossOrigin(origins="10.157.184.179")
 public class CoordinatesController {
 
     @Autowired
@@ -55,11 +57,11 @@ public class CoordinatesController {
 
         List<IdCoordinates> coordinatesList = coordinatesUtil.calculateCoordinates(descWeight, attrWeight, chartEncodingWeight);
 
-        coordinatesScalingUtil.setCoordinatesList(coordinatesList);
+        List<IdCoordinates> clusteredCoordinates = clustering.getClusteredCoordinates(5, 50, coordinatesList);
 
-        coordinatesList = coordinatesScalingUtil.getScaledCoordinates(configuration.getMdsScalingConfig());
+        coordinatesScalingUtil.setCoordinatesList(clusteredCoordinates);
 
-        List<IdCoordinates> clusteredCoordinates = clustering.getClusteredCoordinates(5, 15, coordinatesList);
+        clusteredCoordinates = coordinatesScalingUtil.getScaledCoordinates(configuration.getMdsScalingConfig());
 
 
         HashMap<Integer, List<IdCoordinates>> coordinatesHashMap = new HashMap<>();
@@ -80,6 +82,18 @@ public class CoordinatesController {
 
             }
         }
+
+//        for(Map.Entry<Integer, List<IdCoordinates>> entry : coordinatesHashMap.entrySet()) {
+//
+//            List<IdCoordinates> idCoordinatesList = entry.getValue();
+//            double i = 1.0;
+//            for(IdCoordinates idCoordinate : idCoordinatesList) {
+//                idCoordinate.setPoint(new Point(idCoordinate.getPoint().getX()+i, idCoordinate.getPoint().getX()+i));
+//                i = Math.pow(i, 2);
+//            }
+//
+//            coordinatesHashMap.put(entry.getKey(), idCoordinatesList);
+//        }
         return coordinatesHashMap.values();
     }
 }

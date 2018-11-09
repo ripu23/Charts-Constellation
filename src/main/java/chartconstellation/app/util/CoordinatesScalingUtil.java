@@ -32,8 +32,7 @@ public class CoordinatesScalingUtil {
         for(int i=0; i<coordinatesList.size(); i++) {
             Point point = coordinatesList.get(i).getPoint();
             Double scaledXvalue = scalingUtil.getScaledvalue(point.getX());
-            System.out.println(scaledXvalue);
-            point.setX(scaledXvalue);
+            point.setX(2*scaledXvalue);
             coordinatesList.get(i).setPoint(point);
         }
 
@@ -42,8 +41,7 @@ public class CoordinatesScalingUtil {
         for(int i=0; i<coordinatesList.size(); i++) {
             Point point = coordinatesList.get(i).getPoint();
             Double scaledYvalue = scalingUtil.getScaledvalue(point.getY());
-            System.out.println(scaledYvalue);
-            point.setY(scaledYvalue);
+            point.setY(2*scaledYvalue);
             coordinatesList.get(i).setPoint(point);
         }
 

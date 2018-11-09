@@ -36,7 +36,7 @@ public class CoordinatesUtil {
 
     public List<IdCoordinates>  calculateCoordinates(Double descWeight, Double attrWeight, Double chartEncodingWeight) {
 
-        List<FeatureVector> featurevectors = dbUtil.getDocsFromCollection(configuration.getMongoDatabase(),
+        List<FeatureVector> featurevectors = dbUtil.getFeaturesFromCollection(configuration.getMongoDatabase(),
                 configuration.getTotalFeatureCollection());
 
         System.out.println(featurevectors.size());

@@ -9,23 +9,34 @@ public class Chart {
 
 	private String description;
 	@JsonProperty("user")
-	private String userName;
+	private String user;
+	@JsonProperty("id")
+	private String id;
 	private DateTime dateTime;
 	private String chartType;
 	private String title;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public String getDescription() {
 		return description;
 	}
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getUserName() {
-		return userName;
+	public String getUser() {
+		return user;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+
+	public void setUser(String user) {
+		this.user = user;
 	}
-	
 	public String getChartType() {
 		return chartType;
 	}
@@ -46,7 +57,7 @@ public class Chart {
 	}
 	@Override
 	public String toString() {
-		return "Chart [description=" + description + ", userName=" + userName + ", dateTime=" + dateTime + ", chartType="
+		return "Chart [description=" + description + ", user=" + user + ", dateTime=" + dateTime + ", chartType="
 				+ chartType + ", title=" + title + "]";
 	}
 }
