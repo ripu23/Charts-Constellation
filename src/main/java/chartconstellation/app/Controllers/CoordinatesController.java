@@ -1,39 +1,30 @@
 package chartconstellation.app.Controllers;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
 import chartconstellation.app.appconfiguration.Configuration;
-import chartconstellation.app.appconfiguration.ScalingConfig;
 import chartconstellation.app.clustering.Clustering;
+import chartconstellation.app.entities.UserFrontEndAttributes;
+import chartconstellation.app.entities.UserFrontEndUtil;
 import chartconstellation.app.entities.response.IdCoordinates;
-import chartconstellation.app.entities.response.Point;
 import chartconstellation.app.util.CoordinatesScalingUtil;
 import chartconstellation.app.util.CoordinatesUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import org.springframework.web.servlet.ModelAndView;
-
-import java.util.*;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-
-import java.util.List;
-
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.naming.directory.InitialDirContext;
 
 
 @RestController
 @RequestMapping("/coordinates")
-@CrossOrigin(origins="10.157.184.179")
 public class CoordinatesController {
 
     @Autowired
@@ -52,7 +43,8 @@ public class CoordinatesController {
     @ResponseBody
     public Collection<List<IdCoordinates>> coordinates(@RequestParam("descWeight") Double descWeight,
                                                        @RequestParam("attrWeight") Double attrWeight,
-                                                       @RequestParam("chartEncodingWeight") Double chartEncodingWeight) {
+                                                       @RequestParam("chartEncodingWeight") Double chartEncodingWeight,
+                                                       @RequestParam("colorMap") Map<String, UserFrontEndAttributes> colorMap) {
 
 
         List<IdCoordinates> coordinatesList = coordinatesUtil.calculateCoordinates(descWeight, attrWeight, chartEncodingWeight);

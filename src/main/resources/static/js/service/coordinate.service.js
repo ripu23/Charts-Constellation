@@ -6,7 +6,7 @@ app.service("CoordinateService", function($http){
     return $http({
       method: 'GET',
       url: '/coordinates/getCoordinates',
-      params: {descWeight: data.descWeight, attrWeight: data.attrWeight, chartEncodingWeight: data.chartEncodingWeight}
+      params: {descWeight: data.descWeight, attrWeight: data.attrWeight, chartEncodingWeight: data.chartEncodingWeight, colorMap: data.colorMap}
     })
   }
 })

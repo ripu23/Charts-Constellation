@@ -34,20 +34,20 @@ app.controller("HomeController", ['$scope',
     bubbles.debug(false);
 
     // //Get all coordinates
-//     CoordinateService.getCoordinates({
-//       "descWeight": 1.0,
-//       "attrWeight": 1.0,
-//       "chartEncodingWeight": 1.0
-//     }).then(function(data) {
-//       clusters = data.data;
-//       ShareData.clusters = data.data;
-//       createClusters(clusters);
-//       alertify.success('Successfully imported the data.');
-//       ready = true;
-//     }, function(err) {
-//       alertify.error('Something is wrong with the API --> CoordinateService --> getCoordinates')
-//       if (err) throw err;
-//     });
+    //     CoordinateService.getCoordinates({
+    //       "descWeight": 1.0,
+    //       "attrWeight": 1.0,
+    //       "chartEncodingWeight": 1.0
+    //     }).then(function(data) {
+    //       clusters = data.data;
+    //       ShareData.clusters = data.data;
+    //       createClusters(clusters);
+    //       alertify.success('Successfully imported the data.');
+    //       ready = true;
+    //     }, function(err) {
+    //       alertify.error('Something is wrong with the API --> CoordinateService --> getCoordinates')
+    //       if (err) throw err;
+    //     });
 
     ChartService.getChartTypes().then(function(data) {
       alertify.success('Successfully imported chartTypes');
@@ -55,11 +55,11 @@ app.controller("HomeController", ['$scope',
       ShareData.chartTypes = data.data.chartTypes;
     }, function(err) {
       alertify.error('Something is wrong with API --> ChartService --> getCharts');
-      if(err) throw err;
+      if (err) throw err;
     })
 
-    UserService.getUserCharts().then(function(data){
-      if(data && data.data){
+    UserService.getUserCharts().then(function(data) {
+      if (data && data.data) {
         ShareData.userCharts = data.data;
         $scope.users = data.data;
         colors = ClusterService.getColors(data.data.length);
@@ -67,17 +67,51 @@ app.controller("HomeController", ['$scope',
       }
     }, function(err) {
       alertify.error('Something is wrong with API --> UserService --> getUsers');
-      if(err) throw err;
-    })
+      if (err) throw err;
+    });
 
-    function populateColorsForUsers(){
-      _.forEach($scope.users, function(user, idx){
+    $(document).on('moved.zf.slider', function() {
+      var updatedAttrWeight = $('#attrWeight').attr('aria-valuenow');
+      var updatedDescWeight = $('#descWeight').attr('aria-valuenow');
+      var updatedChartEncodingWeight = $('#chartEncodingWeight').attr('aria-valuenow');
+      var colorMap = populateColorMap();
+      var dataSend = {
+        "descWeight": parseFloat(updatedDescWeight),
+        "attrWeight": parseFloat(updatedAttrWeight),
+        "chartEncodingWeight": parseFloat(updatedChartEncodingWeight),
+        "colorMap" : colorMap
+      }
+      if (updatedAttrWeight && updatedDescWeight && updatedChartEncodingWeight) {
+        CoordinateService.getCoordinates(dataSend).then(function(data) {
+          removeAllChilds(items);
+          clusters = data.data;
+          ShareData.clusters = data.data;
+          createClusters(clusters);
+        }, function(err) {
+          if (err) throw err;
+        });
+      }
+    });
+
+    function populateColorMap(){
+      var colorMap = {};
+      if($scope.users){
+        _.forEach($scope.users, function(user){
+          colorMap[user.userName] = {};
+          colorMap[user.userName].color = user.color;
+        });
+      }
+      return colorMap;
+    }
+
+    function populateColorsForUsers() {
+      _.forEach($scope.users, function(user, idx) {
         $scope.users[idx].color = colors[idx];
       })
     }
 
     function createClusters(clustersArray) {
-    	clustersUI = {};
+      clustersUI = {};
       _.forEach(clustersArray, function(clusters, i) {
         clustersUI[i] = [];
         _.forEach(clusters, function(cluster) {
@@ -88,7 +122,7 @@ app.controller("HomeController", ['$scope',
     }
     //Creation of paths and append to SVG;
     function createPaths() {
-//      paths = [];
+      //      paths = [];
       _.forEach(clustersUI, function(cluster, idx) {
         paths.push({
           svg: appendSVG(main, "path")
@@ -101,10 +135,10 @@ app.controller("HomeController", ['$scope',
     function update() {
       _.forEach(clustersUI, function(cluster1, idx1) {
         _.forEach(clustersUI, function(cluster2, idx2) {
-        	if(cluster1 != cluster2){
-        		updateOutline(cluster1, cluster2, "grey", paths[idx1].svg);
-                updateOutline(cluster2, cluster1, "grey", paths[idx2].svg);
-        	}
+          if (cluster1 != cluster2) {
+            updateOutline(cluster1, cluster2, "grey", paths[idx1].svg);
+            updateOutline(cluster2, cluster1, "grey", paths[idx2].svg);
+          }
         })
       })
     }
@@ -137,28 +171,7 @@ app.controller("HomeController", ['$scope',
     }
 
 
-    	$(document).on('moved.zf.slider', function() {
 
-    		var updatedAttrWeight = $('#attrWeight').attr('aria-valuenow');
-            var updatedDescWeight = $('#descWeight').attr('aria-valuenow');
-            var updatedChartEncodingWeight = $('#chartEncodingWeight').attr('aria-valuenow');
-            if (updatedAttrWeight && updatedDescWeight && updatedChartEncodingWeight) {
-              CoordinateService.getCoordinates({
-                "descWeight": parseFloat(updatedDescWeight),
-                "attrWeight": parseFloat(updatedAttrWeight),
-                "chartEncodingWeight": parseFloat(updatedChartEncodingWeight)
-              }).then(function(data) {
-            	removeAllChilds(items);
-                clusters = data.data;
-                ShareData.clusters = data.data;
-                createClusters(clusters);
-              }, function(err) {
-                if (err) throw err;
-              });
-            }
-
-
-        });
 
 
     $scope.updateFilter = function() {
@@ -262,6 +275,7 @@ app.controller("HomeController", ['$scope',
         cx: cx,
         cy: cy,
         r: 8,
+        fill: "black"
       });
       style(elem, {
         "stroke": "black",

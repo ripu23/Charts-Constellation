@@ -23,7 +23,7 @@ public class UserCharts {
         this.idList = idList;
     }
 
-    @Override
+	@Override
     public String toString() {
         return "UserCharts{" +
                 "userName='" + userName + '\'' +
