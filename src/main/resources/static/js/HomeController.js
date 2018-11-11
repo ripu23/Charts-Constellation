@@ -129,7 +129,7 @@ app.controller("HomeController", ['$scope',
       _.forEach(clustersArray, function(clusters, i) {
         clustersUI[i] = [];
         _.forEach(clusters, function(cluster) {
-          addRect(clustersUI[i], "grey", cluster.point.x + offSet.left, cluster.point.y + offSet.top, cluster.color);
+          addRect(clustersUI[i], "grey", cluster.point.x , cluster.point.y, cluster.color);
         })
       });
       createPaths();

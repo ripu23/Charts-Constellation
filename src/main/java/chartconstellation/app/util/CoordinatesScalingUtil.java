@@ -17,7 +17,7 @@ public class CoordinatesScalingUtil {
 
     private List<IdCoordinates> coordinatesList = new ArrayList<>();
 
-    public List<IdCoordinates> getScaledCoordinates(ScalingConfig scalingConfig) {
+    public List<IdCoordinates> getScaledCoordinates(Double xMin, Double xMax, Double yMin, Double yMax) {
 
         List<Double> xvalues = new ArrayList<>();
         List<Double> yvalues = new ArrayList<>();
@@ -31,8 +31,8 @@ public class CoordinatesScalingUtil {
 
         for(int i=0; i<coordinatesList.size(); i++) {
             Point point = coordinatesList.get(i).getPoint();
-            Double scaledXvalue = scalingUtil.getScaledvalueX(point.getX(), scalingConfig.getXmin(), scalingConfig.getXmax());
-            Double scaledYvalue = scalingUtil.getScaledvalueY(point.getY(), scalingConfig.getYmin(), scalingConfig.getYmax());
+            Double scaledXvalue = scalingUtil.getScaledvalueX(point.getX(), xMin, xMax);
+            Double scaledYvalue = scalingUtil.getScaledvalueY(point.getY(), yMin, yMax);
             point.setX(scaledXvalue);
             point.setY(scaledYvalue);
             coordinatesList.get(i).setPoint(point);
