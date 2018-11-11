@@ -79,7 +79,7 @@ app.controller("HomeController", ['$scope',
         "descWeight": parseFloat(updatedDescWeight),
         "attrWeight": parseFloat(updatedAttrWeight),
         "chartEncodingWeight": parseFloat(updatedChartEncodingWeight),
-        "colorMap" : colorMap
+        "colorMap" : JSON.stringify(colorMap)
       }
       if (updatedAttrWeight && updatedDescWeight && updatedChartEncodingWeight) {
         CoordinateService.getCoordinates(dataSend).then(function(data) {
@@ -94,11 +94,14 @@ app.controller("HomeController", ['$scope',
     });
 
     function populateColorMap(){
-      var colorMap = {};
+      var colorMap = [];
       if($scope.users){
         _.forEach($scope.users, function(user){
-          colorMap[user.userName] = {};
-          colorMap[user.userName].color = user.color;
+          var toBePushed = {
+            userName: user.userName,
+            color: user.color
+          }
+          colorMap.push(toBePushed)
         });
       }
       return colorMap;
@@ -115,7 +118,7 @@ app.controller("HomeController", ['$scope',
       _.forEach(clustersArray, function(clusters, i) {
         clustersUI[i] = [];
         _.forEach(clusters, function(cluster) {
-          addRect(clustersUI[i], "grey", cluster.point.x + offSet.left, cluster.point.y + offSet.top);
+          addRect(clustersUI[i], "grey", cluster.point.x + offSet.left, cluster.point.y + offSet.top, cluster.color);
         })
       });
       createPaths();
@@ -267,7 +270,7 @@ app.controller("HomeController", ['$scope',
       return parent.appendChild(document.createElementNS("http://www.w3.org/2000/svg", name));
     }
 
-    function addRect(clustersUI, color, cx, cy) {
+    function addRect(clustersUI, clusterColor, cx, cy, pointColor) {
       var width = 40;
       var height = 30;
       var elem = appendSVG(items, "circle"); //creates a circle
@@ -280,7 +283,7 @@ app.controller("HomeController", ['$scope',
       style(elem, {
         "stroke": "black",
         "stroke-width": 1,
-        "fill": color,
+        "fill": clusterColor,
       });
       clustersUI.push({
         x: cx,
