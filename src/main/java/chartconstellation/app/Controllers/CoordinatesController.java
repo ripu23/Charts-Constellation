@@ -1,11 +1,11 @@
 package chartconstellation.app.Controllers;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import chartconstellation.app.entities.UserCharts;
+import chartconstellation.app.util.ChartsUtil;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,12 +36,42 @@ public class CoordinatesController {
     @Autowired
     CoordinatesScalingUtil coordinatesScalingUtil;
 
+    @Autowired
+    ChartsUtil chartsUtil;
+
     @RequestMapping(value="/getCoordinates", method= RequestMethod.GET)
     @ResponseBody
     public Collection<List<IdCoordinates>> coordinates(@RequestParam("descWeight") Double descWeight,
                                                        @RequestParam("attrWeight") Double attrWeight,
                                                        @RequestParam("chartEncodingWeight") Double chartEncodingWeight,
                                                        @RequestParam("colorMap") Object colorMap) {
+
+        HashMap<String, String> userColorMap = new HashMap<>();
+
+        String colorData = colorMap.toString();
+        System.out.println(colorData);
+        JSONArray jsonArr = new JSONArray(colorData);
+
+        for (int i = 0; i < jsonArr.length(); i++) {
+            JSONObject object = jsonArr.getJSONObject(i);
+            String userName = object.get("userName").toString();
+            String color = object.get("color").toString();
+            userColorMap.put(userName, color);
+        }
+
+        HashMap<String, UserCharts> map = chartsUtil
+                .getAllUserCharts(configuration.getMongoDatabase()
+                        , configuration.getOlympicchartcollection());
+
+        HashMap<String, String> idUserMap = new HashMap<>();
+
+        for(Map.Entry<String, UserCharts>  entry : map.entrySet()) {
+            String userName = entry.getKey();
+            List<String> ids = entry.getValue().getIdList();
+            for(String id : ids) {
+                idUserMap.put(id, userName);
+            }
+        }
 
 
         List<IdCoordinates> coordinatesList = coordinatesUtil.calculateCoordinates(descWeight, attrWeight, chartEncodingWeight);
@@ -56,6 +86,8 @@ public class CoordinatesController {
         HashMap<Integer, List<IdCoordinates>> coordinatesHashMap = new HashMap<>();
 
         for(IdCoordinates idCoordinate : clusteredCoordinates) {
+
+            idCoordinate.setColor(userColorMap.get(idUserMap.get(idCoordinate.getId())));
 
             if(coordinatesHashMap.containsKey(idCoordinate.getClusterId())) {
 
