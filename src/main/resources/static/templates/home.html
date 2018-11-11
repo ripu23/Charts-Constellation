@@ -15,12 +15,12 @@
 
   <hr>
   <div class="cell large-2 medium-2">
-    <div class="slider" data-slider data-initial-start="25" data-initial-end="75">
+    <div class="slider" data-slider data-initial-start="1" data-start="1" data-end="12" data-initial-end="12" data-step="1">
       <span class="slider-handle" data-slider-handle role="slider" tabindex="1"></span>
       <span class="slider-fill" data-slider-fill></span>
       <span class="slider-handle" data-slider-handle role="slider" tabindex="1"></span>
-      <input type="hidden">
-      <input type="hidden">
+      <input type="hidden" id="timelineLeft" ng-model="timelineLeft">
+      <input type="hidden" id="timelineRight" ng-model="timelineRight">
     </div>
   </div>
 </div>

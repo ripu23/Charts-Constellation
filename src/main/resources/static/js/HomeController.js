@@ -25,6 +25,8 @@ app.controller("HomeController", ['$scope',
     $scope.dataCoverageCoefficient = ShareData.dataCoverageCoefficient;
     $scope.encodingCoefficient = ShareData.encodingCoefficient;
     $scope.descriptionCoefficient = ShareData.descriptionCoefficient;
+    $scope.timelineLeft;
+    $scope.timelineRight;
     var bubbles = new BubbleSet();
     var rectanglesA = [];
     var rectanglesB = [];
@@ -32,6 +34,8 @@ app.controller("HomeController", ['$scope',
     var items = appendSVG(main, "g");
     var debug = appendSVG(main, "g");
     bubbles.debug(false);
+    let ready = false;
+    let domCreated;
 
     // //Get all coordinates
     //     CoordinateService.getCoordinates({
@@ -71,25 +75,32 @@ app.controller("HomeController", ['$scope',
     });
 
     $(document).on('moved.zf.slider', function() {
-      var updatedAttrWeight = $('#attrWeight').attr('aria-valuenow');
-      var updatedDescWeight = $('#descWeight').attr('aria-valuenow');
-      var updatedChartEncodingWeight = $('#chartEncodingWeight').attr('aria-valuenow');
-      var colorMap = populateColorMap();
-      var dataSend = {
-        "descWeight": parseFloat(updatedDescWeight),
-        "attrWeight": parseFloat(updatedAttrWeight),
-        "chartEncodingWeight": parseFloat(updatedChartEncodingWeight),
-        "colorMap" : JSON.stringify(colorMap)
-      }
-      if (updatedAttrWeight && updatedDescWeight && updatedChartEncodingWeight) {
-        CoordinateService.getCoordinates(dataSend).then(function(data) {
-          removeAllChilds(items);
-          clusters = data.data;
-          ShareData.clusters = data.data;
-          createClusters(clusters);
-        }, function(err) {
-          if (err) throw err;
-        });
+      console.log($('#timelineLeft').attr('value'));
+      console.log($('#timelineRight').attr('value'));
+
+
+      if(!ready || domCreated){
+        var updatedAttrWeight = $('#attrWeight').attr('aria-valuenow');
+        var updatedDescWeight = $('#descWeight').attr('aria-valuenow');
+        var updatedChartEncodingWeight = $('#chartEncodingWeight').attr('aria-valuenow');
+        var colorMap = populateColorMap();
+        var dataSend = {
+          "descWeight": parseFloat(updatedDescWeight),
+          "attrWeight": parseFloat(updatedAttrWeight),
+          "chartEncodingWeight": parseFloat(updatedChartEncodingWeight),
+          "colorMap" : JSON.stringify(colorMap)
+        }
+        if (updatedAttrWeight && updatedDescWeight && updatedChartEncodingWeight) {
+          CoordinateService.getCoordinates(dataSend).then(function(data) {
+            removeAllChilds(items);
+            clusters = data.data;
+            ShareData.clusters = data.data;
+            createClusters(clusters);
+          }, function(err) {
+            if (err) throw err;
+          });
+        }
+        ready = true;
       }
     });
 
@@ -144,6 +155,7 @@ app.controller("HomeController", ['$scope',
           }
         })
       })
+      domCreated = true;
     }
 
 
@@ -278,7 +290,7 @@ app.controller("HomeController", ['$scope',
         cx: cx,
         cy: cy,
         r: 8,
-        fill: "black"
+        fill: "#" + pointColor
       });
       style(elem, {
         "stroke": "black",
