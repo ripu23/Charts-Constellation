@@ -204,7 +204,7 @@ app.controller("HomeController", ['$scope',
       populateUserFilter();
       populateAttributeFilter();
       populateWeight();
-      CoordinateService.getCoordinates(filters).then(function(data) {
+      CoordinateService.updateClusters(filters).then(function(data) {
         clusters = data;
         ShareData.clusters = data;
         createClusters(clusters);
