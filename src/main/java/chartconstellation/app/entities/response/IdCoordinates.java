@@ -3,8 +3,26 @@ package chartconstellation.app.entities.response;
 public class IdCoordinates {
 
     private String id;
+    private String userName;
     private int clusterId = 0;
+    private String color;
     private Point point;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
 
     public int getClusterId() {
         return clusterId;
