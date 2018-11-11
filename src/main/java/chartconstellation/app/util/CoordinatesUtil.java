@@ -1,6 +1,7 @@
 package chartconstellation.app.util;
 
 import chartconstellation.app.appconfiguration.Configuration;
+import chartconstellation.app.appconfiguration.ScalingConfig;
 import chartconstellation.app.entities.FeatureVector;
 import chartconstellation.app.entities.IdFeatures;
 import chartconstellation.app.entities.response.IdCoordinates;
@@ -10,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class CoordinatesUtil {
@@ -76,6 +79,15 @@ public class CoordinatesUtil {
         }
 
         return coordinates;
+    }
+
+    public void distributeSVG(HashMap<Integer, List<IdCoordinates>> coordinatesHashMap) {
+
+        ScalingConfig scalingConfig = configuration.getMdsScalingConfig();
+        for(Map.Entry<Integer, List<IdCoordinates>> entry : coordinatesHashMap.entrySet()) {
+
+        }
+
     }
 
 }

@@ -130,4 +130,11 @@ public class CoordinatesController {
         }
         return coordinatesHashMap.values();
     }
+
+    @RequestMapping(value="/getFilterCoordinates", method= RequestMethod.GET)
+    @ResponseBody
+    public void filterCoordinates(@RequestParam("colorMap") Object colorMap) {
+
+
+    }
 }
