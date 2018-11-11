@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,8 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import chartconstellation.app.appconfiguration.Configuration;
 import chartconstellation.app.clustering.Clustering;
-import chartconstellation.app.entities.UserFrontEndAttributes;
-import chartconstellation.app.entities.UserFrontEndUtil;
 import chartconstellation.app.entities.response.IdCoordinates;
 import chartconstellation.app.util.CoordinatesScalingUtil;
 import chartconstellation.app.util.CoordinatesUtil;
@@ -44,7 +41,7 @@ public class CoordinatesController {
     public Collection<List<IdCoordinates>> coordinates(@RequestParam("descWeight") Double descWeight,
                                                        @RequestParam("attrWeight") Double attrWeight,
                                                        @RequestParam("chartEncodingWeight") Double chartEncodingWeight,
-                                                       @RequestParam("colorMap") Map<String, UserFrontEndAttributes> colorMap) {
+                                                       @RequestParam("colorMap") Object colorMap) {
 
 
         List<IdCoordinates> coordinatesList = coordinatesUtil.calculateCoordinates(descWeight, attrWeight, chartEncodingWeight);
