@@ -2,6 +2,7 @@ package chartconstellation.app.Controllers;
 
 import java.util.*;
 
+import chartconstellation.app.appconfiguration.ScalingConfig;
 import chartconstellation.app.entities.UserCharts;
 import chartconstellation.app.util.ChartsUtil;
 import org.json.JSONArray;
@@ -88,6 +89,7 @@ public class CoordinatesController {
         for(IdCoordinates idCoordinate : clusteredCoordinates) {
 
             idCoordinate.setColor(userColorMap.get(idUserMap.get(idCoordinate.getId())));
+            idCoordinate.setUserName(idUserMap.get(idCoordinate.getId()));
 
             if(coordinatesHashMap.containsKey(idCoordinate.getClusterId())) {
 
@@ -104,11 +106,25 @@ public class CoordinatesController {
             }
         }
 
+        int clusterSize = coordinatesHashMap.keySet().size();
+        ScalingConfig scalingConfig = configuration.getMdsScalingConfig();
+        ScalingConfig newScalingConfig = configuration.getMdsScalingConfig();
+        Double startX = scalingConfig.getXmin();
+        Double stepX = (scalingConfig.getXmax() - scalingConfig.getXmin()) / clusterSize;
+        Double startY = scalingConfig.getYmin();
+        Double stepY = (scalingConfig.getYmax() - scalingConfig.getYmin()) / clusterSize;
         for(Map.Entry<Integer, List<IdCoordinates>> entry : coordinatesHashMap.entrySet()) {
 
             coordinatesScalingUtil.setCoordinatesList(entry.getValue());
+            Double xMin = startX + 5;
+            Double xMax = startX + stepX - 5;
+            Double yMin = startY + 5;
+            Double yMax = startY + stepY - 5;
 
-            List<IdCoordinates> newIdCoordinatesList = coordinatesScalingUtil.getScaledCoordinates(configuration.getMdsScalingConfig());
+            startX += stepX;
+            startY += stepY;
+
+            List<IdCoordinates> newIdCoordinatesList = coordinatesScalingUtil.getScaledCoordinates(xMin, xMax, yMin, yMax);
 
             coordinatesHashMap.put(entry.getKey(), newIdCoordinatesList);
         }
