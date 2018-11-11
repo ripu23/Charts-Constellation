@@ -1,13 +1,5 @@
 package chartconstellation.app.util;
 
-import chartconstellation.app.entities.FeatureDistance;
-import chartconstellation.app.entities.IdValue;
-import com.mongodb.DBObject;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.springframework.stereotype.Component;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -20,6 +12,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.springframework.stereotype.Component;
+
+import com.mongodb.DBObject;
+
+import chartconstellation.app.entities.FeatureDistance;
+import chartconstellation.app.entities.IdValue;
 
 @Component
 public class DocumentUtil {

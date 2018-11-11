@@ -1,16 +1,18 @@
 package chartconstellation.app.util;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.MongoClient;
+
 import chartconstellation.app.appconfiguration.Configuration;
 import chartconstellation.app.entities.FeatureDistance;
 import chartconstellation.app.entities.FeatureVector;
 import chartconstellation.app.entities.MongoCollections;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.MongoClient;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class TextDocsUtil {

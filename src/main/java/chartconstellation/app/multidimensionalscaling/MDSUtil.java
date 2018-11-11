@@ -1,7 +1,8 @@
 package chartconstellation.app.multidimensionalscaling;
 
-import mdsj.MDSJ;
 import org.springframework.stereotype.Component;
+
+import mdsj.MDSJ;
 
 @Component
 public class MDSUtil {

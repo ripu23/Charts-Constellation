@@ -1,15 +1,15 @@
 package chartconstellation.app.Controllers;
 
-import chartconstellation.app.appconfiguration.Configuration;
-import chartconstellation.app.entities.Attributes;
-import chartconstellation.app.entities.ChartType;
-import chartconstellation.app.util.AttributeUtil;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Set;
+import chartconstellation.app.appconfiguration.Configuration;
+import chartconstellation.app.entities.Attributes;
+import chartconstellation.app.util.AttributeUtil;
 
 @RestController
 @RequestMapping("/attributes")

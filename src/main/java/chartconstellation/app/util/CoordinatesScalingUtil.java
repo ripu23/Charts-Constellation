@@ -1,13 +1,13 @@
 package chartconstellation.app.util;
 
-import chartconstellation.app.appconfiguration.ScalingConfig;
-import chartconstellation.app.entities.response.IdCoordinates;
-import chartconstellation.app.entities.response.Point;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+import chartconstellation.app.entities.response.IdCoordinates;
+import chartconstellation.app.entities.response.Point;
 
 @Component
 public class CoordinatesScalingUtil {

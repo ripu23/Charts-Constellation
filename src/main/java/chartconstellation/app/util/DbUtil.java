@@ -1,19 +1,22 @@
 package chartconstellation.app.util;
 
-import chartconstellation.app.appconfiguration.Configuration;
-import chartconstellation.app.entities.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.google.gson.Gson;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import com.mongodb.util.JSON;
+
+import chartconstellation.app.appconfiguration.Configuration;
+import chartconstellation.app.entities.Chart;
+import chartconstellation.app.entities.FeatureDistance;
+import chartconstellation.app.entities.FeatureVector;
+import chartconstellation.app.entities.MongoCollections;
 
 @Component
 public class DbUtil {

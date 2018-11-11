@@ -1,12 +1,17 @@
 package chartconstellation.app.clustering;
 
-import chartconstellation.app.clustering.entities.Cluster;
-import chartconstellation.app.entities.response.IdCoordinates;
-import chartconstellation.app.entities.response.Point;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import chartconstellation.app.clustering.entities.Cluster;
+import chartconstellation.app.entities.response.IdCoordinates;
+import chartconstellation.app.entities.response.Point;
 
 @Component
 public class Kmeans {

@@ -1,9 +1,9 @@
 package chartconstellation.app.clustering.entities;
 
-import chartconstellation.app.entities.response.Point;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import chartconstellation.app.entities.response.Point;
 
 public class Cluster {
 

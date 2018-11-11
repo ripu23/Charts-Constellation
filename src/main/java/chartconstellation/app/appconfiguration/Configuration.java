@@ -1,8 +1,9 @@
 package chartconstellation.app.appconfiguration;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Component
 @ConfigurationProperties

@@ -1,5 +1,13 @@
 package chartconstellation.app.util;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import chartconstellation.app.appconfiguration.Configuration;
 import chartconstellation.app.appconfiguration.ScalingConfig;
 import chartconstellation.app.entities.FeatureVector;
@@ -7,13 +15,6 @@ import chartconstellation.app.entities.IdFeatures;
 import chartconstellation.app.entities.response.IdCoordinates;
 import chartconstellation.app.entities.response.Point;
 import chartconstellation.app.multidimensionalscaling.MDSUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Component
 public class CoordinatesUtil {

@@ -1,7 +1,8 @@
 package chartconstellation.app.clustering;
 
-import chartconstellation.app.entities.response.Point;
 import org.springframework.stereotype.Component;
+
+import chartconstellation.app.entities.response.Point;
 
 @Component
 public class KmeansUtil {

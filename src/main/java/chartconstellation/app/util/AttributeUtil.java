@@ -1,20 +1,22 @@
 package chartconstellation.app.util;
 
-import chartconstellation.app.entities.FeatureDistance;
-import chartconstellation.app.entities.IdValue;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-import com.mongodb.MongoClient;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+import com.mongodb.MongoClient;
+
+import chartconstellation.app.entities.FeatureDistance;
+import chartconstellation.app.entities.IdValue;
 
 @Component
 public class AttributeUtil {

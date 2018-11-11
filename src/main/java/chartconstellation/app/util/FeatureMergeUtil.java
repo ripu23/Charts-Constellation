@@ -1,14 +1,22 @@
 package chartconstellation.app.util;
 
-import chartconstellation.app.entities.*;
-import com.google.gson.Gson;
-import com.mongodb.*;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import com.google.gson.Gson;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+import com.mongodb.MongoClient;
+
+import chartconstellation.app.entities.FeatureVector;
+import chartconstellation.app.entities.IdFeatures;
+import chartconstellation.app.entities.IdValue;
+import chartconstellation.app.entities.MongoCollections;
 
 @Component
 public class FeatureMergeUtil {

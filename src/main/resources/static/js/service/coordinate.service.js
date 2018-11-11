@@ -8,5 +8,12 @@ app.service("CoordinateService", function($http){
       url: '/coordinates/getCoordinates',
       params: {descWeight: data.descWeight, attrWeight: data.attrWeight, chartEncodingWeight: data.chartEncodingWeight, colorMap: data.colorMap}
     })
+  },
+  this.updateClusters = function updateClusters(data){
+    return $http({
+      method: 'GET',
+      url: '/coordinates/updateFilter',
+      params: {filterObj: data}
+    })
   }
 })

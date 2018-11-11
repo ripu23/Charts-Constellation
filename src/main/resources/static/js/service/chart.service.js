@@ -8,4 +8,11 @@ app.service("ChartService", function($http){
       url: '/chartType/getAllChartTypes'
     })
   }
+
+  this.getAllAttributes = function getAllAttributes(){
+    return $http({
+      method: 'GET',
+      url: '/chartType/getAllAttributes'
+    })
+  }
 })

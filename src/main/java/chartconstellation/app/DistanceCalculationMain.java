@@ -2,8 +2,9 @@ package chartconstellation.app;
 
 import java.util.ArrayList;
 import java.util.List;
-import chartconstellation.app.util.ObjectMappingUtil;
+
 import chartconstellation.app.entities.Chart;
+import chartconstellation.app.util.ObjectMappingUtil;
 
 public class DistanceCalculationMain {
 

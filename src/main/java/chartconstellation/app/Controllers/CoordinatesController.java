@@ -1,10 +1,11 @@
 package chartconstellation.app.Controllers;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import chartconstellation.app.appconfiguration.ScalingConfig;
-import chartconstellation.app.entities.UserCharts;
-import chartconstellation.app.util.ChartsUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import chartconstellation.app.appconfiguration.Configuration;
+import chartconstellation.app.appconfiguration.ScalingConfig;
 import chartconstellation.app.clustering.Clustering;
+import chartconstellation.app.entities.UserCharts;
 import chartconstellation.app.entities.response.IdCoordinates;
+import chartconstellation.app.util.ChartsUtil;
 import chartconstellation.app.util.CoordinatesScalingUtil;
 import chartconstellation.app.util.CoordinatesUtil;
 

@@ -27,9 +27,11 @@ app.controller("HomeController", ['$scope',
     $scope.descriptionCoefficient = ShareData.descriptionCoefficient;
     $scope.timelineLeft;
     $scope.timelineRight;
+    $scope.chartOptions = [];
+    $scope.userOptions = [];
+    $scope.attributeOptions = [];
     var bubbles = new BubbleSet();
-    var rectanglesA = [];
-    var rectanglesB = [];
+    let filters = [];
     var main = document.getElementById("main");
     var items = appendSVG(main, "g");
     var debug = appendSVG(main, "g");
@@ -59,6 +61,14 @@ app.controller("HomeController", ['$scope',
       ShareData.chartTypes = data.data.chartTypes;
     }, function(err) {
       alertify.error('Something is wrong with API --> ChartService --> getCharts');
+      if (err) throw err;
+    });
+
+    ChartService.getAllAttributes().then(function(data) {
+      $scope.attributeList = data.data.attributesSet;
+      ShareData.attributeList = data.data.attributesSet;
+    }, function(err) {
+      alertify.error('Something is wrong with API --> ChartService --> getAllAttributes');
       if (err) throw err;
     })
 
@@ -190,12 +200,11 @@ app.controller("HomeController", ['$scope',
 
 
     $scope.updateFilter = function() {
-      console.log("reached update");
-      CoordinateService.getCoordinates({
-        "descWeight": $scope.descWeight,
-        "attrWeight": $scope.attrWeight,
-        "chartEncodingWeight": $scope.chartEncodingWeight
-      }).then(function(data) {
+      populateChartFilter();
+      populateUserFilter();
+      populateAttributeFilter();
+      populateWeight();
+      CoordinateService.getCoordinates(filters).then(function(data) {
         clusters = data;
         ShareData.clusters = data;
         createClusters(clusters);
@@ -203,6 +212,60 @@ app.controller("HomeController", ['$scope',
         if (err) throw err;
       });
 
+    }
+
+    function populateChartFilter() {
+      if($scope.chartOptions.length > 0){
+        let chartObj = {};
+        chartObj.charts = [];
+        _.forEach($scope.chartOptions, function(option, key){
+          if(option === true){
+              chartObj.charts.push($scope.chartTypes[key]);
+          }
+        });
+        filters.push(chartObj);
+      }
+    }
+
+    function populateUserFilter() {
+      if($scope.userOptions.length > 0){
+        let userObj = {};
+        userObj.users = [];
+        _.forEach($scope.userOptions, function(user, key){
+          if(user === true){
+            userObj.users.push($scope.users[key].userName);
+          }
+        })
+        filters.push(userObj);
+      }
+    }
+    function populateAttributeFilter() {
+      if($scope.attributeOptions.length > 0){
+        let attributeObj = {};
+        attributeObj.attributes = [];
+        _.forEach($scope.attributeOptions, function(attribute, key){
+          if(attribute === true){
+            attributeObj.attributes.push($scope.attributeList[key]);
+          }
+        })
+        filters.push(attributeObj);
+      }
+    }
+
+    function populateWeight(){
+      var updatedAttrWeight = $('#attrWeight').attr('aria-valuenow');
+      var updatedDescWeight = $('#descWeight').attr('aria-valuenow');
+      var updatedChartEncodingWeight = $('#chartEncodingWeight').attr('aria-valuenow');
+      let weightObj = {};
+      weightObj.weights = [];
+      weightObj.weights.push({
+        "descWeight": parseFloat(updatedDescWeight),
+        "attrWeight": parseFloat(updatedAttrWeight),
+        "chartEncodingWeight": parseFloat(updatedChartEncodingWeight)
+      })
+      if(weightObj.weights.length > 0){
+        filters.push(weightObj);
+      }
     }
 
     function attr(elem, attr) {
