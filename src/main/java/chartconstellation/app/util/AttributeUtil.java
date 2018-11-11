@@ -5,8 +5,10 @@ import chartconstellation.app.entities.IdValue;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import com.mongodb.MongoClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -17,6 +19,9 @@ import java.util.Set;
 @Component
 public class AttributeUtil {
 
+    @Autowired
+    MongoClient mongoClient;
+
     public double jaccardSimilarity(Set<String> s1, Set<String> s2) {
 
         final int sa = s1.size();
@@ -26,7 +31,7 @@ public class AttributeUtil {
         return 1d / (sa + sb - intersection) * intersection;
     }
 
-    public Set<String> getAllAttributes(JSONObject jsonObj) {
+    public Set<String> getAttributesOfaObject(JSONObject jsonObj) {
 
         Set<String> attrs = new HashSet<>();
 
@@ -52,15 +57,34 @@ public class AttributeUtil {
         return attrs;
     }
 
-    public List<FeatureDistance> computerAttributeDistance(DBCollection collection) {
 
+    public List<DBObject> getDBObjects(DBCollection collection) {
         DBCursor cursor = collection.find();
         List<DBObject> docs = new ArrayList<>();
         while (cursor.hasNext()) {
             DBObject obj = cursor.next();
             docs.add(obj);
         }
+        return docs;
+    }
 
+    public Set<String> getAllAttributes(String database, String dbCollection) {
+        DBCollection collection = mongoClient.getDB(database)
+                .getCollection(dbCollection);
+        List<DBObject> docs = getDBObjects(collection);
+        Set<String> allAttributes = new HashSet<>();
+        for(DBObject obj : docs) {
+            JSONObject jsonObj = new JSONObject(obj.toString());
+            Set<String> set = getAttributesOfaObject(jsonObj);
+            allAttributes.addAll(set);
+        }
+        return allAttributes;
+    }
+
+
+    public List<FeatureDistance> computerAttributeDistance(DBCollection collection) {
+
+        List<DBObject> docs = getDBObjects(collection);
         List<FeatureDistance> distances = new ArrayList<>();
 
         for (DBObject obj1 : docs) {
@@ -77,8 +101,8 @@ public class AttributeUtil {
                         JSONObject jsonObj2 = new JSONObject(obj2.toString());
 
                         Double val = jaccardSimilarity(
-                                getAllAttributes(jsonObj1),
-                                getAllAttributes(jsonObj2)
+                                getAttributesOfaObject(jsonObj1),
+                                getAttributesOfaObject(jsonObj2)
                         );
 
                         values.add(new IdValue(String.valueOf(id2), val));
