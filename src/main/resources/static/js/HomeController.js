@@ -30,6 +30,7 @@ app.controller("HomeController", ['$scope',
     $scope.chartOptions = [];
     $scope.userOptions = [];
     $scope.attributeOptions = [];
+    $scope.fruitNames = ['Apple', 'Banana', 'Orange'];
     var bubbles = new BubbleSet();
     let filters = [];
     var main = document.getElementById("main");

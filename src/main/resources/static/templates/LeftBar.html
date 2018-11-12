@@ -6,13 +6,22 @@
 
         <div class="card-section">
           <div class="grid-container">
-            <div class="grid-x">
-              <div class="cell large-6">
-                <a class="button small  button-left-custom" ng-click="clearFilter()" href="#">Clear</a>
+            <div class="grid-y">
+              <div class="cell large-10">
+                <md-chips ng-model="fruitNames" readonly="readonly">
+                </md-chips>
               </div>
-              <div class="cell large-6">
-                <a class="button small  float-right button-left-custom" href="#" ng-click="updateFilter()">Update</a>
+              <div class="cell large-2">
+                <div class="grid-x">
+                  <div class="cell large-6">
+                    <a class="button small  button-left-custom" ng-click="clearFilter()" href="#">Clear</a>
+                  </div>
+                  <div class="cell large-6">
+                    <a class="button small  float-right button-left-custom" href="#" ng-click="updateFilter()">Update</a>
+                  </div>
+                </div>
               </div>
+
             </div>
           </div>
         </div>
