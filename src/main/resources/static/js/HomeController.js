@@ -31,8 +31,8 @@ app.controller("HomeController", ['$scope',
     $scope.userOptions = [];
     $scope.attributeOptions = [];
     $scope.fruitNames = ['Apple', 'Banana', 'Orange'];
+    $scope.filters = [];
     var bubbles = new BubbleSet();
-    let filters = [];
     var main = document.getElementById("main");
     var items = appendSVG(main, "g");
     var debug = appendSVG(main, "g");
@@ -86,8 +86,8 @@ app.controller("HomeController", ['$scope',
     });
 
     $(document).on('moved.zf.slider', function() {
-      console.log($('#timelineLeft').attr('value'));
-      console.log($('#timelineRight').attr('value'));
+      // console.log($('#timelineLeft').attr('value'));
+      // console.log($('#timelineRight').attr('value'));
 
 
       if(!ready || domCreated){
@@ -176,20 +176,29 @@ app.controller("HomeController", ['$scope',
     // });
 
     $scope.clearFilter = function() {
-      $scope.descWeight = 1;
-      $scope.attrWeight = 1;
-      $scope.chartEncodingWeight = 1;
-      CoordinateService.getCoordinates({
-        "descWeight": $scope.descWeight,
-        "attrWeight": $scope.attrWeight,
-        "chartEncodingWeight": $scope.chartEncodingWeight
-      }).then(function(data) {
-        clusters = data.data;
-        ShareData.clusters = data.data;
-        createClusters(clusters);
-      }, function(err) {
-        if (err) throw err;
-      });
+      $scope.filters = [];
+      var updatedAttrWeight = $('#attrWeight').attr('aria-valuenow');
+      var updatedDescWeight = $('#descWeight').attr('aria-valuenow');
+      var updatedChartEncodingWeight = $('#chartEncodingWeight').attr('aria-valuenow');
+      var colorMap = populateColorMap();
+      var dataSend = {
+        "descWeight": parseFloat(updatedDescWeight),
+        "attrWeight": parseFloat(updatedAttrWeight),
+        "chartEncodingWeight": parseFloat(updatedChartEncodingWeight),
+        "colorMap" : JSON.stringify(colorMap)
+      }
+      if (updatedAttrWeight && updatedDescWeight && updatedChartEncodingWeight) {
+        CoordinateService.getCoordinates(dataSend).then(function(data) {
+          removeAllChilds(items);
+          clusters = data.data;
+          ShareData.clusters = data.data;
+          createClusters(clusters);
+        }, function(err) {
+          if (err) throw err;
+        });
+      }
+      ready = true;
+
     }
 
     $scope.filterChanged = function() {
@@ -201,11 +210,11 @@ app.controller("HomeController", ['$scope',
 
 
     $scope.updateFilter = function() {
-      populateChartFilter();
-      populateUserFilter();
-      populateAttributeFilter();
+      // populateChartFilter();
+      // populateUserFilter();
+      // populateAttributeFilter();
       populateWeight();
-      CoordinateService.updateClusters(filters).then(function(data) {
+      CoordinateService.updateClusters($scope.filters).then(function(data) {
         clusters = data;
         ShareData.clusters = data;
         createClusters(clusters);
@@ -214,6 +223,18 @@ app.controller("HomeController", ['$scope',
       });
 
     }
+
+    $scope.$watch('chartOptions', function(newVal, oldVal, scope){
+    	populateChartFilter();
+    }, true);
+
+    $scope.$watch('userOptions', function(newVal, oldVal, scope){
+        populateUserFilter();
+      }, true);
+
+    $scope.$watch('attributeOptions', function(newVal, oldVal, scope){
+        populateAttributeFilter();
+      }, true);
 
     function populateChartFilter() {
       if($scope.chartOptions.length > 0){
@@ -224,7 +245,7 @@ app.controller("HomeController", ['$scope',
               chartObj.charts.push($scope.chartTypes[key]);
           }
         });
-        filters.push(chartObj);
+        $scope.filters.push(chartObj);
       }
     }
 
@@ -237,7 +258,7 @@ app.controller("HomeController", ['$scope',
             userObj.users.push($scope.users[key].userName);
           }
         })
-        filters.push(userObj);
+        $scope.filters.push(userObj);
       }
     }
     function populateAttributeFilter() {
@@ -249,7 +270,7 @@ app.controller("HomeController", ['$scope',
             attributeObj.attributes.push($scope.attributeList[key]);
           }
         })
-        filters.push(attributeObj);
+        $scope.filters.push(attributeObj);
       }
     }
 
@@ -265,7 +286,7 @@ app.controller("HomeController", ['$scope',
         "chartEncodingWeight": parseFloat(updatedChartEncodingWeight)
       })
       if(weightObj.weights.length > 0){
-        filters.push(weightObj);
+        $scope.filters.push(weightObj);
       }
     }
 

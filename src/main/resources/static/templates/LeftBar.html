@@ -7,9 +7,12 @@
         <div class="card-section">
           <div class="grid-container">
             <div class="grid-y">
-              <div class="cell large-10">
-                <md-chips ng-model="fruitNames" readonly="readonly">
+              <div class="cell large-10" md-whiteframe="3">
+                <md-chips ng-model="filters" readonly="readonly">
                 </md-chips>
+                <md-tooltip md-direction="top">
+                  {{filters}}
+                </md-tooltip>
               </div>
               <div class="cell large-2">
                 <div class="grid-x">
