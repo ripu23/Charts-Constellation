@@ -13,7 +13,7 @@ app.service("CoordinateService", function($http){
     return $http({
       method: 'GET',
       url: '/coordinates/updateFilter',
-      params: {filterObj: data}
+      params: {filter: data}
     })
   }
 })

@@ -1,5 +1,6 @@
 package chartconstellation.app.Controllers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -15,9 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import chartconstellation.app.appconfiguration.Configuration;
 import chartconstellation.app.appconfiguration.ScalingConfig;
 import chartconstellation.app.clustering.Clustering;
+import chartconstellation.app.entities.Filters;
 import chartconstellation.app.entities.UserCharts;
 import chartconstellation.app.entities.response.IdCoordinates;
 import chartconstellation.app.util.ChartsUtil;
@@ -137,11 +141,15 @@ public class CoordinatesController {
     }
 
     @RequestMapping(value="/updateFilter", method= RequestMethod.GET)
-    @ResponseBody
-    public void filterCoordinates(@RequestParam("filterObj") Object filtermap) {
-    	System.out.println(filtermap);
-
-		JSONObject read = new JSONObject(filtermap);
+    public void filterCoordinates(@RequestParam("filter") String filterMap) {
+    	try {
+			Filters[] filters =  new ObjectMapper().readValue(filterMap, Filters[].class);
+			System.out.println(filters);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	System.out.println(filterMap);
+    	
 
 
     }

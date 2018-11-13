@@ -40,22 +40,6 @@ app.controller("HomeController", ['$scope',
     let ready = false;
     let domCreated;
 
-    // //Get all coordinates
-    //     CoordinateService.getCoordinates({
-    //       "descWeight": 1.0,
-    //       "attrWeight": 1.0,
-    //       "chartEncodingWeight": 1.0
-    //     }).then(function(data) {
-    //       clusters = data.data;
-    //       ShareData.clusters = data.data;
-    //       createClusters(clusters);
-    //       alertify.success('Successfully imported the data.');
-    //       ready = true;
-    //     }, function(err) {
-    //       alertify.error('Something is wrong with the API --> CoordinateService --> getCoordinates')
-    //       if (err) throw err;
-    //     });
-
     ChartService.getChartTypes().then(function(data) {
       alertify.success('Successfully imported chartTypes');
       $scope.chartTypes = data.data.chartTypes;
@@ -201,17 +185,10 @@ app.controller("HomeController", ['$scope',
 
     }
 
-    $scope.filterChanged = function() {
-      console.log("here");
-    }
-
-
-
-
 
     $scope.updateFilter = function() {
-      populateWeight();
-      CoordinateService.updateClusters({map : $scope.filters}).then(function(data) {
+      // populateWeight();
+      CoordinateService.updateClusters(angular.toJson($scope.filters)).then(function(data) {
         clusters = data;
         ShareData.clusters = data;
         createClusters(clusters);
