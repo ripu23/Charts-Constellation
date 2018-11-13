@@ -43,7 +43,7 @@ public class CoordinatesUtil {
         List<FeatureVector> featurevectors = dbUtil.getFeaturesFromCollection(configuration.getMongoDatabase(),
                 configuration.getTotalFeatureCollection());
 
-        System.out.println(featurevectors.size());
+
 
         int size = featurevectors.size();
         double[][] input = new double[size][size];
@@ -70,7 +70,7 @@ public class CoordinatesUtil {
 
         double output[][] = mdsUtil.classicalScaling(input);
         List<IdCoordinates> coordinates = new ArrayList<>();
-        System.out.println(output.length);
+
 
         for(int i=0 ;i< output[0].length; i++) {
             IdCoordinates idCoordinate = new IdCoordinates();
