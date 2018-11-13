@@ -14,5 +14,11 @@ public class Filter {
 	public void setMap(Map<String, List<String>> map) {
 		this.map = map;
 	}
+
+	@Override
+	public String toString() {
+		return "Filter [map=" + map + "]";
+	}
+	
 	
 }

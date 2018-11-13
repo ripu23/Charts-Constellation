@@ -13,5 +13,10 @@ public class Filters {
 	public void setFilterList(List<Filter> filterList) {
 		this.filterList = filterList;
 	}
+
+	@Override
+	public String toString() {
+		return "Filters [filterList=" + filterList + "]";
+	}
 	
 }

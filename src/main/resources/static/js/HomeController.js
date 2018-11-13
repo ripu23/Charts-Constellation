@@ -31,7 +31,8 @@ app.controller("HomeController", ['$scope',
     $scope.userOptions = [];
     $scope.attributeOptions = [];
     $scope.fruitNames = ['Apple', 'Banana', 'Orange'];
-    $scope.filters = [];
+    $scope.filters = {};
+    $scope.filters.filterList = [];
     var bubbles = new BubbleSet();
     var main = document.getElementById("main");
     var items = appendSVG(main, "g");
@@ -187,8 +188,9 @@ app.controller("HomeController", ['$scope',
 
 
     $scope.updateFilter = function() {
-      // populateWeight();
-      CoordinateService.updateClusters(angular.toJson($scope.filters)).then(function(data) {
+      populateWeight();
+      var obj = angular.fromJson(angular.toJson($scope.filters));
+      CoordinateService.updateClusters(obj).then(function(data) {
         clusters = data;
         ShareData.clusters = data;
         createClusters(clusters);
@@ -212,8 +214,8 @@ app.controller("HomeController", ['$scope',
 
     function populateChartFilter() {
       if($scope.chartOptions.length > 0){
-        $scope.filters = _.reject($scope.filters, function(val, key){
-          if(val && val.charts) return true;
+        $scope.filters.filterList = _.reject($scope.filters.filterList, function(val, key){
+          if(val && val.map && val.map.charts) return true;
         });
         let chartObj = {};
         chartObj.charts = [];
@@ -222,14 +224,14 @@ app.controller("HomeController", ['$scope',
               chartObj.charts.push($scope.chartTypes[key]);
           }
         });
-        $scope.filters.push(chartObj);
+        $scope.filters.filterList.push({map : chartObj});
       }
     }
 
     function populateUserFilter() {
       if($scope.userOptions.length > 0){
-        $scope.filters = _.reject($scope.filters, function(val, key){
-          if(val && val.users) return true;
+        $scope.filters.filterList = _.reject($scope.filters.filterList, function(val, key){
+          if(val && val.map && val.map.users) return true;
         });
         let userObj = {};
         userObj.users = [];
@@ -238,13 +240,13 @@ app.controller("HomeController", ['$scope',
             userObj.users.push($scope.users[key].userName);
           }
         })
-        $scope.filters.push(userObj);
+        $scope.filters.filterList.push({map : userObj});
       }
     }
     function populateAttributeFilter() {
       if($scope.attributeOptions.length > 0){
-        $scope.filters = _.reject($scope.filters, function(val, key){
-          if(val && val.attributes) return true;
+        $scope.filters.filterList = _.reject($scope.filters.filterList, function(val, key){
+          if(val && val.map && val.map.attributes) return true;
         });
         let attributeObj = {};
         attributeObj.attributes = [];
@@ -253,23 +255,24 @@ app.controller("HomeController", ['$scope',
             attributeObj.attributes.push($scope.attributeList[key]);
           }
         })
-        $scope.filters.push(attributeObj);
+        $scope.filters.filterList.push({map: attributeObj});
       }
     }
 
     function populateWeight(){
+      $scope.filters.filterList = _.reject($scope.filters.filterList, function(val, key){
+        if(val && val.map && val.map.weights) return true;
+      });
       var updatedAttrWeight = $('#attrWeight').attr('aria-valuenow');
       var updatedDescWeight = $('#descWeight').attr('aria-valuenow');
       var updatedChartEncodingWeight = $('#chartEncodingWeight').attr('aria-valuenow');
       let weightObj = {};
       weightObj.weights = [];
-      weightObj.weights.push({
-        "descWeight": parseFloat(updatedDescWeight),
-        "attrWeight": parseFloat(updatedAttrWeight),
-        "chartEncodingWeight": parseFloat(updatedChartEncodingWeight)
-      })
+      weightObj.weights.push(updatedDescWeight);
+      weightObj.weights.push(updatedAttrWeight);
+      weightObj.weights.push(updatedChartEncodingWeight);
       if(weightObj.weights.length > 0){
-        $scope.filters.push(weightObj);
+        $scope.filters.filterList.push({map : weightObj});
       }
     }
 
