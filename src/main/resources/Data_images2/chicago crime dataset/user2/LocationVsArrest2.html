@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Embedding Vega-Lite</title>
+  <script src="https://cdn.jsdelivr.net/npm/vega@4.2.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@3.0.0-rc6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@3.19.2"></script>
+</head>
+<body>
+
+  <div id="vis"></div>
+
+  <script type="text/javascript">
+    var yourVlSpec = {
+      "$schema": "https://vega.github.io/schema/vega-lite/v2.0.json",
+      "description": "Count of thefts Vs Month",
+      "data": {
+        "url" : "locVscount2.csv"  
+      },
+      //''''"transform": [
+        //{"filter": 
+         // {"field": "Arrest", "equal": "True"}
+        //}
+      //],
+      "mark": {
+      "type": "bar",
+        //"interpolate": "monotone"
+      },
+      "encoding": {
+        "x": {
+			//"timeUnit": "yearmonth",
+           "field": "Location Description", "type": "nominal"
+        },
+        "y": {"aggregate": "count", "field": "*", "type": "quantitative"}
+      },
+	  "color": {
+        "condition": {"test": "datum['count_*'] > 100", "value": "black"},
+        "value": "white"
+      },
+	   "color": {
+      "field": "Arrest",
+      "type": "nominal"
+    },
+      "config": {
+        "axis": {"shortTimeLabels": true}
+      }
+    }
+    vegaEmbed("#vis", yourVlSpec);
+  </script>
+</body>
+</html>
