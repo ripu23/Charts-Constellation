@@ -58,7 +58,6 @@ public class CoordinatesController {
         HashMap<String, String> userColorMap = new HashMap<>();
 
         String colorData = colorMap.toString();
-        System.out.println(colorData);
         JSONArray jsonArr = new JSONArray(colorData);
 
         
@@ -143,13 +142,13 @@ public class CoordinatesController {
     @RequestMapping(value="/updateFilter", method= RequestMethod.GET)
     public void filterCoordinates(@RequestParam("filter") String filterMap) {
     	try {
+
 			Filters filters =  new ObjectMapper().readValue(filterMap, Filters.class);
 			System.out.println(filters);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
     	
-
 
     }
 }

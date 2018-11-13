@@ -98,12 +98,10 @@ public class Kmeans {
     public List<IdCoordinates> runKmeansCLustering(List<IdCoordinates> idCoordinates) {
 
         List<Point> centroids = intitializeCentroids(idCoordinates);
-        System.out.println(centroids);
         List<IdCoordinates> modifiedCoordinates = new ArrayList<>();
         for(int i=0 ; i<clusterParams.getIterations(); i++) {
             modifiedCoordinates = expectation(idCoordinates, centroids);
             centroids = maximisation(modifiedCoordinates);
-            System.out.println(centroids);
         }
 
         return modifiedCoordinates;
