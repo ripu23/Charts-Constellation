@@ -60,7 +60,6 @@ public class TextDocsUtil {
 
         List<FeatureVector> featureVectors = featureMergeUtil.mergeAllFeatures(mongoCollections);
 
-        System.out.println(featureVectors.size());
 
         dbUtil.updateFeaturesCollection(configuration.getMongoDatabase()
                 , configuration.getTotalFeatureCollection()

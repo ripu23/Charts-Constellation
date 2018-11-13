@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +59,6 @@ public class CoordinatesController {
         HashMap<String, String> userColorMap = new HashMap<>();
 
         String colorData = colorMap.toString();
-        System.out.println(colorData);
         JSONArray jsonArr = new JSONArray(colorData);
 
         
@@ -143,14 +143,15 @@ public class CoordinatesController {
     @RequestMapping(value="/updateFilter", method= RequestMethod.GET)
     public void filterCoordinates(@RequestParam("filter") String filterMap) {
     	try {
-			Filters[] filters =  new ObjectMapper().readValue(filterMap, Filters[].class);
-			System.out.println(filters);
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode actualObj = mapper.readTree(filterMap);
+			//Filters[] filters =  new ObjectMapper().readValue(filterMap, Filters[].class);
+			System.out.println(actualObj);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
     	System.out.println(filterMap);
     	
-
 
     }
 }
