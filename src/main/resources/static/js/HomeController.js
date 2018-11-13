@@ -210,11 +210,8 @@ app.controller("HomeController", ['$scope',
 
 
     $scope.updateFilter = function() {
-      // populateChartFilter();
-      // populateUserFilter();
-      // populateAttributeFilter();
       populateWeight();
-      CoordinateService.updateClusters($scope.filters).then(function(data) {
+      CoordinateService.updateClusters({map : $scope.filters}).then(function(data) {
         clusters = data;
         ShareData.clusters = data;
         createClusters(clusters);
@@ -238,6 +235,9 @@ app.controller("HomeController", ['$scope',
 
     function populateChartFilter() {
       if($scope.chartOptions.length > 0){
+        $scope.filters = _.reject($scope.filters, function(val, key){
+          if(val && val.charts) return true;
+        });
         let chartObj = {};
         chartObj.charts = [];
         _.forEach($scope.chartOptions, function(option, key){
@@ -251,6 +251,9 @@ app.controller("HomeController", ['$scope',
 
     function populateUserFilter() {
       if($scope.userOptions.length > 0){
+        $scope.filters = _.reject($scope.filters, function(val, key){
+          if(val && val.users) return true;
+        });
         let userObj = {};
         userObj.users = [];
         _.forEach($scope.userOptions, function(user, key){
@@ -263,6 +266,9 @@ app.controller("HomeController", ['$scope',
     }
     function populateAttributeFilter() {
       if($scope.attributeOptions.length > 0){
+        $scope.filters = _.reject($scope.filters, function(val, key){
+          if(val && val.attributes) return true;
+        });
         let attributeObj = {};
         attributeObj.attributes = [];
         _.forEach($scope.attributeOptions, function(attribute, key){

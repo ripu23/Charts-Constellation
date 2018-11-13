@@ -57,6 +57,7 @@ public class CoordinatesController {
         System.out.println(colorData);
         JSONArray jsonArr = new JSONArray(colorData);
 
+        
         for (int i = 0; i < jsonArr.length(); i++) {
             JSONObject object = jsonArr.getJSONObject(i);
             String userName = object.get("userName").toString();
@@ -135,9 +136,12 @@ public class CoordinatesController {
         return coordinatesHashMap.values();
     }
 
-    @RequestMapping(value="/getFilterCoordinates", method= RequestMethod.GET)
+    @RequestMapping(value="/updateFilter", method= RequestMethod.GET)
     @ResponseBody
-    public void filterCoordinates(@RequestParam("colorMap") Object colorMap) {
+    public void filterCoordinates(@RequestParam("filterObj") Object filtermap) {
+    	System.out.println(filtermap);
+
+		JSONObject read = new JSONObject(filtermap);
 
 
     }
