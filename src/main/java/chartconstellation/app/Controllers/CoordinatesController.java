@@ -67,7 +67,7 @@ public class CoordinatesController {
     }
 
     @RequestMapping(value="/updateFilter", method= RequestMethod.GET)
-    public void filterCoordinates(@RequestParam("filter") String filterMap) {
+    public void filterCoordinates(@RequestParam("filter") String filterMap, @RequestParam("colorMap") Object colorMap) {
     	try {
 
 			Filters filters =  new ObjectMapper().readValue(filterMap, Filters.class);

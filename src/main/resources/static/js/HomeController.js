@@ -189,8 +189,20 @@ app.controller("HomeController", ['$scope',
 
     $scope.updateFilter = function() {
       populateWeight();
+      var colorMap;
+      var toBeSent = {};
       var obj = angular.fromJson(angular.toJson($scope.filters));
-      CoordinateService.updateClusters(obj).then(function(data) {
+      _.forEach(obj.filterList, function(filter, key){
+        if(filter.map && filter.map.users){
+          colorMap = getColorMapForUpdate(filter.map.users);
+        }
+      });
+      if(!colorMap){
+        colorMap = populateColorMap();
+      }
+      toBeSent.updatedFilters = obj;
+      toBeSent.colorMap = JSON.stringify(colorMap);
+      CoordinateService.updateClusters(toBeSent).then(function(data) {
         clusters = data;
         ShareData.clusters = data;
         createClusters(clusters);
@@ -198,6 +210,21 @@ app.controller("HomeController", ['$scope',
         if (err) throw err;
       });
 
+    }
+
+    function getColorMapForUpdate(data){
+      var colorMap = [];
+      var colors = ClusterService.getColors(data.length);
+      if(data){
+        _.forEach(data, function(user, key){
+          var toBePushed = {
+            userName: user,
+            color: colors[key]
+          }
+          colorMap.push(toBePushed)
+        });
+      }
+      return colorMap;
     }
 
     $scope.$watch('chartOptions', function(newVal, oldVal, scope){
