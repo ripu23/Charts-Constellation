@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import chartconstellation.app.entities.Chart;
+import chartconstellation.app.entities.Filter;
+import chartconstellation.app.util.DbUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +51,9 @@ public class CoordinatesController {
     @Autowired
     ChartsUtil chartsUtil;
 
+    @Autowired
+    DbUtil dbUtil;
+
     @RequestMapping(value="/getCoordinates", method= RequestMethod.GET)
     @ResponseBody
     public Collection<List<IdCoordinates>> coordinates(@RequestParam("descWeight") Double descWeight,
@@ -55,18 +61,42 @@ public class CoordinatesController {
                                                        @RequestParam("chartEncodingWeight") Double chartEncodingWeight,
                                                        @RequestParam("colorMap") Object colorMap) {
 
-        HashMap<String, String> userColorMap = new HashMap<>();
 
-        String colorData = colorMap.toString();
-        JSONArray jsonArr = new JSONArray(colorData);
+        HashMap<Integer, List<IdCoordinates>> coordinatesMap = getCoordinates(descWeight, attrWeight, chartEncodingWeight, colorMap);
+        return coordinatesMap.values();
+    }
 
-        
-        for (int i = 0; i < jsonArr.length(); i++) {
-            JSONObject object = jsonArr.getJSONObject(i);
-            String userName = object.get("userName").toString();
-            String color = object.get("color").toString();
-            userColorMap.put(userName, color);
-        }
+    @RequestMapping(value="/updateFilter", method= RequestMethod.GET)
+    public void filterCoordinates(@RequestParam("filter") String filterMap) {
+    	try {
+
+			Filters filters =  new ObjectMapper().readValue(filterMap, Filters.class);
+			List<Filter> filtersList = filters.getFilterList();
+			List<String> users = null;
+			List<String> charts = null;
+
+			for(Filter filter : filtersList) {
+                Map<String, List<String>> map = filter.getMap();
+                if(map.containsKey("users")) {
+                    users = map.get("users");
+                }
+                if(map.containsKey("charts")){
+                    charts = map.get("charts");
+                }
+                if(map.containsKey("weights")) {
+
+                }
+            }
+
+            List<Chart> chartObjs = dbUtil.searchDocsInaCollection(configuration.getMongoDatabase(), configuration.getOlympicchartcollection(), users, charts);
+			System.out.println("charts size "+chartObjs.size());
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+
+    public HashMap<String, String> getIdUserMap() {
 
         HashMap<String, UserCharts> map = chartsUtil
                 .getAllUserCharts(configuration.getMongoDatabase()
@@ -82,6 +112,32 @@ public class CoordinatesController {
             }
         }
 
+        return idUserMap;
+
+    }
+
+    public  HashMap<String, String>  getColorMap(Object colorMap) {
+
+        HashMap<String, String> userColorMap = new HashMap<>();
+
+        String colorData = colorMap.toString();
+        JSONArray jsonArr = new JSONArray(colorData);
+
+
+        for (int i = 0; i < jsonArr.length(); i++) {
+            JSONObject object = jsonArr.getJSONObject(i);
+            String userName = object.get("userName").toString();
+            String color = object.get("color").toString();
+            userColorMap.put(userName, color);
+        }
+
+        return userColorMap;
+    }
+
+    public HashMap<Integer, List<IdCoordinates>> getCoordinates(Double descWeight, Double attrWeight, Double chartEncodingWeight, Object colorMap) {
+
+        HashMap<String, String> userColorMap = getColorMap(colorMap);
+        HashMap<String, String> idUserMap = getIdUserMap();
 
         List<IdCoordinates> coordinatesList = coordinatesUtil.calculateCoordinates(descWeight, attrWeight, chartEncodingWeight);
 
@@ -136,19 +192,6 @@ public class CoordinatesController {
 
             coordinatesHashMap.put(entry.getKey(), newIdCoordinatesList);
         }
-        return coordinatesHashMap.values();
-    }
-
-    @RequestMapping(value="/updateFilter", method= RequestMethod.GET)
-    public void filterCoordinates(@RequestParam("filter") String filterMap) {
-    	try {
-
-			Filters filters =  new ObjectMapper().readValue(filterMap, Filters.class);
-			System.out.println(filters);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-    	
-
+        return coordinatesHashMap;
     }
 }

@@ -3,6 +3,7 @@ package chartconstellation.app.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mongodb.BasicDBObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -110,5 +111,31 @@ public class DbUtil {
             charts.add(chart);
         }
         return charts;
+    }
+
+    public List<Chart> searchDocsInaCollection(String database, String collection, List<String> users, List<String> charts) {
+        BasicDBObject inQuery = new BasicDBObject();
+        DBCursor dbCursor = null;
+        if(charts != null) {
+            inQuery.put("user", new BasicDBObject("$in", users));
+        }
+        if(users != null) {
+            inQuery.put("user", new BasicDBObject("$in", users));
+        }
+
+        if(inQuery.isEmpty()) {
+            dbCursor = mongoClient.getDB(database).getCollection(collection).find();
+        } else {
+            dbCursor = mongoClient.getDB(database).getCollection(collection).find(inQuery);
+        }
+
+        Gson gson = new Gson();
+        List<Chart> outputCharts = new ArrayList<>();
+        while (dbCursor.hasNext()) {
+            DBObject obj = dbCursor.next();
+            Chart chart = gson.fromJson(obj.toString(), Chart.class);
+            outputCharts.add(chart);
+        }
+        return outputCharts;
     }
 }

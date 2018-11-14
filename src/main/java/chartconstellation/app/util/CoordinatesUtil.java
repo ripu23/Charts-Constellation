@@ -60,13 +60,13 @@ public class CoordinatesUtil {
             }
 
         }
-
-        for(int i=0; i< input.length; i++) {
-            for(int j=0; j < input[0].length; j++) {
-                System.out.print(input[i][j]+" ");
-            }
-            System.out.println();
-        }
+//
+//        for(int i=0; i< input.length; i++) {
+//            for(int j=0; j < input[0].length; j++) {
+//                System.out.print(input[i][j]+" ");
+//            }
+//            System.out.println();
+//        }
 
         double output[][] = mdsUtil.classicalScaling(input);
         List<IdCoordinates> coordinates = new ArrayList<>();
