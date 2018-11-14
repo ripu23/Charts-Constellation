@@ -14,7 +14,7 @@ import chartconstellation.app.util.ChartsUtil;
 
 @RestController
 @RequestMapping("/users")
-public class usersController {
+public class UsersController {
 
     @Autowired
     Configuration configuration;
