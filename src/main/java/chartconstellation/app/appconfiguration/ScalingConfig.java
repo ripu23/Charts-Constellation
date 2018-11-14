@@ -41,4 +41,14 @@ public class ScalingConfig {
     public void setYmax(Double ymax) {
         this.ymax = ymax;
     }
+
+    @Override
+    public String toString() {
+        return "ScalingConfig{" +
+                "xmin=" + xmin +
+                ", xmax=" + xmax +
+                ", ymin=" + ymin +
+                ", ymax=" + ymax +
+                '}';
+    }
 }
