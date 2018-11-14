@@ -38,25 +38,30 @@ public class CoordinatesUtil {
         return value;
     }
 
-    public List<IdCoordinates>  calculateCoordinates(Double descWeight, Double attrWeight, Double chartEncodingWeight) {
-
-        List<FeatureVector> featurevectors = dbUtil.getFeaturesFromCollection(configuration.getMongoDatabase(),
-                configuration.getTotalFeatureCollection());
-
-
+    public List<IdCoordinates>  calculateCoordinates(List<FeatureVector> featurevectors, Double descWeight, Double attrWeight, Double chartEncodingWeight) {
 
         int size = featurevectors.size();
         double[][] input = new double[size][size];
 
+        HashMap<String, Integer> idKeyMap = new HashMap<>();
+        HashMap<Integer, String> keyIdMap = new HashMap<>();
+        int key = 0;
 
         for(FeatureVector featureVector : featurevectors) {
-            int index_i = Integer.parseInt(featureVector.getId());
+            idKeyMap.put(featureVector.getId(), key);
+            keyIdMap.put(key, featureVector.getId());
+            key++;
+        }
+
+
+        for(FeatureVector featureVector : featurevectors) {
+            int index_i = idKeyMap.get(featureVector.getId());
 
             for(IdFeatures idFeature : featureVector.getFeatures()) {
-                int index_j = Integer.parseInt(idFeature.getId());
+                int index_j = idKeyMap.get(idFeature.getId());
                 double score = weightedScore(idFeature, descWeight, attrWeight, chartEncodingWeight);
 
-                input[index_i-1][index_j-1] = score;
+                input[index_i][index_j] = score;
             }
 
         }
@@ -74,7 +79,7 @@ public class CoordinatesUtil {
 
         for(int i=0 ;i< output[0].length; i++) {
             IdCoordinates idCoordinate = new IdCoordinates();
-            idCoordinate.setId(String.valueOf(i+1));
+            idCoordinate.setId(keyIdMap.get(i));
             idCoordinate.setPoint(new Point(output[0][i], output[1][i]));
             coordinates.add(idCoordinate);
         }
