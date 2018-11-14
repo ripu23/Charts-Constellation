@@ -1,15 +1,15 @@
 package chartconstellation.app.Controllers;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import chartconstellation.app.entities.Chart;
-import chartconstellation.app.entities.Filter;
+import chartconstellation.app.entities.*;
 import chartconstellation.app.util.DbUtil;
+
+import chartconstellation.app.entities.FilterParams;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +24,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import chartconstellation.app.appconfiguration.Configuration;
 import chartconstellation.app.appconfiguration.ScalingConfig;
 import chartconstellation.app.clustering.Clustering;
-import chartconstellation.app.entities.Filters;
-import chartconstellation.app.entities.UserCharts;
 import chartconstellation.app.entities.response.IdCoordinates;
 import chartconstellation.app.util.ChartsUtil;
 import chartconstellation.app.util.CoordinatesScalingUtil;
@@ -61,13 +59,15 @@ public class CoordinatesController {
                                                        @RequestParam("chartEncodingWeight") Double chartEncodingWeight,
                                                        @RequestParam("colorMap") Object colorMap) {
 
+        List<FeatureVector> featurevectors = dbUtil.getFeaturesFromCollection(configuration.getMongoDatabase(),
+                configuration.getTotalFeatureCollection());
 
-        HashMap<Integer, List<IdCoordinates>> coordinatesMap = getCoordinates(descWeight, attrWeight, chartEncodingWeight, colorMap);
+        HashMap<Integer, List<IdCoordinates>> coordinatesMap = getCoordinates(4, featurevectors, descWeight, attrWeight, chartEncodingWeight, colorMap);
         return coordinatesMap.values();
     }
 
     @RequestMapping(value="/updateFilter", method= RequestMethod.GET)
-    public void filterCoordinates(@RequestParam("filter") String filterMap, @RequestParam("colorMap") Object colorMap) {
+    public Collection<List<IdCoordinates>>  filterCoordinates(@RequestParam("filter") String filterMap, @RequestParam("colorMap") Object colorMap) {
     	try {
 
 			Filters filters =  new ObjectMapper().readValue(filterMap, Filters.class);
@@ -89,11 +89,42 @@ public class CoordinatesController {
             }
 
             List<Chart> chartObjs = dbUtil.searchDocsInaCollection(configuration.getMongoDatabase(), configuration.getOlympicchartcollection(), users, charts);
-			System.out.println("charts size "+chartObjs.size());
+            List<FeatureVector> featurevectors = dbUtil.getFeaturesFromCollection(configuration.getMongoDatabase(),
+                    configuration.getTotalFeatureCollection());
+
+            Set<String> filteredIds = new HashSet<>();
+
+            for(Chart chartObj : chartObjs) {
+                filteredIds.add(chartObj.getId());
+            }
+
+            List<FeatureVector> filteredFeatureVectors = new ArrayList<>();
+            for(FeatureVector featureVector : featurevectors) {
+                if(filteredIds.contains(featureVector.getId())) {
+                    List<IdFeatures> idfeatures = featureVector.getFeatures();
+                    List<IdFeatures> filteredidfeatures = new ArrayList<>();
+                    for(IdFeatures idFeature : idfeatures) {
+                        if(filteredIds.contains(idFeature.getId())) {
+                            filteredidfeatures.add(idFeature);
+                        }
+                    }
+                    featureVector.setFeatures(filteredidfeatures);
+                    filteredFeatureVectors.add(featureVector);
+                }
+            }
+
+            System.out.println("Filterd feature vectors "+filteredFeatureVectors.size());
+            System.out.println(filteredFeatureVectors);
+
+            HashMap<Integer, List<IdCoordinates>> coordinatesMap = getCoordinates(2, filteredFeatureVectors, 0.4, 0.4,0.2, colorMap);
+            System.out.println("Filtered coordinates map "+coordinatesMap);
+            return coordinatesMap.values();
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		return null;
     }
 
     public HashMap<String, String> getIdUserMap() {
@@ -116,7 +147,7 @@ public class CoordinatesController {
 
     }
 
-    public  HashMap<String, String>  getColorMap(Object colorMap) {
+    public HashMap<String, String> getColorMap(Object colorMap) {
 
         HashMap<String, String> userColorMap = new HashMap<>();
 
@@ -134,14 +165,14 @@ public class CoordinatesController {
         return userColorMap;
     }
 
-    public HashMap<Integer, List<IdCoordinates>> getCoordinates(Double descWeight, Double attrWeight, Double chartEncodingWeight, Object colorMap) {
+    public HashMap<Integer, List<IdCoordinates>> getCoordinates(int cluster_size, List<FeatureVector> featurevectors, Double descWeight, Double attrWeight, Double chartEncodingWeight, Object colorMap) {
 
         HashMap<String, String> userColorMap = getColorMap(colorMap);
         HashMap<String, String> idUserMap = getIdUserMap();
 
-        List<IdCoordinates> coordinatesList = coordinatesUtil.calculateCoordinates(descWeight, attrWeight, chartEncodingWeight);
+        List<IdCoordinates> coordinatesList = coordinatesUtil.calculateCoordinates(featurevectors, descWeight, attrWeight, chartEncodingWeight);
 
-        List<IdCoordinates> clusteredCoordinates = clustering.getClusteredCoordinates(4, 20, coordinatesList);
+        List<IdCoordinates> clusteredCoordinates = clustering.getClusteredCoordinates(cluster_size, 20, coordinatesList);
 
 //        coordinatesScalingUtil.setCoordinatesList(clusteredCoordinates);
 //
@@ -192,6 +223,8 @@ public class CoordinatesController {
 
             coordinatesHashMap.put(entry.getKey(), newIdCoordinatesList);
         }
+
         return coordinatesHashMap;
+
     }
 }

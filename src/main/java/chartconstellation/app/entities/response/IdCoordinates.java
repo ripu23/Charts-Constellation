@@ -47,4 +47,15 @@ public class IdCoordinates {
     public void setPoint(Point point) {
         this.point = point;
     }
+
+    @Override
+    public String toString() {
+        return "IdCoordinates{" +
+                "id='" + id + '\'' +
+                ", userName='" + userName + '\'' +
+                ", clusterId=" + clusterId +
+                ", color='" + color + '\'' +
+                ", point=" + point +
+                '}';
+    }
 }
