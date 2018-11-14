@@ -132,7 +132,7 @@ app.controller("HomeController", ['$scope',
     }
     //Creation of paths and append to SVG;
     function createPaths() {
-      //      paths = [];
+        paths = [];
       _.forEach(clustersUI, function(cluster, idx) {
         paths.push({
           svg: appendSVG(main, "path")
@@ -203,8 +203,11 @@ app.controller("HomeController", ['$scope',
       toBeSent.updatedFilters = obj;
       toBeSent.colorMap = JSON.stringify(colorMap);
       CoordinateService.updateClusters(toBeSent).then(function(data) {
-        clusters = data;
-        ShareData.clusters = data;
+        removeAllChilds(items);
+        main = document.getElementById("main");
+        clusters = data.data;
+        items = appendSVG(main, "g");
+        ShareData.clusters = data.data;
         createClusters(clusters);
       }, function(err) {
         if (err) throw err;
