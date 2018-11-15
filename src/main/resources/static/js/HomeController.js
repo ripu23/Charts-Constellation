@@ -88,7 +88,9 @@ app.controller("HomeController", ['$scope',
         }
         if (updatedAttrWeight && updatedDescWeight && updatedChartEncodingWeight) {
           CoordinateService.getCoordinates(dataSend).then(function(data) {
-            removeAllChilds(items);
+        	  removePaths();
+             removeAllChilds(items);
+             items = appendSVG(main, "g");
             clusters = data.data;
             ShareData.clusters = data.data;
             createClusters(clusters);
@@ -204,15 +206,26 @@ app.controller("HomeController", ['$scope',
       toBeSent.colorMap = JSON.stringify(colorMap);
       CoordinateService.updateClusters(toBeSent).then(function(data) {
         removeAllChilds(items);
-        main = document.getElementById("main");
+        removePaths();
         clusters = data.data;
-        items = appendSVG(main, "g");
         ShareData.clusters = data.data;
         createClusters(clusters);
       }, function(err) {
         if (err) throw err;
       });
 
+    }
+
+    function removePaths() {
+      var length = main.childNodes.length;
+      if(length && length > 0){
+        _.forEach(main.childNodes, function(node, key){
+          if(node && node.nodeName && node.nodeName === "path"){
+            main.removeChild(main.childNodes[key]);
+            removePaths();
+          }
+        })
+      }
     }
 
     function getColorMapForUpdate(data){

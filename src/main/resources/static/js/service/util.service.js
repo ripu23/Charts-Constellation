@@ -22,4 +22,62 @@ app.service("ClusterService", function($http) {
       return response.data;
     });
   }
+
+  this.getImageUrl = function() {
+    let images = [{
+      img: 'ArunSankar1.png',
+      user: 'Arun Sankar'
+    },{
+      img: 'ArunSankar2.png',
+      user: 'Arun Sankar'
+    },{
+      img: 'ArunSankar3.png',
+      user: 'Arun Sankar'
+    }, {
+      img: 'ArunSankar4.png',
+      user: 'Arun Sankar'
+    }, {
+      img: 'ArunSankar5.png',
+      user: 'Arun Sankar'
+    }, {
+      img: 'ArunSankar3.png',
+      user: 'Arun Sankar'
+    }, {
+      img: 'PSoni1.png',
+      user: 'P Soni'
+    }, {
+      img: 'Randi1.png',
+      user: 'Randi'
+    }, {
+      img: 'Randi2.png',
+      user: 'Randi'
+    }, {
+      img: 'Randi3.png',
+      user: 'Randi'
+    }, {
+      img: 'Randi4.png',
+      user: 'Randi'
+    }, {
+      img: 'Saduman1.png',
+      user: 'Saduman'
+    }, {
+      img: 'Saduman2.png',
+      user: 'Saduman'
+    }, {
+      img: 'Varun1.png',
+      user: 'Varun'
+    }, {
+      img: 'Varun2.png',
+      user: 'Varun'
+    }, {
+      img: 'Varun3.png',
+      user: 'Varun'
+    }];
+
+    let constantUrl = '../images/';
+    return{
+      images: images,
+      url: constantUrl
+    };
+  }
 });

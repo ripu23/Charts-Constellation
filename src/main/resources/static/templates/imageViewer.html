@@ -1,0 +1,12 @@
+<div class="grid-container fluid">
+  <div class="grid-x grid-padding-x medium-up-3">
+    <div class="cell" ng-repeat="image in images">
+      <div class="card">
+        <img ng-src="{{constantUrl}}{{image.img}}" class="image-view-img">
+        <div class="card-section">
+          <h4>User: {{image.user}}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
