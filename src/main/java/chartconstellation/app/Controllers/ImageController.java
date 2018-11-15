@@ -4,28 +4,30 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.commons.io.IOUtils;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.StreamUtils;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/images")
 public class ImageController {
 
 
-    @GetMapping(
-            value = "/get-image-with-media-type",
-            produces = MediaType.IMAGE_JPEG_VALUE
-    )
-    public @ResponseBody
-    byte[] getImageWithMediaType() throws IOException {
-        InputStream in = getClass()
-                .getResourceAsStream("/Users/manojyaramsetty/chartconstellation/src/main/resources/Data_Images/ArunSankar1.png");
-        return IOUtils.toByteArray(in);
+    @RequestMapping(value = "/sid", method = RequestMethod.GET,
+            produces = MediaType.IMAGE_PNG_VALUE)
+    public ResponseEntity<byte[]> getImage() throws IOException {
+
+        ClassPathResource imgFile = new ClassPathResource("Users/manojyaramsetty/chartconstellation/src/main/resources/Data_Images/ArunSankar1.png");
+        byte[] bytes = StreamUtils.copyToByteArray(imgFile.getInputStream());
+
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.IMAGE_PNG)
+                .body(bytes);
     }
-
-
 
 }
