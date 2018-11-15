@@ -163,7 +163,7 @@ app.controller("HomeController", ['$scope',
     // });
 
     $scope.clearFilter = function() {
-      $scope.filters = [];
+      $scope.filters.filterList = [];
       var updatedAttrWeight = $('#attrWeight').attr('aria-valuenow');
       var updatedDescWeight = $('#descWeight').attr('aria-valuenow');
       var updatedChartEncodingWeight = $('#chartEncodingWeight').attr('aria-valuenow');
@@ -177,6 +177,9 @@ app.controller("HomeController", ['$scope',
       if (updatedAttrWeight && updatedDescWeight && updatedChartEncodingWeight) {
         CoordinateService.getCoordinates(dataSend).then(function(data) {
           removeAllChilds(items);
+          removePaths();
+          main = document.getElementById("main");
+          items = appendSVG(main, "g");
           clusters = data.data;
           ShareData.clusters = data.data;
           createClusters(clusters);
@@ -207,9 +210,12 @@ app.controller("HomeController", ['$scope',
       CoordinateService.updateClusters(toBeSent).then(function(data) {
         removeAllChilds(items);
         removePaths();
+        main = document.getElementById("main");
+        items = appendSVG(main, "g");
         clusters = data.data;
         ShareData.clusters = data.data;
         createClusters(clusters);
+        domCreated = false;
       }, function(err) {
         if (err) throw err;
       });
