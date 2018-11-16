@@ -2,8 +2,11 @@ package chartconstellation.app.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import com.google.gson.JsonObject;
 import com.mongodb.BasicDBObject;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +30,9 @@ public class DbUtil {
 
     @Autowired
     Configuration configuration;
+
+    @Autowired
+    AttributeUtil attributeUtil;
 
     public void updateDBDocs(List<DBObject> dobobjects) {
 
@@ -107,7 +113,10 @@ public class DbUtil {
         List<Chart> charts = new ArrayList<>();
         while (cursor.hasNext()) {
             DBObject obj = cursor.next();
+            JSONObject jsonObj = new JSONObject(obj.toString());
+            Set<String> attrSet = attributeUtil.getAttributesOfaObject(jsonObj);
             Chart chart = gson.fromJson(obj.toString(), Chart.class);
+            chart.setAttributes(attrSet);
             charts.add(chart);
         }
         return charts;
