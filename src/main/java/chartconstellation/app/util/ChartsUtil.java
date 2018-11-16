@@ -69,4 +69,9 @@ public class ChartsUtil {
         return chartTypeObj;
 
     }
+
+    public void getClusterInfo() {
+
+
+    }
 }

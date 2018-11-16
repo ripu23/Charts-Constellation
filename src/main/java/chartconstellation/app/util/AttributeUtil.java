@@ -84,6 +84,8 @@ public class AttributeUtil {
     }
 
 
+
+
     public List<FeatureDistance> computerAttributeDistance(DBCollection collection) {
 
         List<DBObject> docs = getDBObjects(collection);

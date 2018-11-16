@@ -1,26 +1,47 @@
 package chartconstellation.app.entities.response;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 public class Cluster {
 
-    private String clusteId;
+    private int clusterId;
 
-    private HashMap<String, Integer> attributeMap;
+    private List<String> users;
 
-    public String getClusteId() {
-        return clusteId;
+    private List<String> attributes;
+
+    public int getClusterId() {
+        return clusterId;
     }
 
-    public void setClusteId(String clusteId) {
-        this.clusteId = clusteId;
+    public void setClusterId(int clusterId) {
+        this.clusterId = clusterId;
     }
 
-    public HashMap<String, Integer> getAttributeMap() {
-        return attributeMap;
+    public List<String> getUsers() {
+        return users;
     }
 
-    public void setAttributeMap(HashMap<String, Integer> attributeMap) {
-        this.attributeMap = attributeMap;
+    public void setUsers(List<String> users) {
+        this.users = users;
+    }
+
+    public List<String> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(List<String> attributes) {
+        this.attributes = attributes;
+    }
+
+    @Override
+    public String toString() {
+        return "Cluster{" +
+                "clusterId=" + clusterId +
+                ", users=" + users +
+                ", attributes=" + attributes +
+                '}';
     }
 }

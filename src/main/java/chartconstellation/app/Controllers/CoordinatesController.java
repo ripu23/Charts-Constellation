@@ -2,7 +2,11 @@ package chartconstellation.app.Controllers;
 
 import chartconstellation.app.appconfiguration.Configuration;
 import chartconstellation.app.entities.*;
+import chartconstellation.app.entities.response.Cluster;
 import chartconstellation.app.entities.response.IdCoordinates;
+import chartconstellation.app.entities.response.OutputResponse;
+import chartconstellation.app.util.ChartsUtil;
+import chartconstellation.app.util.ClusterUtil;
 import chartconstellation.app.util.CoordinatesUtil;
 import chartconstellation.app.util.DbUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,9 +30,12 @@ public class CoordinatesController {
     @Autowired
     CoordinatesUtil coordinatesUtil;
 
+    @Autowired
+    ClusterUtil clusterUtil;
+
     @RequestMapping(value="/getCoordinates", method= RequestMethod.GET)
     @ResponseBody
-    public Collection<List<IdCoordinates>> coordinates(@RequestParam("descWeight") Double descWeight,
+    public OutputResponse coordinates(@RequestParam("descWeight") Double descWeight,
                                                        @RequestParam("attrWeight") Double attrWeight,
                                                        @RequestParam("chartEncodingWeight") Double chartEncodingWeight,
                                                        @RequestParam("colorMap") Object colorMap) {
@@ -38,13 +45,21 @@ public class CoordinatesController {
 
         HashMap<Integer, List<IdCoordinates>> coordinatesMap = coordinatesUtil.getCoordinates(3, featurevectors, descWeight, attrWeight, chartEncodingWeight, colorMap);
 
-        //System.out.println(coordinatesMap);
+        List<Chart> chartObjs = dbUtil.getAttributesFromCollection(configuration.getMongoDatabase(), configuration.getOlympicchartcollection());
 
-        return coordinatesMap.values();
+        List<Cluster> clusterList = clusterUtil.generateClusterInfo(coordinatesMap, chartObjs);
+
+        OutputResponse outputResponse = new OutputResponse();
+        outputResponse.setCoordinatesList(coordinatesMap.values());
+        outputResponse.setClusters(clusterList);
+
+        System.out.println(outputResponse.toString());
+
+        return outputResponse;
     }
 
     @RequestMapping(value="/updateFilter", method= RequestMethod.GET)
-    public Collection<List<IdCoordinates>>  filterCoordinates(@RequestParam("filter") String filterMap, @RequestParam("colorMap") Object colorMap) {
+    public OutputResponse filterCoordinates(@RequestParam("filter") String filterMap, @RequestParam("colorMap") Object colorMap) {
     	try {
 
 			Filters filters =  new ObjectMapper().readValue(filterMap, Filters.class);
@@ -95,7 +110,13 @@ public class CoordinatesController {
             HashMap<Integer, List<IdCoordinates>> coordinatesMap = coordinatesUtil.getCoordinates(2, filteredFeatureVectors, 0.4, 0.4,0.2, colorMap);
 //            System.out.println("Filtered coordinates map "+coordinatesMap);
 //            System.out.println(coordinatesMap);
-            return coordinatesMap.values();
+            List<Cluster> clusterList = clusterUtil.generateClusterInfo(coordinatesMap, chartObjs);
+
+            OutputResponse outputResponse = new OutputResponse();
+            outputResponse.setCoordinatesList(coordinatesMap.values());
+            outputResponse.setClusters(clusterList);
+
+            return outputResponse;
 
 		} catch (IOException e) {
 			e.printStackTrace();
