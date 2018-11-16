@@ -40,6 +40,15 @@ app.controller("HomeController", ['$scope',
     bubbles.debug(false);
     let ready = false;
     let domCreated;
+    $("#main").selectable({
+      classes: {
+        "ui-selectable": "highlight"
+      },
+      selected: function(event, ui) {
+        console.log(ui);
+      }
+    });
+
 
     ChartService.getChartTypes().then(function(data) {
       alertify.success('Successfully imported chartTypes');
@@ -75,7 +84,7 @@ app.controller("HomeController", ['$scope',
       // console.log($('#timelineRight').attr('value'));
 
 
-      if(!ready || domCreated){
+      if (!ready || domCreated) {
         var updatedAttrWeight = $('#attrWeight').attr('aria-valuenow');
         var updatedDescWeight = $('#descWeight').attr('aria-valuenow');
         var updatedChartEncodingWeight = $('#chartEncodingWeight').attr('aria-valuenow');
@@ -84,13 +93,13 @@ app.controller("HomeController", ['$scope',
           "descWeight": parseFloat(updatedDescWeight),
           "attrWeight": parseFloat(updatedAttrWeight),
           "chartEncodingWeight": parseFloat(updatedChartEncodingWeight),
-          "colorMap" : JSON.stringify(colorMap)
+          "colorMap": JSON.stringify(colorMap)
         }
         if (updatedAttrWeight && updatedDescWeight && updatedChartEncodingWeight) {
           CoordinateService.getCoordinates(dataSend).then(function(data) {
-        	  removePaths();
-             removeAllChilds(items);
-             items = appendSVG(main, "g");
+            removePaths();
+            removeAllChilds(items);
+            items = appendSVG(main, "g");
             clusters = data.data;
             ShareData.clusters = data.data;
             createClusters(clusters);
@@ -102,10 +111,10 @@ app.controller("HomeController", ['$scope',
       }
     });
 
-    function populateColorMap(){
+    function populateColorMap() {
       var colorMap = [];
-      if($scope.users){
-        _.forEach($scope.users, function(user){
+      if ($scope.users) {
+        _.forEach($scope.users, function(user) {
           var toBePushed = {
             userName: user.userName,
             color: user.color
@@ -127,14 +136,14 @@ app.controller("HomeController", ['$scope',
       _.forEach(clustersArray, function(clusters, i) {
         clustersUI[i] = [];
         _.forEach(clusters, function(cluster) {
-          addRect(clustersUI[i], "grey", cluster.point.x , cluster.point.y, cluster.color);
+          addRect(clustersUI[i], "grey", cluster.point.x, cluster.point.y, cluster.color);
         })
       });
       createPaths();
     }
     //Creation of paths and append to SVG;
     function createPaths() {
-        paths = [];
+      paths = [];
       _.forEach(clustersUI, function(cluster, idx) {
         paths.push({
           svg: appendSVG(main, "path")
@@ -172,7 +181,7 @@ app.controller("HomeController", ['$scope',
         "descWeight": parseFloat(updatedDescWeight),
         "attrWeight": parseFloat(updatedAttrWeight),
         "chartEncodingWeight": parseFloat(updatedChartEncodingWeight),
-        "colorMap" : JSON.stringify(colorMap)
+        "colorMap": JSON.stringify(colorMap)
       }
       if (updatedAttrWeight && updatedDescWeight && updatedChartEncodingWeight) {
         CoordinateService.getCoordinates(dataSend).then(function(data) {
@@ -197,12 +206,12 @@ app.controller("HomeController", ['$scope',
       var colorMap;
       var toBeSent = {};
       var obj = angular.fromJson(angular.toJson($scope.filters));
-      _.forEach(obj.filterList, function(filter, key){
-        if(filter.map && filter.map.users){
+      _.forEach(obj.filterList, function(filter, key) {
+        if (filter.map && filter.map.users) {
           colorMap = getColorMapForUpdate(filter.map.users);
         }
       });
-      if(!colorMap){
+      if (!colorMap) {
         colorMap = populateColorMap();
       }
       toBeSent.updatedFilters = obj;
@@ -224,9 +233,9 @@ app.controller("HomeController", ['$scope',
 
     function removePaths() {
       var length = main.childNodes.length;
-      if(length && length > 0){
-        _.forEach(main.childNodes, function(node, key){
-          if(node && node.nodeName && node.nodeName === "path"){
+      if (length && length > 0) {
+        _.forEach(main.childNodes, function(node, key) {
+          if (node && node.nodeName && node.nodeName === "path") {
             main.removeChild(main.childNodes[key]);
             removePaths();
           }
@@ -234,11 +243,11 @@ app.controller("HomeController", ['$scope',
       }
     }
 
-    function getColorMapForUpdate(data){
+    function getColorMapForUpdate(data) {
       var colorMap = [];
       var colors = ClusterService.getColors(data.length);
-      if(data){
-        _.forEach(data, function(user, key){
+      if (data) {
+        _.forEach(data, function(user, key) {
           var toBePushed = {
             userName: user,
             color: colors[key]
@@ -249,68 +258,75 @@ app.controller("HomeController", ['$scope',
       return colorMap;
     }
 
-    $scope.$watch('chartOptions', function(newVal, oldVal, scope){
-    	populateChartFilter();
+    $scope.$watch('chartOptions', function(newVal, oldVal, scope) {
+      populateChartFilter();
     }, true);
 
-    $scope.$watch('userOptions', function(newVal, oldVal, scope){
-        populateUserFilter();
-      }, true);
+    $scope.$watch('userOptions', function(newVal, oldVal, scope) {
+      populateUserFilter();
+    }, true);
 
-    $scope.$watch('attributeOptions', function(newVal, oldVal, scope){
-        populateAttributeFilter();
-      }, true);
+    $scope.$watch('attributeOptions', function(newVal, oldVal, scope) {
+      populateAttributeFilter();
+    }, true);
 
     function populateChartFilter() {
-      if($scope.chartOptions.length > 0){
-        $scope.filters.filterList = _.reject($scope.filters.filterList, function(val, key){
-          if(val && val.map && val.map.charts) return true;
+      if ($scope.chartOptions.length > 0) {
+        $scope.filters.filterList = _.reject($scope.filters.filterList, function(val, key) {
+          if (val && val.map && val.map.charts) return true;
         });
         let chartObj = {};
         chartObj.charts = [];
-        _.forEach($scope.chartOptions, function(option, key){
-          if(option === true){
-              chartObj.charts.push($scope.chartTypes[key]);
+        _.forEach($scope.chartOptions, function(option, key) {
+          if (option === true) {
+            chartObj.charts.push($scope.chartTypes[key]);
           }
         });
-        $scope.filters.filterList.push({map : chartObj});
+        $scope.filters.filterList.push({
+          map: chartObj
+        });
       }
     }
 
     function populateUserFilter() {
-      if($scope.userOptions.length > 0){
-        $scope.filters.filterList = _.reject($scope.filters.filterList, function(val, key){
-          if(val && val.map && val.map.users) return true;
+      if ($scope.userOptions.length > 0) {
+        $scope.filters.filterList = _.reject($scope.filters.filterList, function(val, key) {
+          if (val && val.map && val.map.users) return true;
         });
         let userObj = {};
         userObj.users = [];
-        _.forEach($scope.userOptions, function(user, key){
-          if(user === true){
+        _.forEach($scope.userOptions, function(user, key) {
+          if (user === true) {
             userObj.users.push($scope.users[key].userName);
           }
         })
-        $scope.filters.filterList.push({map : userObj});
-      }
-    }
-    function populateAttributeFilter() {
-      if($scope.attributeOptions.length > 0){
-        $scope.filters.filterList = _.reject($scope.filters.filterList, function(val, key){
-          if(val && val.map && val.map.attributes) return true;
+        $scope.filters.filterList.push({
+          map: userObj
         });
-        let attributeObj = {};
-        attributeObj.attributes = [];
-        _.forEach($scope.attributeOptions, function(attribute, key){
-          if(attribute === true){
-            attributeObj.attributes.push($scope.attributeList[key]);
-          }
-        })
-        $scope.filters.filterList.push({map: attributeObj});
       }
     }
 
-    function populateWeight(){
-      $scope.filters.filterList = _.reject($scope.filters.filterList, function(val, key){
-        if(val && val.map && val.map.weights) return true;
+    function populateAttributeFilter() {
+      if ($scope.attributeOptions.length > 0) {
+        $scope.filters.filterList = _.reject($scope.filters.filterList, function(val, key) {
+          if (val && val.map && val.map.attributes) return true;
+        });
+        let attributeObj = {};
+        attributeObj.attributes = [];
+        _.forEach($scope.attributeOptions, function(attribute, key) {
+          if (attribute === true) {
+            attributeObj.attributes.push($scope.attributeList[key]);
+          }
+        })
+        $scope.filters.filterList.push({
+          map: attributeObj
+        });
+      }
+    }
+
+    function populateWeight() {
+      $scope.filters.filterList = _.reject($scope.filters.filterList, function(val, key) {
+        if (val && val.map && val.map.weights) return true;
       });
       var updatedAttrWeight = $('#attrWeight').attr('aria-valuenow');
       var updatedDescWeight = $('#descWeight').attr('aria-valuenow');
@@ -320,8 +336,10 @@ app.controller("HomeController", ['$scope',
       weightObj.weights.push(updatedDescWeight);
       weightObj.weights.push(updatedAttrWeight);
       weightObj.weights.push(updatedChartEncodingWeight);
-      if(weightObj.weights.length > 0){
-        $scope.filters.filterList.push({map : weightObj});
+      if (weightObj.weights.length > 0) {
+        $scope.filters.filterList.push({
+          map: weightObj
+        });
       }
     }
 
