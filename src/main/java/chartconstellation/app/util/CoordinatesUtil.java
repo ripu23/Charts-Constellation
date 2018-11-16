@@ -54,6 +54,7 @@ public class CoordinatesUtil {
     public List<IdCoordinates>  calculateCoordinates(List<FeatureVector> featurevectors, Double descWeight, Double attrWeight, Double chartEncodingWeight) {
 
         int size = featurevectors.size();
+        System.out.println("size "+size);
         double[][] input = new double[size][size];
 
         HashMap<String, Integer> idKeyMap = new HashMap<>();
@@ -78,22 +79,38 @@ public class CoordinatesUtil {
             }
 
         }
-//
-//        for(int i=0; i< input.length; i++) {
-//            for(int j=0; j < input[0].length; j++) {
-//                System.out.print(input[i][j]+" ");
-//            }
-//            System.out.println();
-//        }
+
+        System.out.println("input = ");
+
+        for(int i=0; i< input.length; i++) {
+            for(int j=0; j < input[0].length; j++) {
+                System.out.print(input[i][j]+" ");
+            }
+            System.out.println();
+        }
 
         double output[][] = mdsUtil.classicalScaling(input);
         List<IdCoordinates> coordinates = new ArrayList<>();
+
+        System.out.println("output = ");
+
+        for(int i=0; i< output[0].length; i++) {
+            for(int j=0; j < output.length; j++) {
+                System.out.print(output[j][i]+" ");
+            }
+            System.out.println();
+        }
+
 
 
         for(int i=0 ;i< output[0].length; i++) {
             IdCoordinates idCoordinate = new IdCoordinates();
             idCoordinate.setId(keyIdMap.get(i));
-            idCoordinate.setPoint(new Point(output[0][i], output[1][i]));
+            if(Double.isNaN(output[1][i])) {
+                idCoordinate.setPoint(new Point(output[0][i], output[0][i]));
+            } else {
+                idCoordinate.setPoint(new Point(output[0][i], output[1][i]));
+            }
             coordinates.add(idCoordinate);
         }
 
@@ -202,6 +219,7 @@ public class CoordinatesUtil {
 
         List<IdCoordinates> clusteredCoordinates = clustering.getClusteredCoordinates(cluster_size, 20, coordinatesList);
 
+
 //        coordinatesScalingUtil.setCoordinatesList(clusteredCoordinates);
 //
 //        clusteredCoordinates = coordinatesScalingUtil.getScaledCoordinates(configuration.getMdsScalingConfig().getXmin(),
@@ -232,7 +250,9 @@ public class CoordinatesUtil {
 
         HashMap<Integer, List<IdCoordinates>> newCoordinatesHashMap = new HashMap<>();
         HashMap<Integer, ScalingConfig> clusterScalingInfo = distributeSVG(coordinatesHashMap);
-        System.out.println("cluster scaling info "+clusterScalingInfo);
+//        System.out.println("cluster scaling info "+clusterScalingInfo);
+//        System.out.println("cluster scaling info "+clusterScalingInfo);
+        //System.out.println(coordinatesHashMap);
 
         int clusterSize = coordinatesHashMap.keySet().size();
 //        ScalingConfig scalingConfig = configuration.getMdsScalingConfig();

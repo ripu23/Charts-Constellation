@@ -37,6 +37,9 @@ public class CoordinatesController {
                 configuration.getTotalFeatureCollection());
 
         HashMap<Integer, List<IdCoordinates>> coordinatesMap = coordinatesUtil.getCoordinates(3, featurevectors, descWeight, attrWeight, chartEncodingWeight, colorMap);
+
+        //System.out.println(coordinatesMap);
+
         return coordinatesMap.values();
     }
 
@@ -48,7 +51,6 @@ public class CoordinatesController {
 			List<Filter> filtersList = filters.getFilterList();
 			List<String> users = null;
 			List<String> charts = null;
-
 			for(Filter filter : filtersList) {
                 Map<String, List<String>> map = filter.getMap();
                 if(map.containsKey("users")) {
@@ -87,11 +89,12 @@ public class CoordinatesController {
                 }
             }
 
-            System.out.println("Filterd feature vectors "+filteredFeatureVectors.size());
-            System.out.println(filteredFeatureVectors);
+//            System.out.println("Filterd feature vectors "+filteredFeatureVectors.size());
+//            System.out.println(filteredFeatureVectors);
 
             HashMap<Integer, List<IdCoordinates>> coordinatesMap = coordinatesUtil.getCoordinates(2, filteredFeatureVectors, 0.4, 0.4,0.2, colorMap);
-            System.out.println("Filtered coordinates map "+coordinatesMap);
+//            System.out.println("Filtered coordinates map "+coordinatesMap);
+//            System.out.println(coordinatesMap);
             return coordinatesMap.values();
 
 		} catch (IOException e) {

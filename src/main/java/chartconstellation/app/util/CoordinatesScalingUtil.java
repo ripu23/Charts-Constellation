@@ -22,14 +22,17 @@ public class CoordinatesScalingUtil {
         List<Double> xvalues = new ArrayList<>();
         List<Double> yvalues = new ArrayList<>();
 
-        for(IdCoordinates idCoordinate : coordinatesList) {
+        for(IdCoordinates idCoordinate : this.coordinatesList) {
             xvalues.add(idCoordinate.getPoint().getX());
             yvalues.add(idCoordinate.getPoint().getY());
         }
 
+        //System.out.println(xvalues);
+        //System.out.println(yvalues);
+
         scalingUtil.initialize(xvalues, yvalues);
 
-        for(int i=0; i<coordinatesList.size(); i++) {
+        for(int i=0; i<this.coordinatesList.size(); i++) {
             Point point = coordinatesList.get(i).getPoint();
             Double scaledXvalue = scalingUtil.getScaledvalueX(point.getX(), xMin, xMax);
             Double scaledYvalue = scalingUtil.getScaledvalueY(point.getY(), yMin, yMax);
