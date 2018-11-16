@@ -18,22 +18,36 @@ public class ScalingUtil {
 
     public ScalingUtil initialize(List<Double> xvalueList, List<Double> yvalueList) {
         this.xValues = xvalueList;
-        xmax = Collections.max(xvalueList);
-        xmin = Collections.min(xvalueList);
-        ymax = Collections.max(yvalueList);
-        ymin = Collections.min(yvalueList);
+        this.yValues = yvalueList;
+        this.xmax = Collections.max(xvalueList);
+        this.xmin = Collections.min(xvalueList);
+        this.ymax = Collections.max(this.yValues);
+        this.ymin = Collections.min(this.yValues);
+
+        //System.out.println("ymin "+this.ymin+" ymax "+ this.ymax);
+//        this.ymin = this.ymin + 1;
+//        this.ymax = this.ymax + 1;
+
         return this;
     }
 
     public Double getScaledvalueX(Double val, Double a, Double b) {
 
-        return (b - a) * ((val  - xmin) / (xmax - xmin)) + a;
+        double valX =  (b - a) * ((val  - xmin) / (xmax - xmin)) + a;
+
+        //System.out.println("x = "+valX);
+
+        return valX;
         //return 2 * val;
     }
 
     public Double getScaledvalueY(Double val, Double a, Double b) {
 
-        return (b - a) * ((val  - ymin) / (ymax - ymin)) + a;
+        double valY = (b - a) * ((val  - ymin) / (ymax - ymin)) + a;
+
+        //System.out.println("y = "+valY);
+
+        return valY;
         //return 2 * val;
     }
 
