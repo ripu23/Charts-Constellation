@@ -69,8 +69,15 @@ public class ClusterUtil {
             usersList.add(user);
         }
 
-        cluster.setUsers(getInfoList(usersList));
-        cluster.setAttributes(getInfoList(attributesList));
+        HashMap<String, List<String>> usersMap = new HashMap<>();
+        usersMap.put("Users", getInfoList(usersList));
+
+
+        HashMap<String, List<String>> attributesMap = new HashMap<>();
+        usersMap.put("Attributes", getInfoList(attributesList));
+
+        cluster.setUsers(usersMap);
+        cluster.setAttributes(attributesMap);
 
         return cluster;
     }
