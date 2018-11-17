@@ -1,7 +1,6 @@
 <script src="lib/foundation/js/vendor/foundation.js"></script>
 <script src="lib/foundation/js/app.js"></script>
-<!-- <div class="row"> -->
-<div class="grid-container grid-container-padded">
+<div class="grid-container grid-container-padded full">
   <div class="grid-y">
     <div class="cell">
       <div class="card">
@@ -22,7 +21,22 @@
             <li class="accordion-item" data-accordion-item>
               <a href="" class="accordion-title">Cluster Board</a>
               <div class="accordion-content" data-tab-content>
-                <p>working</p>
+                <div class="grid-container">
+                  <div class="grid-y">
+                    <div class="cell" ng-repeat="cluster in clusterBoard">
+                      <h6 class="subheader">Cluster: {{$index}}</h6>
+                      <p class="font-chart"><strong>Users:</strong> <span ng-repeat="userName in cluster.users.Users">{{userName}}
+                          <span ng-if="$index < cluster.users.Users.length - 1">,</span>
+                        </span>
+                      </p>
+                      <p class="font-chart"><strong>Attributes:</strong> <span ng-repeat="attribute in cluster.users.Attributes">{{attribute}}
+                          <span ng-if="$index < cluster.users.Attributes.length - 1">,</span>
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </li>
           </ul>

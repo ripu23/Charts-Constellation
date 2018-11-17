@@ -30,9 +30,9 @@ app.controller("HomeController", ['$scope',
     $scope.chartOptions = [];
     $scope.userOptions = [];
     $scope.attributeOptions = [];
-    $scope.fruitNames = ['Apple', 'Banana', 'Orange'];
     $scope.filters = {};
     $scope.filters.filterList = [];
+    $scope.clusterBoard = [];
     var bubbles = new BubbleSet();
     var main = document.getElementById("main");
     var items = appendSVG(main, "g");
@@ -79,6 +79,7 @@ app.controller("HomeController", ['$scope',
       if (err) throw err;
     });
 
+
     $(document).on('moved.zf.slider', function() {
       // console.log($('#timelineLeft').attr('value'));
       // console.log($('#timelineRight').attr('value'));
@@ -100,8 +101,9 @@ app.controller("HomeController", ['$scope',
             removePaths();
             removeAllChilds(items);
             items = appendSVG(main, "g");
-            clusters = data.data;
-            ShareData.clusters = data.data;
+            clusters = data.data.coordinatesList;
+            $scope.clusterBoard = data.data.clusters;
+            ShareData.clusters = data.data.coordinatesList;
             createClusters(clusters);
           }, function(err) {
             if (err) throw err;
