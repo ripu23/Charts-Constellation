@@ -36,8 +36,8 @@ public class ClusterUtil {
             idChartsMap.put(entry.getKey(), clusterCharts);
         }
 
-        System.out.println(idChartsMap);
-        System.out.println(idChartsMap.size());
+        //System.out.println(idChartsMap);
+        //System.out.println(idChartsMap.size());
         return aggregateClusterInfo(idChartsMap);
 
     }
@@ -48,7 +48,7 @@ public class ClusterUtil {
 
         for(Map.Entry<Integer, List<Chart>> entry : idChartsMap.entrySet()) {
             Cluster cluster = getInfo(entry.getValue());
-            cluster.setClusterId(entry.getKey());
+            cluster.setClusterId(entry.getKey() + 1);
             clusterList.add(cluster);
         }
 
@@ -63,9 +63,20 @@ public class ClusterUtil {
         List<String> usersList = new ArrayList<>();
 
         for(Chart chart : charts) {
-            Set<String> attributes = chart.getAttributes();
+            Set<String> attributes = new HashSet<>();
+            try {
+                attributes = chart.getAttributes();
+            } catch(Exception e) {
+
+            }
+
             String user = chart.getUser();
-            attributesList.addAll(attributes);
+            if (attributes == null) {
+                attributesList.addAll(new HashSet<String>());
+            } else {
+                attributesList.addAll(attributes);
+            }
+
             usersList.add(user);
         }
 

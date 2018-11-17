@@ -80,26 +80,26 @@ public class CoordinatesUtil {
 
         }
 
-        System.out.println("input = ");
-
-        for(int i=0; i< input.length; i++) {
-            for(int j=0; j < input[0].length; j++) {
-                System.out.print(input[i][j]+" ");
-            }
-            System.out.println();
-        }
-
+//        System.out.println("input = ");
+//
+//        for(int i=0; i< input.length; i++) {
+//            for(int j=0; j < input[0].length; j++) {
+//                System.out.print(input[i][j]+" ");
+//            }
+//            System.out.println();
+//        }
+//
         double output[][] = mdsUtil.classicalScaling(input);
         List<IdCoordinates> coordinates = new ArrayList<>();
+//
+//        System.out.println("output = ");
 
-        System.out.println("output = ");
-
-        for(int i=0; i< output[0].length; i++) {
-            for(int j=0; j < output.length; j++) {
-                System.out.print(output[j][i]+" ");
-            }
-            System.out.println();
-        }
+//        for(int i=0; i< output[0].length; i++) {
+//            for(int j=0; j < output.length; j++) {
+//                System.out.print(output[j][i]+" ");
+//            }
+//            System.out.println();
+//        }
 
 
 

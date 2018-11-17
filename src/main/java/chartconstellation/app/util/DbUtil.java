@@ -126,7 +126,7 @@ public class DbUtil {
         BasicDBObject inQuery = new BasicDBObject();
         DBCursor dbCursor = null;
         if(charts != null) {
-            inQuery.put("user", new BasicDBObject("$in", users));
+            inQuery.put("chartType", new BasicDBObject("$in", charts));
         }
         if(users != null) {
             inQuery.put("user", new BasicDBObject("$in", users));
