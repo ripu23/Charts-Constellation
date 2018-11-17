@@ -147,8 +147,12 @@ app.controller("HomeController", ['$scope',
     function createPaths() {
       paths = [];
       _.forEach(clustersUI, function(cluster, idx) {
+        var svg = appendSVG(main, "path");
+        attr(svg, {
+          id: "path" + idx
+        });
         paths.push({
-          svg: appendSVG(main, "path")
+          svg: svg
         })
       });
       update();

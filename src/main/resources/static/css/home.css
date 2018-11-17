@@ -51,3 +51,8 @@
 #main .ui-selected {
   background: #999;
 }
+
+path:hover { 
+    
+    fill: yellow;
+}
