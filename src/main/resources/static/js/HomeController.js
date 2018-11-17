@@ -207,6 +207,17 @@ app.controller("HomeController", ['$scope',
     }
 
 
+    $scope.highlightCluster = function(idx) {
+      if(idx){
+        $("#path" + idx).css("fill","blue")
+      }
+    }
+
+    $scope.removeCss = function(idx){
+      if(idx){
+        $("#path" + idx).css("fill","")
+      }
+    }
     $scope.updateFilter = function() {
       populateWeight();
       var colorMap;
