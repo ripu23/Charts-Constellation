@@ -112,10 +112,14 @@ public class CoordinatesController {
 //            System.out.println(coordinatesMap);
             List<Cluster> clusterList = clusterUtil.generateClusterInfo(coordinatesMap, chartObjs);
 
+            //System.out.println(clusterList);
+            //System.out.println(coordinatesMap.values());
+
             OutputResponse outputResponse = new OutputResponse();
             outputResponse.setCoordinatesList(coordinatesMap.values());
             outputResponse.setClusters(clusterList);
 
+            System.out.println(outputResponse.toString());
             return outputResponse;
 
 		} catch (IOException e) {
