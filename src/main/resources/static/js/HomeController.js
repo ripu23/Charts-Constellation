@@ -135,10 +135,12 @@ app.controller("HomeController", ['$scope',
 
     function createClusters(clustersArray) {
       clustersUI = {};
+      let counter = 0;
       _.forEach(clustersArray, function(clusters, i) {
         clustersUI[i] = [];
         _.forEach(clusters, function(cluster) {
-          addRect(clustersUI[i], "grey", cluster.point.x, cluster.point.y, cluster.color);
+          addRect(clustersUI[i], "grey", cluster.point.x, cluster.point.y, cluster.color, counter, cluster.userName);
+          counter++;
         })
       });
       createPaths();
@@ -216,6 +218,17 @@ app.controller("HomeController", ['$scope',
     $scope.removeCss = function(idx) {
       $("#path" + idx).css("fill", "")
 
+    }
+
+    $scope.highlightCirclesForUser = function(userId) {
+      $( "circle[userId=" + "'" + userId.userName + "']" ).css({
+        "stroke": "black",
+        "stroke-width" : 3
+      })
+    }
+
+    $scope.removeHighlightFromCircles = function(userId) {
+      $( "circle[userId=" + "'" + userId.userName + "']" ).removeAttr("style");
     }
     $scope.updateFilter = function() {
       populateWeight();
@@ -436,7 +449,7 @@ app.controller("HomeController", ['$scope',
       return parent.appendChild(document.createElementNS("http://www.w3.org/2000/svg", name));
     }
 
-    function addRect(clustersUI, clusterColor, cx, cy, pointColor) {
+    function addRect(clustersUI, clusterColor, cx, cy, pointColor, circleId, userId) {
       var width = 40;
       var height = 30;
       var elem = appendSVG(items, "circle"); //creates a circle
@@ -444,7 +457,9 @@ app.controller("HomeController", ['$scope',
         cx: cx,
         cy: cy,
         r: 8,
-        fill: "#" + pointColor
+        fill: "#" + pointColor,
+        id: "circle" + circleId,
+        userId: userId
       });
       style(elem, {
         "stroke": "black",

@@ -73,7 +73,7 @@
               <div class="accordion-content" data-tab-content>
                 <table class="unstriped">
                   <tr ng-repeat="user in users">
-                    <td><input type="checkbox" id="user-{{$index}}" ng-model="userOptions[$index]">
+                    <td ng-mouseover="highlightCirclesForUser(user)" ng-mouseleave="removeHighlightFromCircles(user)"><input type="checkbox" id="user-{{$index}}" ng-model="userOptions[$index]">
                       <label class="font-chart" for="user-{{$index}}">{{user.userName}}</label></td>
                     <td style="background-color: #{{user.color}}; width:5px;"></td>
                   </tr>
