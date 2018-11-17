@@ -148,6 +148,7 @@ app.controller("HomeController", ['$scope',
       paths = [];
       _.forEach(clustersUI, function(cluster, idx) {
         var svg = appendSVG(main, "path");
+        // idx += 1;
         attr(svg, {
           id: "path" + idx
         });
@@ -208,15 +209,13 @@ app.controller("HomeController", ['$scope',
 
 
     $scope.highlightCluster = function(idx) {
-      if(idx){
-        $("#path" + idx).css("fill","blue")
-      }
+      $("#path" + idx).css("fill", "blue")
+
     }
 
-    $scope.removeCss = function(idx){
-      if(idx){
-        $("#path" + idx).css("fill","")
-      }
+    $scope.removeCss = function(idx) {
+      $("#path" + idx).css("fill", "")
+
     }
     $scope.updateFilter = function() {
       populateWeight();
