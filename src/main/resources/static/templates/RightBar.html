@@ -24,7 +24,7 @@
                 <div class="grid-container">
                   <div class="grid-y">
                     <div class="cell" ng-repeat="cluster in clusterBoard">
-                      <h6 class="subheader">Cluster: {{$index}}</h6>
+                      <h6 class="subheader">Cluster: {{$index + 1}}</h6>
                       <p class="font-chart"><strong>Users:</strong> <span ng-repeat="userName in cluster.users.Users">{{userName}}
                           <span ng-if="$index < cluster.users.Users.length - 1">,</span>
                         </span>
