@@ -69,7 +69,7 @@ public class ClusterUtil {
         List<String> keywordList = new ArrayList<>();
 
         for(Chart chart : charts) {
-            Set<String> attributes = new HashSet<>();
+            List<String> attributes = new ArrayList<>();
             try {
                 attributes = chart.getAttributes();
             } catch(Exception e) {

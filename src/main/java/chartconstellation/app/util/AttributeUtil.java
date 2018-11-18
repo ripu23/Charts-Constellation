@@ -31,14 +31,23 @@ public class AttributeUtil {
         return 1d / (sa + sb - intersection) * intersection;
     }
 
-    public Set<String> getAttributesOfaObject(JSONObject jsonObj) {
+    public List<String> getAttributesOfaObject(JSONObject jsonObj) {
 
-        Set<String> attrs = new HashSet<>();
+        List<String> attrs = new ArrayList<>();
 
         try {
             String xattr = jsonObj.getJSONObject("encoding").getJSONObject("x").get("field").toString();
-            //String yattr = jsonObj.getJSONObject("encoding").getJSONObject("y").get("field").toString();
             attrs.add(xattr);
+        } catch(Exception e) {
+
+        }
+
+        try {
+            JSONObject obj = jsonObj.getJSONObject("encoding").getJSONObject("y");
+            if(obj.has("field")) {
+                String yattr = obj.get("field").toString();
+                attrs.add(yattr);
+            }
         } catch(Exception e) {
 
         }
@@ -78,7 +87,7 @@ public class AttributeUtil {
         Set<String> allAttributes = new HashSet<>();
         for(DBObject obj : docs) {
             JSONObject jsonObj = new JSONObject(obj.toString());
-            Set<String> set = getAttributesOfaObject(jsonObj);
+            Set<String> set = new HashSet<String>(getAttributesOfaObject(jsonObj));
             allAttributes.addAll(set);
         }
         return allAttributes;
@@ -105,9 +114,13 @@ public class AttributeUtil {
                         JSONObject jsonObj1 = new JSONObject(obj1.toString());
                         JSONObject jsonObj2 = new JSONObject(obj2.toString());
 
+                        Set<String> set1 = new HashSet<String>(getAttributesOfaObject(jsonObj1));
+                        Set<String> set2 = new HashSet<String>(getAttributesOfaObject(jsonObj2));
+
+
                         Double val = jaccardSimilarity(
-                                getAttributesOfaObject(jsonObj1),
-                                getAttributesOfaObject(jsonObj2)
+                                set1,
+                                set2
                         );
 
                         values.add(new IdValue(String.valueOf(id2), val));
@@ -129,7 +142,7 @@ public class AttributeUtil {
         HashMap<String, Integer> attributesMap = new HashMap<>();
 
         for(Chart chart : charts) {
-            Set<String> attributes = chart.getAttributes();
+            List<String> attributes = chart.getAttributes();
             for(String str : attributes) {
                 if(attributesMap.containsKey(str)) {
                     attributesMap.put(str, attributesMap.get(str) + 1);

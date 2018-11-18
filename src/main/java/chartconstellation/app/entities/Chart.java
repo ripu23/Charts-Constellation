@@ -3,6 +3,7 @@ package chartconstellation.app.entities;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
 import java.util.Set;
 
 
@@ -17,13 +18,13 @@ public class Chart {
 	private DateTime dateTime;
 	private String chartType;
 	private String title;
-	private Set<String> attributes;
+	private List<String> attributes;
 
-	public Set<String> getAttributes() {
+	public List<String> getAttributes() {
 		return attributes;
 	}
 
-	public void setAttributes(Set<String> attributes) {
+	public void setAttributes(List<String> attributes) {
 		this.attributes = attributes;
 	}
 
