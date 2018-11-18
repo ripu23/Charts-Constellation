@@ -97,12 +97,12 @@ public class ClusterUtil {
         HashMap<String, List<String>> attributesMap = new HashMap<>();
         usersMap.put("Attributes", getInfoList(attributesList));
 
-        HashMap<String, List<String>> keywordsMap = new HashMap<>();
-        keywordsMap.put("keywords", getTokenizedList(keywordList));
+//        HashMap<String, List<String>> keywordsMap = new HashMap<>();
+//        keywordsMap.put("keywords", getTokenizedList(keywordList));
 
         cluster.setUsers(usersMap);
         cluster.setAttributes(attributesMap);
-        cluster.setKeywords(keywordsMap);
+        cluster.setKeywords(getTokenizedList(keywordList));
 
         return cluster;
     }

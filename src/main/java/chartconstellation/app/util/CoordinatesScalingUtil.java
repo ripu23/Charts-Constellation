@@ -23,8 +23,15 @@ public class CoordinatesScalingUtil {
         List<Double> yvalues = new ArrayList<>();
 
         for(IdCoordinates idCoordinate : this.coordinatesList) {
-            xvalues.add(idCoordinate.getPoint().getX());
-            yvalues.add(idCoordinate.getPoint().getY());
+            Point point = idCoordinate.getPoint();
+            if(Double.isNaN(point.getX())) {
+                System.out.println("X coordinate is NaN");
+            }
+            if(Double.isNaN(point.getY())) {
+                System.out.println("Y coordinate is NaN");
+            }
+            xvalues.add(point.getX());
+            yvalues.add(point.getY());
         }
 
         //System.out.println(xvalues);

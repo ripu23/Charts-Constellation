@@ -137,7 +137,7 @@ public class AttributeUtil {
         return distances;
     }
 
-    public HashMap<String, Integer>  getAttributesList(List<Chart> charts) {
+    public HashMap<String, Integer> getAttributesList(List<Chart> charts) {
 
         HashMap<String, Integer> attributesMap = new HashMap<>();
 

@@ -44,9 +44,9 @@ public class CoordinatesController {
         List<FeatureVector> featurevectors = dbUtil.getFeaturesFromCollection(configuration.getMongoDatabase(),
                 configuration.getTotalFeatureCollection());
 
-        HashMap<Integer, List<IdCoordinates>> coordinatesMap = coordinatesUtil.getCoordinates(3, featurevectors, descWeight, attrWeight, chartEncodingWeight, colorMap);
-
         List<Chart> chartObjs = dbUtil.getAttributesFromCollection(configuration.getMongoDatabase(), configuration.getOlympicchartcollection());
+
+        HashMap<Integer, List<IdCoordinates>> coordinatesMap = coordinatesUtil.getCoordinates(chartObjs, 3, featurevectors, descWeight, attrWeight, chartEncodingWeight, colorMap);
 
         List<Cluster> clusterList = clusterUtil.generateClusterInfo(coordinatesMap, chartObjs);
 
@@ -54,7 +54,7 @@ public class CoordinatesController {
 
         DataCoverageResponse dataCoverageResponse = new DataCoverageResponse();
         dataCoverageResponse.setAttributesMap(attributesMap);
-        dataCoverageResponse.setAttributeKeys(attributesMap.keySet());
+        //dataCoverageResponse.setAttributeKeys(attributesMap.keySet());
 
         OutputResponse outputResponse = new OutputResponse();
         outputResponse.setCoordinatesList(coordinatesMap.values());
@@ -115,7 +115,7 @@ public class CoordinatesController {
 //            System.out.println("Filterd feature vectors "+filteredFeatureVectors.size());
 //            System.out.println(filteredFeatureVectors);
 
-            HashMap<Integer, List<IdCoordinates>> coordinatesMap = coordinatesUtil.getCoordinates(2, filteredFeatureVectors, 0.4, 0.4,0.2, colorMap);
+            HashMap<Integer, List<IdCoordinates>> coordinatesMap = coordinatesUtil.getCoordinates(chartObjs,2, filteredFeatureVectors, 0.4, 0.4,0.2, colorMap);
 //            System.out.println("Filtered coordinates map "+coordinatesMap);
 //            System.out.println(coordinatesMap);
             List<Cluster> clusterList = clusterUtil.generateClusterInfo(coordinatesMap, chartObjs);
@@ -127,7 +127,7 @@ public class CoordinatesController {
 
             DataCoverageResponse dataCoverageResponse = new DataCoverageResponse();
             dataCoverageResponse.setAttributesMap(attributesMap);
-            dataCoverageResponse.setAttributeKeys(attributesMap.keySet());
+            //dataCoverageResponse.setAttributeKeys(attributesMap.keySet());
 
             OutputResponse outputResponse = new OutputResponse();
             outputResponse.setCoordinatesList(coordinatesMap.values());

@@ -20,7 +20,7 @@ public class Kmeans {
 
     private ClusterParams params;
 
-    public List<Point> intitializeCentroids(List<IdCoordinates> idCoordinates) {
+    public List<Point> intitializeCentroids(int k, List<IdCoordinates> idCoordinates) {
 
         int size = idCoordinates.size();
 
@@ -28,7 +28,7 @@ public class Kmeans {
 
         Collections.shuffle(idCoordinates);
 
-        for(int i=0; i<clusterParams.getClusterSize(); i++) {
+        for(int i=0; i<k; i++) {
             Random r = new Random();
             //int index = r.nextInt((size - 1) + 1);
             int index = i;
@@ -85,25 +85,58 @@ public class Kmeans {
         }
 
         List<Point> newCentroids = new ArrayList<>();
+//
+//        TreeMap<Integer, Cluster> sorted = new TreeMap<>();
+//        sorted.putAll(clusterMap);
 
         for(Map.Entry<Integer, Cluster> cluster : clusterMap.entrySet()) {
+            //System.out.print(cluster.getKey()+" ");
             Point point = cluster.getValue().getMeanPoint();
             newCentroids.add(point);
         }
+        //System.out.println();
 
         return newCentroids;
     }
 
-    public List<IdCoordinates> runKmeansCLustering(List<IdCoordinates> idCoordinates) {
+    public List<IdCoordinates>  getClusteredPoints(int k, List<IdCoordinates> idCoordinates) {
 
-        List<Point> centroids = intitializeCentroids(idCoordinates);
-        System.out.println(centroids);
         List<IdCoordinates> modifiedCoordinates = new ArrayList<>();
+        List<Point> centroids = intitializeCentroids(k , idCoordinates);
+        System.out.println(centroids);
+
         for(int i=0 ; i<clusterParams.getIterations(); i++) {
             modifiedCoordinates = expectation(idCoordinates, centroids);
             centroids = maximisation(modifiedCoordinates);
         }
-
+        System.out.println("Cluster size = "+ k + " MSE = "+ MSE(centroids, modifiedCoordinates));
         return modifiedCoordinates;
+    }
+
+    public List<IdCoordinates> runKmeansCLustering(List<IdCoordinates> idCoordinates) {
+
+        int pointsSize = idCoordinates.size();
+
+        if(pointsSize <= 3) {
+            int k = 1;
+            return getClusteredPoints(k, idCoordinates);
+        } else {
+
+            int k = (int) Math.sqrt((double)pointsSize/2) + 1;
+            return getClusteredPoints(k, idCoordinates);
+        }
+    }
+
+    private Double MSE(List<Point> centroids, List<IdCoordinates> idCoordinates) {
+
+        Double mse = 0.0;
+        int size = idCoordinates.size();
+
+        for(IdCoordinates idCoordinate : idCoordinates) {
+            int id = idCoordinate.getClusterId();
+            Point centroid = centroids.get(id-1);
+            mse += kmeansUtil.getEuclideanDistance(centroid, idCoordinate.getPoint());
+        }
+        return mse/size;
     }
 }

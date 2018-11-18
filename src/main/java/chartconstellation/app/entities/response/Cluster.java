@@ -15,7 +15,7 @@ public class Cluster {
 
     private HashMap<String, List<String>> attributes;
 
-    private HashMap<String, List<String>> keywords;
+    private List<String> keywords;
 
     public int getClusterId() {
         return clusterId;
@@ -49,11 +49,11 @@ public class Cluster {
         this.size = size;
     }
 
-    public HashMap<String, List<String>> getKeywords() {
+    public List<String> getKeywords() {
         return keywords;
     }
 
-    public void setKeywords(HashMap<String, List<String>> keywords) {
+    public void setKeywords(List<String> keywords) {
         this.keywords = keywords;
     }
 
