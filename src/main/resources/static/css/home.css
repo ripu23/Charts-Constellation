@@ -52,6 +52,24 @@
   background: #999;
 }
 
-path:hover { 
+path:hover {
     fill: yellow;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: 3fr 2fr 1fr;
+  grid-template-rows: 3fr 2fr 1fr;
+  grid-gap: 1em;
+  grid-auto-rows: minmax(60px, auto);
+  grid-auto-columns: minmax(60px, auto);
+}
+
+.wrapper>div {
+  background: #eee;
+  padding: 1em;
+}
+
+.wrapper>div:nth-child(odd) {
+  background: #ddd;
 }

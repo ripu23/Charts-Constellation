@@ -16,23 +16,22 @@ app.controller("HomeController", ['$scope',
     let clustersUI = {};
     let paths = [];
     let colors = [];
-    const distances = ShareData.distances;
-    const coordinates = ShareData.coordinates;
-    const users = ShareData.users;
     const offSet = $("#charts").offset();
-    $scope.users = ShareData.users;
-    $scope.chartTypes = ShareData.chartTypes;
-    $scope.dataCoverageCoefficient = ShareData.dataCoverageCoefficient;
-    $scope.encodingCoefficient = ShareData.encodingCoefficient;
-    $scope.descriptionCoefficient = ShareData.descriptionCoefficient;
+    $scope.users = ShareData.data.users;
+    $scope.chartTypes = ShareData.data.chartTypes;
+    $scope.dataCoverageCoefficient = ShareData.data.dataCoverageCoefficient;
+    $scope.encodingCoefficient = ShareData.data.encodingCoefficient;
+    $scope.descriptionCoefficient = ShareData.data.descriptionCoefficient;
     $scope.timelineLeft;
     $scope.timelineRight;
-    $scope.chartOptions = [];
-    $scope.userOptions = [];
-    $scope.attributeOptions = [];
-    $scope.filters = {};
-    $scope.filters.filterList = [];
-    $scope.clusterBoard = [];
+    $scope.chartOptions = ShareData.data.chartOptions;
+    $scope.userOptions = ShareData.data.userOptions;
+    $scope.attributeOptions = ShareData.data.attributeOptions;
+    $scope.filters = ShareData.data.filters;
+    $scope.clusterBoard = ShareData.data.clusterBoard;
+    $scope.dataCoverage = ShareData.data.dataCoverage;
+    $scope.dataCoverage.countAttributes = ShareData.data.dataCoverage.countAttributes;
+    $scope.dataCoverage.AttributeMap = ShareData.data.dataCoverage.AttributeMap;
     var bubbles = new BubbleSet();
     var main = document.getElementById("main");
     var items = appendSVG(main, "g");
@@ -211,13 +210,12 @@ app.controller("HomeController", ['$scope',
 
 
     $scope.highlightCluster = function(idx) {
-      $("#path" + idx).css("fill", "blue")
+      $("#path" + idx).css("fill", "blue");
 
     }
 
     $scope.removeCss = function(idx) {
-      $("#path" + idx).css("fill", "")
-
+      $("#path" + idx).css("fill", "");
     }
 
     $scope.highlightCirclesForUser = function(userId) {
@@ -250,8 +248,8 @@ app.controller("HomeController", ['$scope',
         removePaths();
         main = document.getElementById("main");
         items = appendSVG(main, "g");
-        clusters = data.data;
-        ShareData.clusters = data.data;
+        clusters = data.data.coordinatesList;
+        ShareData.clusters = data.data.coordinatesList;
         createClusters(clusters);
         domCreated = false;
       }, function(err) {
@@ -301,6 +299,7 @@ app.controller("HomeController", ['$scope',
 
     function populateChartFilter() {
       if ($scope.chartOptions.length > 0) {
+        ShareData.chartOptions = $scope.chartOptions;
         $scope.filters.filterList = _.reject($scope.filters.filterList, function(val, key) {
           if (val && val.map && val.map.charts) return true;
         });
@@ -319,6 +318,7 @@ app.controller("HomeController", ['$scope',
 
     function populateUserFilter() {
       if ($scope.userOptions.length > 0) {
+        ShareData.userOptions = $scope.userOptions;
         $scope.filters.filterList = _.reject($scope.filters.filterList, function(val, key) {
           if (val && val.map && val.map.users) return true;
         });
@@ -337,6 +337,7 @@ app.controller("HomeController", ['$scope',
 
     function populateAttributeFilter() {
       if ($scope.attributeOptions.length > 0) {
+        ShareData.attributeOptions = $scope.attributeOptions;
         $scope.filters.filterList = _.reject($scope.filters.filterList, function(val, key) {
           if (val && val.map && val.map.attributes) return true;
         });

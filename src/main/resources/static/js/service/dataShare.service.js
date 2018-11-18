@@ -7,9 +7,17 @@ app.factory('ShareData', function() {
   data.descWeight = 1;
   data.distances = [];
   data.clusters = [];
-  data.users = [];
   data.chartTypes = [];
   data.users = [];
+  data.chartOptions = [];
+  data.userOptions = [];
+  data.attributeOptions = [];
+  data.clusterBoard = [];
+  data.dataCoverage = {};
+  data.dataCoverage.countAttributes = [];
+  data.dataCoverage.AttributeMap = [];
+  data.filters = {};
+  data.filters.filterList = [];
 	return {
 		data: data
   }
