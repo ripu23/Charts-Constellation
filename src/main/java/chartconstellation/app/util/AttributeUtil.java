@@ -1,10 +1,8 @@
 package chartconstellation.app.util;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
+import chartconstellation.app.entities.Chart;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -121,6 +119,45 @@ public class AttributeUtil {
         }
 
         return distances;
+    }
+
+    public HashMap<String, Integer>  getAttributesList(List<Chart> charts) {
+
+        HashMap<String, Integer> attributesMap = new HashMap<>();
+
+        for(Chart chart : charts) {
+            Set<String> attributes = chart.getAttributes();
+            for(String str : attributes) {
+                if(attributesMap.containsKey(str)) {
+                    attributesMap.put(str, attributesMap.get(str) + 1);
+                } else {
+                    attributesMap.put(str, 1);
+                }
+
+            }
+        }
+        return sortMap(attributesMap);
+
+    }
+
+    public HashMap<String, Integer>  sortMap(HashMap<String, Integer> attributesMap ) {
+
+        List<Map.Entry<String, Integer> > list =
+                new LinkedList<Map.Entry<String, Integer> >(attributesMap.entrySet());
+
+        Collections.sort(list, new Comparator<Map.Entry<String, Integer> >() {
+            public int compare(Map.Entry<String, Integer> o1,
+                               Map.Entry<String, Integer> o2)
+            {
+                return -1 * (o1.getValue()).compareTo(o2.getValue());
+            }
+        });
+
+        HashMap<String, Integer> temp = new LinkedHashMap<String, Integer>();
+        for (Map.Entry<String, Integer> aa : list) {
+            temp.put(aa.getKey(), aa.getValue());
+        }
+        return temp;
     }
 
 

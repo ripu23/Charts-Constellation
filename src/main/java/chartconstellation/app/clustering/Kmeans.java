@@ -1,10 +1,6 @@
 package chartconstellation.app.clustering;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,9 +26,12 @@ public class Kmeans {
 
         List<Point> points = new ArrayList<>();
 
+        Collections.shuffle(idCoordinates);
+
         for(int i=0; i<clusterParams.getClusterSize(); i++) {
             Random r = new Random();
-            int index = r.nextInt((size - 1) + 1);
+            //int index = r.nextInt((size - 1) + 1);
+            int index = i;
             points.add(new Point(idCoordinates.get(index).getPoint().getX(), idCoordinates.get(index).getPoint().getY()));
         }
 
@@ -50,7 +49,7 @@ public class Kmeans {
             int id = 0;
             for(int i=1; i<=centroids.size(); i++) {
                 double dist = kmeansUtil.getEuclideanDistance(centroids.get(i-1), idCoordinate.getPoint());
-                if(dist < min) {
+                if(dist <= min) {
                     min = dist;
                     id = i;
                 }
@@ -98,6 +97,7 @@ public class Kmeans {
     public List<IdCoordinates> runKmeansCLustering(List<IdCoordinates> idCoordinates) {
 
         List<Point> centroids = intitializeCentroids(idCoordinates);
+        System.out.println(centroids);
         List<IdCoordinates> modifiedCoordinates = new ArrayList<>();
         for(int i=0 ; i<clusterParams.getIterations(); i++) {
             modifiedCoordinates = expectation(idCoordinates, centroids);
