@@ -6,9 +6,13 @@ import chartconstellation.app.entities.response.IdCoordinates;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component
 public class ClusterUtil {
+
+    //private Set<String> stopwords = ['manoj'];
 
     public List<Cluster> generateClusterInfo(HashMap<Integer, List<IdCoordinates>> coordinatesMap, List<Chart> charts) {
 
@@ -49,6 +53,7 @@ public class ClusterUtil {
         for(Map.Entry<Integer, List<Chart>> entry : idChartsMap.entrySet()) {
             Cluster cluster = getInfo(entry.getValue());
             cluster.setClusterId(entry.getKey() + 1);
+            cluster.setSize(entry.getValue().size());
             clusterList.add(cluster);
         }
 
@@ -61,6 +66,7 @@ public class ClusterUtil {
 
         List<String> attributesList = new ArrayList<>();
         List<String> usersList = new ArrayList<>();
+        List<String> keywordList = new ArrayList<>();
 
         for(Chart chart : charts) {
             Set<String> attributes = new HashSet<>();
@@ -78,6 +84,10 @@ public class ClusterUtil {
             }
 
             usersList.add(user);
+            String desc = chart.getDescription();
+            String title = chart.getTitle();
+            keywordList.add(desc);
+            keywordList.add(title);
         }
 
         HashMap<String, List<String>> usersMap = new HashMap<>();
@@ -87,8 +97,12 @@ public class ClusterUtil {
         HashMap<String, List<String>> attributesMap = new HashMap<>();
         usersMap.put("Attributes", getInfoList(attributesList));
 
+        HashMap<String, List<String>> keywordsMap = new HashMap<>();
+        keywordsMap.put("keywords", getTokenizedList(keywordList));
+
         cluster.setUsers(usersMap);
         cluster.setAttributes(attributesMap);
+        cluster.setKeywords(keywordsMap);
 
         return cluster;
     }
@@ -105,7 +119,10 @@ public class ClusterUtil {
                 map.put(s, 1);
             }
         }
+        return generateListFromaMap(map);
+    }
 
+    public List<String> generateListFromaMap( HashMap<String, Integer> map ) {
         List<String> list = new ArrayList<>();
 
         for(Map.Entry<String, Integer> entry : map.entrySet()) {
@@ -115,5 +132,36 @@ public class ClusterUtil {
         }
 
         return list;
+    }
+
+    public List<String> getTokenizedList(List<String> list) {
+
+        HashMap<String, Integer> map = new HashMap<>();
+
+        try {
+
+            for (String str : list) {
+                //String input = "Input text, with words, punctuation, etc. Well, it's rather short.";
+                Pattern p = Pattern.compile("[\\w']+");
+                Matcher m = p.matcher(str);
+
+                while (m.find()) {
+                    String s = str.substring(m.start(), m.end()).toLowerCase();
+                    if (map.containsKey(s)) {
+                        int val = map.get(s);
+                        map.put(s, val + 1);
+                    } else {
+                        map.put(s, 1);
+                    }
+                }
+            }
+
+            return generateListFromaMap(map);
+
+        } catch(Exception e) {
+
+        }
+
+        return new ArrayList<>();
     }
 }

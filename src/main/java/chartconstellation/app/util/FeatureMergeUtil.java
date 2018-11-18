@@ -83,7 +83,7 @@ public class FeatureMergeUtil {
                         list.add(new IdFeatures(value1.getId(),
                                 (10 * (1- value2.getValue())),
                                 10 * (1- value1.getValue()),
-                                10.0));
+                                20.0));
                     }
                 }
             }
