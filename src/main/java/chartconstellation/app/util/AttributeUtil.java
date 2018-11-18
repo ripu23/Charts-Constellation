@@ -36,8 +36,9 @@ public class AttributeUtil {
         Set<String> attrs = new HashSet<>();
 
         try {
-            String attr = jsonObj.getJSONObject("encoding").getJSONObject("x").get("field").toString();
-            attrs.add(attr);
+            String xattr = jsonObj.getJSONObject("encoding").getJSONObject("x").get("field").toString();
+            //String yattr = jsonObj.getJSONObject("encoding").getJSONObject("y").get("field").toString();
+            attrs.add(xattr);
         } catch(Exception e) {
 
         }
@@ -47,8 +48,10 @@ public class AttributeUtil {
             JSONArray arr = jsonObj.getJSONArray("layer");
             for(int i=0 ;i < arr.length(); i++) {
                 JSONObject obj = arr.getJSONObject(i);
-                String attr = obj.getJSONObject("encoding").getJSONObject("x").get("field").toString();
-                attrs.add(attr);
+                String xattr = obj.getJSONObject("encoding").getJSONObject("x").get("field").toString();
+                String yattr = obj.getJSONObject("encoding").getJSONObject("y").get("field").toString();
+                attrs.add(xattr);
+                attrs.add(yattr);
             }
 
         } catch(Exception e) {

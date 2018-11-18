@@ -54,6 +54,7 @@ public class CoordinatesController {
 
         DataCoverageResponse dataCoverageResponse = new DataCoverageResponse();
         dataCoverageResponse.setAttributesMap(attributesMap);
+        dataCoverageResponse.setAttributeKeys(attributesMap.keySet());
 
         OutputResponse outputResponse = new OutputResponse();
         outputResponse.setCoordinatesList(coordinatesMap.values());
@@ -122,9 +123,16 @@ public class CoordinatesController {
             //System.out.println(clusterList);
             //System.out.println(coordinatesMap.values());
 
+            HashMap<String, Integer> attributesMap = attributeUtil.getAttributesList(chartObjs);
+
+            DataCoverageResponse dataCoverageResponse = new DataCoverageResponse();
+            dataCoverageResponse.setAttributesMap(attributesMap);
+            dataCoverageResponse.setAttributeKeys(attributesMap.keySet());
+
             OutputResponse outputResponse = new OutputResponse();
             outputResponse.setCoordinatesList(coordinatesMap.values());
             outputResponse.setClusters(clusterList);
+            outputResponse.setDataCoverage(dataCoverageResponse);
 
             System.out.println(outputResponse.toString());
             return outputResponse;
