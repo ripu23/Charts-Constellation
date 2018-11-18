@@ -2,7 +2,7 @@
 <script src="lib/foundation/js/app.js"></script>
 <div class="grid-container grid-container-padded full">
   <div class="grid-y">
-    <div class="cell full">
+    <div class="cell">
       <div class="card">
         <div class="card-divider">Options</div>
         <div class="card-section">
@@ -10,11 +10,13 @@
             <li class="accordion-item" data-accordion-item>
               <a href="" class="accordion-title">Data Coverage Board</a>
               <div class="accordion-content" data-tab-content>
-                <div class="wrapper">
-                  <div ng-repeat="countAttribute in dataCoverage.countAttribute">
-                    {{countAttribute}}
+                
+                  <div class="wrapper">
+                    <div ng-repeat="(key, val) in dataCoverage.countAttributes">
+                      {{key}}
+                    </div>
                   </div>
-                </div>
+                
               </div>
             </li>
             <li class="accordion-item" data-accordion-item>

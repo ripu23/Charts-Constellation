@@ -103,6 +103,7 @@ app.controller("HomeController", ['$scope',
             clusters = data.data.coordinatesList;
             $scope.clusterBoard = data.data.clusters;
             ShareData.clusters = data.data.coordinatesList;
+            $scope.dataCoverage.countAttributes = data.data.dataCoverage.attributesMap;
             createClusters(clusters);
           }, function(err) {
             if (err) throw err;
