@@ -250,6 +250,8 @@ app.controller("HomeController", ['$scope',
         main = document.getElementById("main");
         items = appendSVG(main, "g");
         clusters = data.data.coordinatesList;
+        $scope.clusterBoard = data.data.clusters;
+        $scope.$apply();
         ShareData.clusters = data.data.coordinatesList;
         createClusters(clusters);
         domCreated = false;

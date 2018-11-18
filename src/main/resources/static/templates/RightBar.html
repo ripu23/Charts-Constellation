@@ -10,13 +10,13 @@
             <li class="accordion-item" data-accordion-item>
               <a href="" class="accordion-title">Data Coverage Board</a>
               <div class="accordion-content" data-tab-content>
-                
-                  <div class="wrapper">
-                    <div ng-repeat="(key, val) in dataCoverage.countAttributes">
-                      {{key}}
-                    </div>
+
+                <div class="wrapper">
+                  <div class="font-chart" ng-repeat="(key, val) in dataCoverage.countAttributes">
+                    {{key}}
                   </div>
-                
+                </div>
+
               </div>
             </li>
             <li class="accordion-item" data-accordion-item>
@@ -24,7 +24,7 @@
               <div class="accordion-content" data-tab-content>
                 <div class="grid-container">
                   <div class="grid-y">
-                    <div class="cell" ng-repeat="cluster in clusterBoard">
+                    <div class="cell" ng-repeat="cluster in clusterBoard track by $index">
                       <h6 class="subheader" ng-mouseover="highlightCluster($index)" ng-mouseleave="removeCss($index)">Cluster: {{$index + 1}}</h6>
                       <p class="font-chart"><strong>Users:</strong> <span ng-repeat="userName in cluster.users.Users">{{userName}}
                           <span ng-if="$index < cluster.users.Users.length - 1">,</span>
