@@ -1,0 +1,34 @@
+
+     {
+       
+		"id": 3,
+		"title": "Location wise crime counts for the period 2000-2003",
+      "data": {
+        "url" : "locVscount1.csv"  
+      },
+      "mark": {
+      "type": "bar"
+      },
+      "encoding": {
+        "x": {
+			//"timeUnit": "yearmonth",
+           "field": "Location Description", "type": "nominal"
+        },
+        "y": {"aggregate": "count", "field": "*", "type": "quantitative"}
+      },
+	  "color": {
+        "condition": {"test": "datum['count_*'] > 100", "value": "black"},
+        "value": "white"
+      },
+	   "color": {
+      "field": "Arrest",
+      "type": "nominal"
+    },
+      "config": {
+        "axis": {"shortTimeLabels": true}
+      },
+	  "user": "Anushka",
+  "chartType": "bar",
+  "description": "This dataset reveals that there is maximum crime rate in streets followed by the residence fo the period 2000-2003"
+    }
+   

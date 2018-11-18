@@ -1,0 +1,36 @@
+{
+   
+  "id": 1,
+  "title": "No of arrests Vs time for the period 2000-2003",
+      "data": {
+        "url" : "arrestVsmonth1.csv"  
+      },
+      "transform": [
+        {"filter": 
+          {"field": "Arrest", "equal": "TRUE"}
+        }
+      ],
+      "mark": {
+      "type": "line",
+        "interpolate": "monotone"
+      },
+      "encoding": {
+        "x": {
+			"timeUnit": "year",
+           "field": "YEAR", "type": "temporal",
+		   "axis": {"title": "YEAR"}
+        },
+        "y": {"aggregate": "count", "field": "*", "type": "quantitative"}
+      },
+	   "color": {
+      "field": "Description",
+      "type": "nominal"
+    },
+      "config": {
+        "axis": {"shortTimeLabels": true}
+      },
+	   "user": "Anushka",
+  "chartType": "line",
+  "description": "This dataset reveals that there is maximum number of arrests in the year 2000 and minimized gradually in 2003."
+    }
+    

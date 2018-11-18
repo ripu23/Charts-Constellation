@@ -1,0 +1,37 @@
+{
+    "id": 14,
+	"title": "Number of arrests Vs primary type of crime for the period 2009-2012",
+      "data": {
+        "url" : "PriTypeVsArrest3.csv"  
+      },
+      "transform": [
+        {"filter": 
+          {"field": "Arrest", "equal": "TRUE"}
+        }
+      ],
+      "mark": {
+      "type": "bar",
+        //"interpolate": "monotone"
+      },
+      "encoding": {
+        "x": {
+			//"timeUnit": "yearmonth",
+           "field": "Primary Type", "type": "nominal"
+        },
+        "y": {"aggregate": "count", "field": "*", "type": "quantitative"}
+      },
+	  "color": {
+        "condition": {"test": "datum['count_*'] > 100", "value": "black"},
+        "value": "white"
+      },
+	   "color": {
+      "field": "Arrest",
+      "type": "nominal"
+    },
+      "config": {
+        "axis": {"shortTimeLabels": true}
+      },
+	   "user": "Deepika",
+	   "chartType": "bar",
+	   "description": "This dataset reveals that there is maximum number of arrests for narcotics for the period 2009-2012"
+    }

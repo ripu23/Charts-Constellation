@@ -1,0 +1,34 @@
+{
+      "id": 20,
+	  "title": "Number of thefts Vs year for the period 2011-2016", 
+      "data": {
+        "url" : "homicides4.csv"  
+      },
+      "transform": [
+        {"filter": 
+          {"field": "Primary Type", "equal": "THEFT"}
+        }
+      ],
+      "mark": {
+      "type": "line",
+        "interpolate": "monotone"
+      },
+      "encoding": {
+        "x": {
+			"timeUnit": "year",
+           "field": "YEAR", "type": "temporal",
+		   "axis": {"title": "YEAR"}
+        },
+        "y": {"aggregate": "count", "field": "*", "type": "quantitative"}
+      },
+	   "color": {
+      "field": "Description",
+      "type": "nominal"
+    },
+      "config": {
+        "axis": {"shortTimeLabels": true}
+      },
+	  "user": "Katrina",
+  "chartType": "line",
+  "description": "This dataset reveals that there is a gradual decrease from 80,000 to 60,000 from 2012 to 2014 and then there is a drastic decrease from 2014 to 2016 which nearly approached 0."
+    }

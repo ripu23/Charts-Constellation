@@ -1,0 +1,29 @@
+{
+      "id": 17,
+	  "title": "No of Homicides that took place for the period 2011-2016",
+      "data": {
+        "url" : "homicides4.csv"  
+      },
+      "mark": {
+      "type": "line",
+        "interpolate": "monotone"
+      },
+      "encoding": {
+        "x": {
+			"timeUnit": "yearmonth",
+           "field": "YEAR", "type": "temporal",
+		   "axis": {"title": "YEAR"}
+        },
+        "y": {"aggregate": "count", "field": "*", "type": "quantitative"}
+      },
+	   "color": {
+      "field": "Description",
+      "type": "nominal"
+    },
+      "config": {
+        "axis": {"shortTimeLabels": true}
+      },
+	 "user": "Katrina",
+	"chartType": "line",
+  "description": "This dataset reveals that there are maximum number of homocides around 30,000 in Jan and gradually decreased and reached 0 in 2016."
+    }

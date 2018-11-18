@@ -1,0 +1,34 @@
+ {
+      "id": 6,
+	  "title": "No of arrests Vs time for the period 2000-2003",
+      "data": {
+        "url" : "arrestVsmonth2.csv"  
+      },
+      "transform": [
+        {"filter": 
+          {"field": "Arrest", "equal": "TRUE"}
+        }
+      ],
+      "mark": {
+      "type": "line",
+        "interpolate": "monotone"
+      },
+      "encoding": {
+        "x": {
+			"timeUnit": "year",
+           "field": "YEAR", "type": "temporal",
+		   "axis": {"title": "YEAR"}
+        },
+        "y": {"aggregate": "count", "field": "*", "type": "quantitative"}
+      },
+	   "color": {
+      "field": "Description",
+      "type": "nominal"
+    },
+      "config": {
+        "axis": {"shortTimeLabels": true}
+      },
+	  "user": "Priyanka",
+  "chartType": "line",
+  "description": "This dataset reveals that there is a gradual increase in the number of arrests till 2005 where it reached the peak. From there there is a gradual decrease in the later part."
+    }

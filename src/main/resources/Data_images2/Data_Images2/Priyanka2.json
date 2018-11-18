@@ -1,0 +1,35 @@
+{    
+  "id": 7,
+  "title": "No of Homicides that took place for the period 2004-2007",
+  "description": "homicides count",
+  "data": {
+	"url" : "homicides2.csv"  
+  },
+  "transform": [
+	{"filter": 
+	  {"field": "Primary Type", "equal": "HOMICIDE"}
+	}
+  ],
+  "mark": {
+  "type": "line",
+	"interpolate": "monotone"
+  },
+  "encoding": {
+	"x": {
+		"timeUnit": "year",
+	   "field": "YEAR", "type": "temporal",
+	   "axis": {"title": "YEAR"}
+	},
+	"y": {"aggregate": "count", "field": "*", "type": "quantitative"}
+  },
+   "color": {
+  "field": "Description",
+  "type": "nominal"
+},
+  "config": {
+	"axis": {"shortTimeLabels": true}
+  },
+  "user": "Priyanka",
+  "chartType": "line",
+  "description": "This dataset reveals that there are no homocides at all in this period except for 5 in the year 2005"
+  }
