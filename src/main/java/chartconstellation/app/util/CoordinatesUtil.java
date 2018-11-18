@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import chartconstellation.app.clustering.Clustering;
+import chartconstellation.app.entities.Chart;
 import chartconstellation.app.entities.UserCharts;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -51,7 +52,7 @@ public class CoordinatesUtil {
         return value;
     }
 
-    public List<IdCoordinates>  calculateCoordinates(List<FeatureVector> featurevectors, Double descWeight, Double attrWeight, Double chartEncodingWeight) {
+    public List<IdCoordinates> calculateCoordinates(List<FeatureVector> featurevectors, Double descWeight, Double attrWeight, Double chartEncodingWeight) {
 
         int size = featurevectors.size();
         System.out.println("size "+size);
@@ -210,10 +211,22 @@ public class CoordinatesUtil {
         return userColorMap;
     }
 
-    public HashMap<Integer, List<IdCoordinates>> getCoordinates(int cluster_size, List<FeatureVector> featurevectors, Double descWeight, Double attrWeight, Double chartEncodingWeight, Object colorMap) {
+    public HashMap<String,String> getChartTypeMap(List<Chart> charts) {
+
+        HashMap<String, String> chartTyoeMap = new HashMap<>();
+
+        for(Chart chart : charts) {
+            chartTyoeMap.put(chart.getId(), chart.getChartType());
+        }
+
+        return chartTyoeMap;
+    }
+
+    public HashMap<Integer, List<IdCoordinates>> getCoordinates(List<Chart> charts, int cluster_size, List<FeatureVector> featurevectors, Double descWeight, Double attrWeight, Double chartEncodingWeight, Object colorMap) {
 
         HashMap<String, String> userColorMap = getColorMap(colorMap);
         HashMap<String, String> idUserMap = getIdUserMap();
+        HashMap<String, String> idChartTypeMap = getChartTypeMap(charts);
 
         List<IdCoordinates> coordinatesList = calculateCoordinates(featurevectors, descWeight, attrWeight, chartEncodingWeight);
 
@@ -232,6 +245,7 @@ public class CoordinatesUtil {
 
             idCoordinate.setColor(userColorMap.get(idUserMap.get(idCoordinate.getId())));
             idCoordinate.setUserName(idUserMap.get(idCoordinate.getId()));
+            idCoordinate.setChartType(idChartTypeMap.get(idCoordinate.getId()));
 
             if(coordinatesHashMap.containsKey(idCoordinate.getClusterId())) {
 
@@ -271,6 +285,7 @@ public class CoordinatesUtil {
 //            startX += stepX;
 //            startY += stepY;
 
+
             List<IdCoordinates> newIdCoordinatesList = coordinatesScalingUtil
                     .getScaledCoordinates(
                             clusterScalingInfo.get(entry.getKey()).getXmin(),
@@ -279,6 +294,15 @@ public class CoordinatesUtil {
                             clusterScalingInfo.get(entry.getKey()).getYmax()
                     );
 
+            for(IdCoordinates idCoordinate : newIdCoordinatesList) {
+                Point point = idCoordinate.getPoint();
+                if(Double.isNaN(point.getX())) {
+
+                }
+                if(Double.isNaN(point.getY())) {
+
+                }
+            }
             newCoordinatesHashMap.put(entry.getKey(), newIdCoordinatesList);
         }
 
