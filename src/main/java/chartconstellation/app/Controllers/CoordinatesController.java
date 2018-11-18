@@ -3,12 +3,10 @@ package chartconstellation.app.Controllers;
 import chartconstellation.app.appconfiguration.Configuration;
 import chartconstellation.app.entities.*;
 import chartconstellation.app.entities.response.Cluster;
+import chartconstellation.app.entities.response.DataCoverageResponse;
 import chartconstellation.app.entities.response.IdCoordinates;
 import chartconstellation.app.entities.response.OutputResponse;
-import chartconstellation.app.util.ChartsUtil;
-import chartconstellation.app.util.ClusterUtil;
-import chartconstellation.app.util.CoordinatesUtil;
-import chartconstellation.app.util.DbUtil;
+import chartconstellation.app.util.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +31,9 @@ public class CoordinatesController {
     @Autowired
     ClusterUtil clusterUtil;
 
+    @Autowired
+    AttributeUtil attributeUtil;
+
     @RequestMapping(value="/getCoordinates", method= RequestMethod.GET)
     @ResponseBody
     public OutputResponse coordinates(@RequestParam("descWeight") Double descWeight,
@@ -49,9 +50,15 @@ public class CoordinatesController {
 
         List<Cluster> clusterList = clusterUtil.generateClusterInfo(coordinatesMap, chartObjs);
 
+        HashMap<String, Integer> attributesMap = attributeUtil.getAttributesList(chartObjs);
+
+        DataCoverageResponse dataCoverageResponse = new DataCoverageResponse();
+        dataCoverageResponse.setAttributesMap(attributesMap);
+
         OutputResponse outputResponse = new OutputResponse();
         outputResponse.setCoordinatesList(coordinatesMap.values());
         outputResponse.setClusters(clusterList);
+        outputResponse.setDataCoverage(dataCoverageResponse);
 
         System.out.println(outputResponse.toString());
 

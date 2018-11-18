@@ -142,7 +142,10 @@ public class DbUtil {
         List<Chart> outputCharts = new ArrayList<>();
         while (dbCursor.hasNext()) {
             DBObject obj = dbCursor.next();
+            JSONObject jsonObj = new JSONObject(obj.toString());
+            Set<String> attrSet = attributeUtil.getAttributesOfaObject(jsonObj);
             Chart chart = gson.fromJson(obj.toString(), Chart.class);
+            chart.setAttributes(attrSet);
             outputCharts.add(chart);
         }
         return outputCharts;

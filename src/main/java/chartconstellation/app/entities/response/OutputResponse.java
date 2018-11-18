@@ -10,7 +10,7 @@ public class OutputResponse {
 
     private List<Cluster> clusters;
 
-    private HashMap<String, Integer> attributesMap;
+    private DataCoverageResponse dataCoverage;
 
     public Collection<List<IdCoordinates>> getCoordinatesList() {
         return coordinatesList;
@@ -28,12 +28,12 @@ public class OutputResponse {
         this.clusters = clusters;
     }
 
-    public HashMap<String, Integer> getAttributesMap() {
-        return attributesMap;
+    public DataCoverageResponse getDataCoverage() {
+        return dataCoverage;
     }
 
-    public void setAttributesMap(HashMap<String, Integer> attributesMap) {
-        this.attributesMap = attributesMap;
+    public void setDataCoverage(DataCoverageResponse dataCoverage) {
+        this.dataCoverage = dataCoverage;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class OutputResponse {
         return "OutputResponse{" +
                 "coordinatesList=" + coordinatesList +
                 ", clusters=" + clusters +
-                ", attributesMap=" + attributesMap +
+                ", dataCoverage=" + dataCoverage +
                 '}';
     }
 }
