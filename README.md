@@ -11,3 +11,5 @@ The system helps a single person study a complex dataset quickly and efficiently
 3. Run Maven Clean and Maven install.
 4. Go to App.java and run it as java application.
 5. Check the console if the app has started running. If yes, go to 127.0.0.1:8080.
+
+![alt text](https://github.com/ripu23/Charts-Constellation/blob/master/chartsConstellations.png) <br/>
