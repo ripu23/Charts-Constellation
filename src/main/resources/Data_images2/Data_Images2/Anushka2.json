@@ -1,0 +1,35 @@
+{
+       
+  "id": 2,
+  "title": "No of Homicides that took place for the period 2000-2003",
+      "data": {
+        "url" : "homicides1.csv"  
+      },
+      "transform": [
+        {"filter": 
+          {"field": "Primary Type", "equal": "HOMICIDE"}
+        }
+      ],
+      "mark": {
+      "type": "line",
+        "interpolate": "monotone"
+      },
+      "encoding": {
+        "x": {
+			"timeUnit": "year",
+           "field": "YEAR", "type": "temporal",
+		   "axis": {"title": "YEAR"}
+        },
+        "y": {"aggregate": "count", "field": "*", "type": "quantitative"}
+      },
+	   "color": {
+      "field": "Description",
+      "type": "nominal"
+    },
+      "config": {
+        "axis": {"shortTimeLabels": true}
+      },
+	  "user": "Anushka",
+  "chartType": "line",
+  "description": "This dataset reveals that there is maximum number of homicides in the year 2000 and are almost constant till 2002 and minimized gradually in 2003."
+    }

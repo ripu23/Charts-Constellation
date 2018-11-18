@@ -1,0 +1,33 @@
+{
+      "id": 13,
+	"title": "Location wise crime counts for the period 2009-2012",
+      "data": {
+        "url" : "LocVsArrest.csv"  
+      },
+      //''''"transform": [
+        //{"filter": 
+         // {"field": "Arrest", "equal": "True"}
+        //}
+      //],
+      "mark": {
+      "type": "bar",
+        //"interpolate": "monotone"
+      },
+      "encoding": {
+        "x": {
+			//"timeUnit": "yearmonth",
+           "field": "Location Description", "type": "nominal"
+        },
+        "y": {"aggregate": "count", "field": "*", "type": "quantitative"}
+      },
+	   "color": {
+      "field": "Arrest",
+      "type": "nominal"
+    },
+      "config": {
+        "axis": {"shortTimeLabels": true}
+      },
+	  "user": "Deepika",
+  "chartType": "bar",
+  "description": "This dataset reveals that there is maximum crime rate in streets followed by the residence for the period 2009-2012."
+    }

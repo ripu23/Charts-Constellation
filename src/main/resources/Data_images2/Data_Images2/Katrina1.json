@@ -1,0 +1,33 @@
+{
+      "id": 16,
+	  "title": "No of arrests Vs time for the period 2012-2016",
+      "data": {
+        "url" : "ArrestVsTime4.csv"  
+      },
+      "transform": [
+        {"filter": 
+          {"field": "Arrest", "equal": "TRUE"}
+        }
+      ],
+      "mark": {
+      "type": "line",
+        "interpolate": "monotone"
+      },
+      "encoding": {
+        "x": {
+			"timeUnit": "year",
+           "field": "YEAR", "type": "temporal",
+		   "axis": {"title": "YEAR"}
+        },
+        "y": {"aggregate": "count", "field": "*", "type": "quantitative"}
+      },
+	   "color": {
+      "field": "Description",
+      "type": "nominal"
+    },
+      "config": {
+        "axis": {"shortTimeLabels": true}
+      },
+	"chartType": "line",
+  "description": "This dataset reveals that there is a slight decrease in the number of arrests from 2011 to 2013 and then there is a considerable amount of decrease from 2013 to 2015 from 80,000 to almost 0"
+    }

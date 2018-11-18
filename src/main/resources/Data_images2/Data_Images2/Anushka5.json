@@ -1,0 +1,35 @@
+{
+    "id": 5,
+		"title": "Number of thefts Vs year for the period 2000-2003", 
+      "data": {
+        "url" : "homicides1.csv"  
+      },
+      "transform": [
+        {"filter": 
+          {"field": "Primary Type", "equal": "THEFT"}
+        }
+      ],
+      "mark": {
+      "type": "line",
+        "interpolate": "monotone"
+      },
+      "encoding": {
+        "x": {
+			"timeUnit": "year",
+           "field": "YEAR", "type": "temporal",
+		   "axis": {"title": "YEAR"}
+        },
+        "y": {"aggregate": "count", "field": "*", "type": "quantitative"}
+      },
+	   "color": {
+      "field": "Description",
+      "type": "nominal"
+    },
+      "config": {
+        "axis": {"shortTimeLabels": true}
+      },
+	"user": "Anushka",
+  "chartType": "line",
+  "description": "This dataset reveals that there are maximum number of thefts in 2000 and drastically decreased from 2001 to 2002 and approached 0 in 2003"
+    }
+	
