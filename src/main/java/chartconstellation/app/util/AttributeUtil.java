@@ -156,6 +156,30 @@ public class AttributeUtil {
 
     }
 
+    public HashMap<String, Set<String>> getAttributeCooccurenceMap(List<Chart> charts) {
+        HashMap<String, Set<String>> attributesCoOccurenceMap = new HashMap<>();
+        for(Chart chart : charts) {
+            List<String> attributes = chart.getAttributes();
+            for(String str : attributes) {
+                for(String str2 : attributes) {
+                    if(!str.equals(str2)) {
+                        if(attributesCoOccurenceMap.containsKey(str)) {
+
+                            Set<String> valueSet = attributesCoOccurenceMap.get(str);
+                            valueSet.add(str2);
+                            attributesCoOccurenceMap.put(str, valueSet);
+                        } else {
+                            Set<String> valueSet = new HashSet<>();
+                            valueSet.add(str2);
+                            attributesCoOccurenceMap.put(str, valueSet);
+                        }
+                    }
+                }
+            }
+        }
+        return attributesCoOccurenceMap;
+    }
+
     public HashMap<String, Integer>  sortMap(HashMap<String, Integer> attributesMap ) {
 
         List<Map.Entry<String, Integer> > list =
