@@ -16,6 +16,7 @@ app.controller("HomeController", ['$scope',
     let clustersUI = {};
     let paths = [];
     let colors = [];
+    let attributeOccurenceMap = ShareData.data.dataCoverage.attributeOccurenceMap;
     const offSet = $("#charts").offset();
     $scope.users = ShareData.data.users;
     $scope.chartTypes = ShareData.data.chartTypes;
@@ -105,6 +106,7 @@ app.controller("HomeController", ['$scope',
             $scope.clusterBoard = data.data.clusters;
             ShareData.clusters = data.data.coordinatesList;
             $scope.dataCoverage.countAttributes = Object.keys(data.data.dataCoverage.attributesMap).sort(function(a,b){return data.data.dataCoverage.attributesMap[b]-data.data.dataCoverage.attributesMap[a]});
+            attributeOccurenceMap = data.data.dataCoverage.attributeOccurenceMap;
             createClusters(clusters);
           }, function(err) {
             if (err) throw err;
@@ -235,6 +237,27 @@ app.controller("HomeController", ['$scope',
         "stroke": "black",
         "stroke-width": 3
       })
+    }
+
+    $scope.dataCoverageIntersectionStart = function(val){
+      console.log(val);
+      if(attributeOccurenceMap[val]){
+        _.forEach(attributeOccurenceMap[val], function(val, key){
+          $('#data-coverage-member-' + val).css({
+            "background-color": "orange"
+          })
+        })
+      }
+
+    }
+
+    $scope.dataCoverageIntersectionEnd = function(val){
+      console.log(val);
+      if(attributeOccurenceMap[val]){
+        _.forEach(attributeOccurenceMap[val], function(val, key){
+          $('#data-coverage-member-' + val).removeAttr("style");
+        })
+      }
     }
 
     $scope.removeHighlightFromCircles = function(userId) {
