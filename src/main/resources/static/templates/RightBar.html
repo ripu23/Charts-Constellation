@@ -10,7 +10,32 @@
             <li class="accordion-item" data-accordion-item>
               <a href="" class="accordion-title">Data Coverage Board</a>
               <div class="accordion-content" data-tab-content>
-
+                <div class="grid-container">
+                  <div class="grid-y">
+                    <div class="cell large-6">
+                      <div class="grid-x">
+                        <div class="cell large-6">
+                          <div class="used-div">
+                            <div class="squareUsed"></div>
+                            <p class="font-used">Used</p>
+                          </div>
+                        </div>
+                        <div class="cell large-6">
+                          <div class="used-div">
+                            <div class="squareUnUsed"></div>
+                            <p class="font-used">Unused</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="cell large-6">
+                      <div class="grid-x">
+                        <div class="squareColorPallete" ng-repeat="color in colorSequence" style="background-color: #{{color}}"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <br />
+                </div>
                 <div class="wrapper">
                   <div class="font-chart data-coverage-span" id="data-coverage-member-{{val}}" ng-mouseover="dataCoverageIntersectionStart(val)" ng-mouseleave="dataCoverageIntersectionEnd(val)" ng-repeat=" (key, val) in dataCoverage.countAttributes">
                     <span>
@@ -18,7 +43,6 @@
                     </span>
                   </div>
                 </div>
-
               </div>
             </li>
             <li class="accordion-item" data-accordion-item>

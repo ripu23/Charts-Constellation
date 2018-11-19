@@ -34,6 +34,7 @@ app.controller("HomeController", ['$scope',
     $scope.dataCoverage = ShareData.data.dataCoverage;
     $scope.dataCoverage.countAttributes = ShareData.data.dataCoverage.countAttributes;
     $scope.dataCoverage.AttributeMap = ShareData.data.dataCoverage.AttributeMap;
+    $scope.colorSequence = [];
     var bubbles = new BubbleSet();
     var main = document.getElementById("main");
     var items = appendSVG(main, "g");
@@ -248,13 +249,13 @@ app.controller("HomeController", ['$scope',
     $scope.dataCoverageIntersectionStart = function(val){
       console.log(val);
       if(attributeOccurenceMap[val]){
-        var colorSequence = ClusterService.getSequentialColors(attributeOccurenceMap[val].length);
+        $scope.colorSequence = ClusterService.getSequentialColors(attributeOccurenceMap[val].length);
         attributeOccurenceMap
         attributesMap
         _.forEach(attributeOccurenceMap[val], function(val, key){
           var _color = "ffa500";
           if(attributesMap[val]){
-            _color = colorSequence[attributesMap[val] % colorSequence.length];
+            _color = $scope.colorSequence[attributesMap[val] % $scope.colorSequence.length];
           }
           $('#data-coverage-member-' + val).css({
             "background-color": "#" + _color

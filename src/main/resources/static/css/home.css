@@ -64,7 +64,7 @@ path:hover {
 }
 
 .wrapper>div {
-  background: #eee;
+  background: #b3b3b3;
   padding: 4px;
 }
 
@@ -73,4 +73,27 @@ path:hover {
 }
 div.data-coverage-span:hover{
   background-color: orange;
+}
+
+.squareUsed {
+  height: 25px;
+  width: 25px;
+  background-color: #b3b3b3;
+}
+.squareColorPallete {
+  height: 13px;
+  width: 13px;
+}
+.squareUnUsed {
+  height: 25px;
+  width: 25px;
+  background-color: #ddd;
+}
+.used-div{
+  display: inline-flex;
+}
+
+.font-used {
+  font-family: Verdana;
+  font-size: 13px;
 }

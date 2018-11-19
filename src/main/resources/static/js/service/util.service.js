@@ -9,7 +9,7 @@ app.service("ClusterService", function($http) {
 
   this.getSequentialColors = function(num){
     if(num > 0){
-      return palette('tol-sq', num);
+      return palette('tol-dv', num);
     }
     return null;
   }
