@@ -17,6 +17,7 @@ app.controller("HomeController", ['$scope',
     let paths = [];
     let colors = [];
     let attributeOccurenceMap = ShareData.data.dataCoverage.attributeOccurenceMap;
+    let attributesMap = ShareData.data.dataCoverage.attributesMap;
     const offSet = $("#charts").offset();
     $scope.users = ShareData.data.users;
     $scope.chartTypes = ShareData.data.chartTypes;
@@ -105,6 +106,7 @@ app.controller("HomeController", ['$scope',
             clusters = data.data.coordinatesList;
             $scope.clusterBoard = data.data.clusters;
             ShareData.clusters = data.data.coordinatesList;
+            attributesMap = data.data.dataCoverage.attributesMap;
             $scope.dataCoverage.countAttributes = Object.keys(data.data.dataCoverage.attributesMap).sort(function(a,b){return data.data.dataCoverage.attributesMap[b]-data.data.dataCoverage.attributesMap[a]});
             attributeOccurenceMap = data.data.dataCoverage.attributeOccurenceMap;
             createClusters(clusters);
@@ -142,7 +144,7 @@ app.controller("HomeController", ['$scope',
       _.forEach(clustersArray, function(clusters, i) {
         clustersUI[i] = [];
         _.forEach(clusters, function(cluster) {
-          addRect(clustersUI[i], "grey", cluster.point.x, cluster.point.y, cluster.color, counter, cluster.userName);
+          addRect(clustersUI[i], "grey", cluster.point.x, cluster.point.y, cluster.color, counter, cluster.userName, cluster.chartType);
           counter++;
         })
       });
@@ -239,12 +241,23 @@ app.controller("HomeController", ['$scope',
       })
     }
 
+    $scope.removeHighlightFromCircles = function(userId) {
+      $("circle[userId=" + "'" + userId.userName + "']").removeAttr("style");
+    }
+
     $scope.dataCoverageIntersectionStart = function(val){
       console.log(val);
       if(attributeOccurenceMap[val]){
+        var colorSequence = ClusterService.getSequentialColors(attributeOccurenceMap[val].length);
+        attributeOccurenceMap
+        attributesMap
         _.forEach(attributeOccurenceMap[val], function(val, key){
+          var _color = "ffa500";
+          if(attributesMap[val]){
+            _color = colorSequence[attributesMap[val] % colorSequence.length];
+          }
           $('#data-coverage-member-' + val).css({
-            "background-color": "orange"
+            "background-color": "#" + _color
           })
         })
       }
@@ -260,9 +273,20 @@ app.controller("HomeController", ['$scope',
       }
     }
 
-    $scope.removeHighlightFromCircles = function(userId) {
-      $("circle[userId=" + "'" + userId.userName + "']").removeAttr("style");
+
+
+    $scope.highlightCirclesForChartTypes = function(charts){
+      $("circle[chartType=" + "'" + charts + "']").css({
+        "stroke": "black",
+        "stroke-width": 3
+      })
     }
+
+    $scope.removeCirclesForChartTypes = function(charts){
+      $("circle[chartType=" + "'" + charts + "']").removeAttr("style");
+
+    }
+
     $scope.updateFilter = function() {
       populateWeight();
       var colorMap;
@@ -488,7 +512,7 @@ app.controller("HomeController", ['$scope',
       return parent.appendChild(document.createElementNS("http://www.w3.org/2000/svg", name));
     }
 
-    function addRect(clustersUI, clusterColor, cx, cy, pointColor, circleId, userId) {
+    function addRect(clustersUI, clusterColor, cx, cy, pointColor, circleId, userId, chartType) {
       var width = 40;
       var height = 30;
       var elem = appendSVG(items, "circle"); //creates a circle
@@ -499,7 +523,8 @@ app.controller("HomeController", ['$scope',
         fill: "#" + pointColor,
         id: "circle" + circleId,
         userId: userId,
-        title: "Ripudaman"
+        title: "Ripudaman",
+        chartType: chartType
       });
       style(elem, {
         "stroke": "black",

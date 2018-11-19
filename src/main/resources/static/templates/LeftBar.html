@@ -86,7 +86,7 @@
               <div class="accordion-content" data-tab-content>
 
                 <ul class="no-bullet">
-                  <li ng-repeat="charts in chartTypes">
+                  <li ng-repeat="charts in chartTypes" ng-mouseover="highlightCirclesForChartTypes(charts)" ng-mouseleave="removeCirclesForChartTypes(charts)">
                     <input type="checkbox" id="charts-{{$index}}" ng-model="chartOptions[$index]">
                     <label class="font-chart" for="charts-{{$index}}">{{charts}}</label>
                   </li>

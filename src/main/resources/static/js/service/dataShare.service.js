@@ -17,6 +17,7 @@ app.factory('ShareData', function() {
   data.dataCoverage.countAttributes = [];
   data.dataCoverage.AttributeMap = [];
   data.dataCoverage.attributeOccurenceMap = {};
+  data.dataCoverage.attributesMap = {};
   data.filters = {};
   data.filters.filterList = [];
 	return {

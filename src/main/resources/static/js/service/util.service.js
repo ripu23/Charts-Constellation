@@ -7,6 +7,13 @@ app.service("ClusterService", function($http) {
     return null;
   }
 
+  this.getSequentialColors = function(num){
+    if(num > 0){
+      return palette('tol-sq', num);
+    }
+    return null;
+  }
+
   this.updateCluster = function(distances){
     let clusters = [];
     const threshold = 0.3;
