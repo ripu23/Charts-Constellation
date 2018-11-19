@@ -169,23 +169,20 @@ app.controller("HomeController", ['$scope',
 
     //Updates the padding of each cluster
     function update() {
-      _.forEach(clustersUI, function(cluster1, idx1) {
-        _.forEach(clustersUI, function(cluster2, idx2) {
-          if (cluster1 != cluster2) {
-            updateOutline(cluster1, cluster2, "grey", paths[idx1].svg);
-            updateOutline(cluster2, cluster1, "grey", paths[idx2].svg);
-          }
+      if(clustersUI[1] == undefined){
+        updateOutline(clustersUI[0], clustersUI[0], "grey", paths[0].svg);
+        updateOutline(clustersUI[0], clustersUI[0], "grey", paths[0].svg);
+      }else{
+        _.forEach(clustersUI, function(cluster1, idx1) {
+          _.forEach(clustersUI, function(cluster2, idx2) {
+            if (cluster1 != cluster2) {
+              updateOutline(cluster1, cluster2, "grey", paths[idx1].svg);
+              updateOutline(cluster2, cluster1, "grey", paths[idx2].svg);
+            }
+          })
         })
-      })
-      domCreated = true;
-      var rects = document.querySelectorAll("circle");
-      var svg = document.querySelector("svg");
-      var i = rects.length;
-      while (i--) {
-        rects[i].addEventListener("mouseenter", function(e) {
-          svg.appendChild(e.target);
-        });
       }
+      domCreated = true;
     }
 
     $(function() {
@@ -304,15 +301,18 @@ app.controller("HomeController", ['$scope',
       toBeSent.updatedFilters = obj;
       toBeSent.colorMap = JSON.stringify(colorMap);
       CoordinateService.updateClusters(toBeSent).then(function(data) {
-        removeAllChilds(items);
+
         removePaths();
+        removeAllChilds(items);
         main = document.getElementById("main");
         items = appendSVG(main, "g");
         clusters = data.data.coordinatesList;
         var newItems = data.data.clusters;
-        $scope.clusterBoard = newItems;
-
+        $scope.clusterBoard = data.data.clusters;
         ShareData.clusters = data.data.coordinatesList;
+        attributesMap = data.data.dataCoverage.attributesMap;
+        $scope.dataCoverage.countAttributes = Object.keys(data.data.dataCoverage.attributesMap).sort(function(a,b){return data.data.dataCoverage.attributesMap[b]-data.data.dataCoverage.attributesMap[a]});
+        attributeOccurenceMap = data.data.dataCoverage.attributeOccurenceMap;
         createClusters(clusters);
         domCreated = false;
       }, function(err) {
@@ -335,14 +335,17 @@ app.controller("HomeController", ['$scope',
 
     function getColorMapForUpdate(data) {
       var colorMap = [];
-      var colors = ClusterService.getColors(data.length);
       if (data) {
-        _.forEach(data, function(user, key) {
-          var toBePushed = {
-            userName: user,
-            color: colors[key]
-          }
-          colorMap.push(toBePushed)
+        _.forEach(data, function(userData, key) {
+          _.forEach($scope.users, function(user, key){
+            if(user.userName === userData){
+              var toBePushed = {
+                userName: user.userName,
+                color: user.color
+              }
+              colorMap.push(toBePushed)
+            }
+          })
         });
       }
       return colorMap;
@@ -469,7 +472,7 @@ app.controller("HomeController", ['$scope',
 
 
     function updateOutline(rectangles, otherRectangles, color, path) {
-      var pad = 1;
+      var pad = 2;
       var list = bubbles.createOutline(
         BubbleSet.addPadding(rectangles, pad),
         BubbleSet.addPadding(otherRectangles, pad),
