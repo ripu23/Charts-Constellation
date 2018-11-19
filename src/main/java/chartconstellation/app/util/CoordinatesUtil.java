@@ -1,9 +1,6 @@
 package chartconstellation.app.util;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import chartconstellation.app.clustering.Clustering;
 import chartconstellation.app.entities.Chart;
@@ -291,11 +288,17 @@ public class CoordinatesUtil {
 
             for(IdCoordinates idCoordinate : newIdCoordinatesList) {
                 Point point = idCoordinate.getPoint();
-                if(Double.isNaN(point.getX())) {
-                    System.out.println("---------------" + "X is NaN" + "-----------------");
-                }
-                if(Double.isNaN(point.getY())) {
-                    System.out.println("---------------" + "Y is NaN" + "-----------------");
+                ScalingConfig scalingConfig = clusterScalingInfo.get(entry.getKey());
+                if(Double.isNaN(point.getX()) && Double.isNaN(point.getY())) {
+
+                    idCoordinate.setPoint(getCoordinates(scalingConfig.getXmin(), scalingConfig.getXmax(),
+                            scalingConfig.getYmin(), scalingConfig.getYmax()));
+                } else if(Double.isNaN(point.getX())) {
+                    Double val = getCoordinates(scalingConfig.getXmin(), scalingConfig.getXmax());
+                    idCoordinate.setPoint(new Point(val, idCoordinate.getPoint().getY()));
+                } else {
+                    Double val = getCoordinates(scalingConfig.getYmin(), scalingConfig.getYmax());
+                    idCoordinate.setPoint(new Point(idCoordinate.getPoint().getX(), val));
                 }
             }
             newCoordinatesHashMap.put(entry.getKey(), newIdCoordinatesList);
@@ -303,6 +306,19 @@ public class CoordinatesUtil {
 
         return newCoordinatesHashMap;
 
+    }
+
+    public Point getCoordinates(Double xmin, Double xmx, Double ymin, Double ymax) {
+        Random r = new Random();
+        double xValue = xmin + (xmx - xmin) * r.nextDouble();
+        double yValue = ymin + (ymax - ymin) * r.nextDouble();
+        return new Point(xValue, yValue);
+    }
+
+    public Double getCoordinates(Double min, Double max) {
+        Random r = new Random();
+        double value = min + (max - min) * r.nextDouble();
+        return value;
     }
 
 }
