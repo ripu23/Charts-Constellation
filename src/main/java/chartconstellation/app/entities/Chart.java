@@ -18,7 +18,16 @@ public class Chart {
 	private DateTime dateTime;
 	private String chartType;
 	private String title;
+	private String chartName;
 	private List<String> attributes;
+
+	public String getChartName() {
+		return chartName;
+	}
+
+	public void setChartName(String chartName) {
+		this.chartName = chartName;
+	}
 
 	public List<String> getAttributes() {
 		return attributes;

@@ -222,11 +222,22 @@ public class CoordinatesUtil {
         return chartTyoeMap;
     }
 
+    public HashMap<String, Chart> getChartsMap(List<Chart> charts) {
+        HashMap<String, Chart> chartsMap = new HashMap<>();
+
+        for(Chart chart : charts) {
+            chartsMap.put(chart.getId(), chart);
+        }
+        return chartsMap;
+    }
+
     public HashMap<Integer, List<IdCoordinates>> getCoordinates(List<Chart> charts, int cluster_size, List<FeatureVector> featurevectors, Double descWeight, Double attrWeight, Double chartEncodingWeight, Object colorMap) {
 
         HashMap<String, String> userColorMap = getColorMap(colorMap);
         HashMap<String, String> idUserMap = getIdUserMap();
         HashMap<String, String> idChartTypeMap = getChartTypeMap(charts);
+        HashMap<String, Chart> chartsMap = getChartsMap(charts);
+
 
         List<IdCoordinates> coordinatesList = calculateCoordinates(featurevectors, descWeight, attrWeight, chartEncodingWeight);
 
@@ -246,6 +257,7 @@ public class CoordinatesUtil {
             idCoordinate.setColor(userColorMap.get(idUserMap.get(idCoordinate.getId())));
             idCoordinate.setUserName(idUserMap.get(idCoordinate.getId()));
             idCoordinate.setChartType(idChartTypeMap.get(idCoordinate.getId()));
+            idCoordinate.setChartName(chartsMap.get(idCoordinate.getId()).getChartName());
 
             if(coordinatesHashMap.containsKey(idCoordinate.getClusterId())) {
 
@@ -264,27 +276,10 @@ public class CoordinatesUtil {
 
         HashMap<Integer, List<IdCoordinates>> newCoordinatesHashMap = new HashMap<>();
         HashMap<Integer, ScalingConfig> clusterScalingInfo = distributeSVG(coordinatesHashMap);
-//        System.out.println("cluster scaling info "+clusterScalingInfo);
-//        System.out.println("cluster scaling info "+clusterScalingInfo);
-        //System.out.println(coordinatesHashMap);
 
-        int clusterSize = coordinatesHashMap.keySet().size();
-//        ScalingConfig scalingConfig = configuration.getMdsScalingConfig();
-//        Double startX = scalingConfig.getXmin();
-//        Double stepX = (scalingConfig.getXmax() - scalingConfig.getXmin()) / clusterSize;
-//        Double startY = scalingConfig.getYmin();
-//        Double stepY = (scalingConfig.getYmax() - scalingConfig.getYmin()) / clusterSize;
         for(Map.Entry<Integer, List<IdCoordinates>> entry : coordinatesHashMap.entrySet()) {
 
             coordinatesScalingUtil.setCoordinatesList(entry.getValue());
-//            Double xMin = startX + 5;
-//            Double xMax = startX + stepX - 5;
-//            Double yMin = startY + 5;
-//            Double yMax = startY + stepY - 5;
-//
-//            startX += stepX;
-//            startY += stepY;
-
 
             List<IdCoordinates> newIdCoordinatesList = coordinatesScalingUtil
                     .getScaledCoordinates(

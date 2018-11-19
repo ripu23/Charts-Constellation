@@ -59,7 +59,10 @@ public class DocumentUtil {
                 DBObject dbo = (DBObject) com.mongodb.util.JSON.parse(jsonData);
                 String imagePath = filePath.toAbsolutePath().toString();
                 int imagePathLength = imagePath.length();
-                dbo.put("imgaeUrl", imagePath.substring(0, imagePathLength-4) + imageType);
+                dbo.put("imageUrl", imagePath.substring(0, imagePathLength-4) + imageType);
+                String fileName = filePath.getFileName().toString();
+                String fileNameSub = fileName.substring(0, fileName.length()-5) ;
+                dbo.put("chartName", fileNameSub);
                 list.add(dbo);
             }
 
