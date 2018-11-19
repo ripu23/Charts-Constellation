@@ -82,9 +82,11 @@ app.service("ClusterService", function($http) {
     }];
 
     let constantUrl = '../images/';
+    let tooltipUrl = "<img ng-src='" + constantUrl;
     return{
       images: images,
-      url: constantUrl
+      url: constantUrl,
+      tooltipUrl: tooltipUrl
     };
   }
 });
