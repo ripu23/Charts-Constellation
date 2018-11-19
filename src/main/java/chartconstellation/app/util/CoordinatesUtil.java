@@ -297,10 +297,10 @@ public class CoordinatesUtil {
             for(IdCoordinates idCoordinate : newIdCoordinatesList) {
                 Point point = idCoordinate.getPoint();
                 if(Double.isNaN(point.getX())) {
-
+                    System.out.println("---------------" + "X is NaN" + "-----------------");
                 }
                 if(Double.isNaN(point.getY())) {
-
+                    System.out.println("---------------" + "Y is NaN" + "-----------------");
                 }
             }
             newCoordinatesHashMap.put(entry.getKey(), newIdCoordinatesList);
