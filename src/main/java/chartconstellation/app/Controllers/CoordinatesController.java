@@ -51,9 +51,11 @@ public class CoordinatesController {
         List<Cluster> clusterList = clusterUtil.generateClusterInfo(coordinatesMap, chartObjs);
 
         HashMap<String, Integer> attributesMap = attributeUtil.getAttributesList(chartObjs);
+        HashMap<String, Set<String>> attributeCoOccurenceMap = attributeUtil.getAttributeCooccurenceMap(chartObjs);
 
         DataCoverageResponse dataCoverageResponse = new DataCoverageResponse();
         dataCoverageResponse.setAttributesMap(attributesMap);
+        dataCoverageResponse.setAttributeOccurenceMap(attributeCoOccurenceMap);
         //dataCoverageResponse.setAttributeKeys(attributesMap.keySet());
 
         OutputResponse outputResponse = new OutputResponse();
@@ -124,9 +126,11 @@ public class CoordinatesController {
             //System.out.println(coordinatesMap.values());
 
             HashMap<String, Integer> attributesMap = attributeUtil.getAttributesList(chartObjs);
+            HashMap<String, Set<String>> attributeCoOccurenceMap = attributeUtil.getAttributeCooccurenceMap(chartObjs);
 
             DataCoverageResponse dataCoverageResponse = new DataCoverageResponse();
             dataCoverageResponse.setAttributesMap(attributesMap);
+            dataCoverageResponse.setAttributeOccurenceMap(attributeCoOccurenceMap);
             //dataCoverageResponse.setAttributeKeys(attributesMap.keySet());
 
             OutputResponse outputResponse = new OutputResponse();
