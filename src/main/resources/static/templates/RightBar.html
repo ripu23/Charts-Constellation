@@ -13,7 +13,7 @@
 
                 <div class="wrapper">
                   <div class="font-chart" ng-repeat="(key, val) in dataCoverage.countAttributes">
-                    {{key}}
+                    {{val}}
                   </div>
                 </div>
 
@@ -31,6 +31,10 @@
                         </span>
                       </p>
                       <p class="font-chart"><strong>Attributes:</strong> <span ng-repeat="attribute in cluster.users.Attributes">{{attribute}}
+                          <span ng-if="$index < cluster.users.Attributes.length - 1">,</span>
+                        </span>
+                      </p>
+                      <p class="font-chart"><strong>Keywords:</strong> <span ng-repeat="keyword in cluster.keywords">{{keyword}}
                           <span ng-if="$index < cluster.users.Attributes.length - 1">,</span>
                         </span>
                       </p>

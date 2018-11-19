@@ -36,6 +36,7 @@ app.controller("HomeController", ['$scope',
     var main = document.getElementById("main");
     var items = appendSVG(main, "g");
     var debug = appendSVG(main, "g");
+    var tooltips;
     bubbles.debug(false);
     let ready = false;
     let domCreated;
@@ -103,7 +104,7 @@ app.controller("HomeController", ['$scope',
             clusters = data.data.coordinatesList;
             $scope.clusterBoard = data.data.clusters;
             ShareData.clusters = data.data.coordinatesList;
-            $scope.dataCoverage.countAttributes = data.data.dataCoverage.attributesMap;
+            $scope.dataCoverage.countAttributes = Object.keys(data.data.dataCoverage.attributesMap).sort(function(a,b){return data.data.dataCoverage.attributesMap[b]-data.data.dataCoverage.attributesMap[a]});
             createClusters(clusters);
           }, function(err) {
             if (err) throw err;
@@ -172,9 +173,19 @@ app.controller("HomeController", ['$scope',
         })
       })
       domCreated = true;
+      var rects = document.querySelectorAll("circle");
+      var svg = document.querySelector("svg");
+      var i = rects.length;
+      while (i--) {
+        rects[i].addEventListener("mouseenter", function(e) {
+          svg.appendChild(e.target);
+        });
+      }
     }
 
-
+    $(function() {
+      $(document).tooltip();
+    });
     //Uncomment this when everything is ready;
     // _.forEach(users, function(user){
     //   user.color = colors[user.id];
@@ -220,14 +231,14 @@ app.controller("HomeController", ['$scope',
     }
 
     $scope.highlightCirclesForUser = function(userId) {
-      $( "circle[userId=" + "'" + userId.userName + "']" ).css({
+      $("circle[userId=" + "'" + userId.userName + "']").css({
         "stroke": "black",
-        "stroke-width" : 3
+        "stroke-width": 3
       })
     }
 
     $scope.removeHighlightFromCircles = function(userId) {
-      $( "circle[userId=" + "'" + userId.userName + "']" ).removeAttr("style");
+      $("circle[userId=" + "'" + userId.userName + "']").removeAttr("style");
     }
     $scope.updateFilter = function() {
       populateWeight();
@@ -464,7 +475,8 @@ app.controller("HomeController", ['$scope',
         r: 8,
         fill: "#" + pointColor,
         id: "circle" + circleId,
-        userId: userId
+        userId: userId,
+        title: "Ripudaman"
       });
       style(elem, {
         "stroke": "black",
