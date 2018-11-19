@@ -6,6 +6,7 @@ public class IdCoordinates {
     private String userName;
     private int clusterId = 0;
     private String chartType;
+    private String chartName;
     private String color;
     private Point point;
 
@@ -55,6 +56,14 @@ public class IdCoordinates {
 
     public void setPoint(Point point) {
         this.point = point;
+    }
+
+    public String getChartName() {
+        return chartName;
+    }
+
+    public void setChartName(String chartName) {
+        this.chartName = chartName;
     }
 
     @Override
