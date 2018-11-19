@@ -97,3 +97,8 @@ div.data-coverage-span:hover{
   font-family: Verdana;
   font-size: 13px;
 }
+
+.cluster-board-overflow {
+  overflow-y: auto;
+  max-height: 20rem;
+}
