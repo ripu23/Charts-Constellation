@@ -38,7 +38,6 @@ app.controller("HomeController", ['$scope',
     var bubbles = new BubbleSet();
     var main = document.getElementById("main");
     var items = appendSVG(main, "g");
-    var debug = appendSVG(main, "g");
     var tooltips;
     bubbles.debug(false);
     let ready = false;
@@ -104,6 +103,7 @@ app.controller("HomeController", ['$scope',
             removePaths();
             removeAllChilds(items);
             items = appendSVG(main, "g");
+            attr(items,{id: "mainG"});
             clusters = data.data.coordinatesList;
             $scope.clusterBoard = data.data.clusters;
             ShareData.clusters = data.data.coordinatesList;
@@ -113,6 +113,7 @@ app.controller("HomeController", ['$scope',
             });
             attributeOccurenceMap = data.data.dataCoverage.attributeOccurenceMap;
             createClusters(clusters);
+            bringBubblesOnTop();
           }, function(err) {
             if (err) throw err;
           });
@@ -120,6 +121,12 @@ app.controller("HomeController", ['$scope',
         ready = true;
       }
     });
+
+    function bringBubblesOnTop() {
+      var tempG = $('#mainG');
+      $('#mainG').remove();
+      $('svg').append(tempG);
+    }
 
     function populateColorMap() {
       var colorMap = [];
@@ -153,6 +160,23 @@ app.controller("HomeController", ['$scope',
       });
       createPaths();
     }
+
+    function createClusters1(clustersArray) {
+      clustersUI = {};
+      let counter = 0;
+      _.forEach(clustersArray, function(clusters, i) {
+        clustersUI[i] = [];
+        _.forEach(clusters, function(cluster) {
+          addRect(clustersUI[i], "grey", cluster.point.x, cluster.point.y, cluster.color, counter, cluster.userName, cluster.chartType, cluster.chartName);
+          counter++;
+        })
+      });
+      createPaths();
+    }
+
+
+
+
     //Creation of paths and append to SVG;
     function createPaths() {
       paths = [];
@@ -200,6 +224,7 @@ app.controller("HomeController", ['$scope',
 
     $scope.clearFilter = function() {
       $scope.filters.filterList = [];
+      ShareData.data.filters = [];
       var updatedAttrWeight = $('#attrWeight').attr('aria-valuenow');
       var updatedDescWeight = $('#descWeight').attr('aria-valuenow');
       var updatedChartEncodingWeight = $('#chartEncodingWeight').attr('aria-valuenow');
@@ -212,19 +237,26 @@ app.controller("HomeController", ['$scope',
       }
       if (updatedAttrWeight && updatedDescWeight && updatedChartEncodingWeight) {
         CoordinateService.getCoordinates(dataSend).then(function(data) {
-          removeAllChilds(items);
           removePaths();
+          removeAllChilds(items);
           main = document.getElementById("main");
           items = appendSVG(main, "g");
-          clusters = data.data;
-          ShareData.clusters = data.data;
+          attr(items,{id: "mainG"});
+          clusters = data.data.coordinatesList;
+          $scope.clusterBoard = data.data.clusters;
+          ShareData.clusters = data.data.coordinatesList;
+          attributesMap = data.data.dataCoverage.attributesMap;
+          $scope.dataCoverage.countAttributes = Object.keys(data.data.dataCoverage.attributesMap).sort(function(a, b) {
+            return data.data.dataCoverage.attributesMap[b] - data.data.dataCoverage.attributesMap[a]
+          });
+          attributeOccurenceMap = data.data.dataCoverage.attributeOccurenceMap;
           createClusters(clusters);
+          bringBubblesOnTop();
+          domCreated = false;
         }, function(err) {
           if (err) throw err;
         });
       }
-      ready = true;
-
     }
 
 
@@ -311,6 +343,7 @@ app.controller("HomeController", ['$scope',
         removeAllChilds(items);
         main = document.getElementById("main");
         items = appendSVG(main, "g");
+        attr(items,{id: "mainG"});
         clusters = data.data.coordinatesList;
         var newItems = data.data.clusters;
         $scope.clusterBoard = data.data.clusters;
@@ -321,6 +354,7 @@ app.controller("HomeController", ['$scope',
         });
         attributeOccurenceMap = data.data.dataCoverage.attributeOccurenceMap;
         createClusters(clusters);
+        bringBubblesOnTop();
         domCreated = false;
       }, function(err) {
         if (err) throw err;
