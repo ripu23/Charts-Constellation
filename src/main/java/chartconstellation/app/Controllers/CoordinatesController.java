@@ -99,6 +99,9 @@ public class CoordinatesController {
                 filteredIds.add(chartObj.getId());
             }
 
+            System.out.println("filtrerd IDs "+ filteredIds.size());
+            System.out.println("charts "+ chartObjs.size());
+
             List<FeatureVector> filteredFeatureVectors = new ArrayList<>();
             for(FeatureVector featureVector : featurevectors) {
                 if(filteredIds.contains(featureVector.getId())) {

@@ -3,6 +3,7 @@ package chartconstellation.app.util;
 import chartconstellation.app.entities.response.Cluster;
 import chartconstellation.app.entities.Chart;
 import chartconstellation.app.entities.response.IdCoordinates;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -13,6 +14,8 @@ import java.util.regex.Pattern;
 public class ClusterUtil {
 
     //private Set<String> stopwords = ['manoj'];
+    @Autowired
+    Stopwords stopwords;
 
     public List<Cluster> generateClusterInfo(HashMap<Integer, List<IdCoordinates>> coordinatesMap, List<Chart> charts) {
 
@@ -136,32 +139,47 @@ public class ClusterUtil {
 
     public List<String> getTokenizedList(List<String> list) {
 
-        HashMap<String, Integer> map = new HashMap<>();
-
         try {
 
-            for (String str : list) {
-                //String input = "Input text, with words, punctuation, etc. Well, it's rather short.";
-                Pattern p = Pattern.compile("[\\w']+");
-                Matcher m = p.matcher(str);
-
-                while (m.find()) {
-                    String s = str.substring(m.start(), m.end()).toLowerCase();
-                    if (map.containsKey(s)) {
-                        int val = map.get(s);
-                        map.put(s, val + 1);
-                    } else {
-                        map.put(s, 1);
-                    }
-                }
-            }
-
-            return generateListFromaMap(map);
+            return generateListFromaMap(getTokenizedMap(list));
 
         } catch(Exception e) {
 
         }
 
         return new ArrayList<>();
+    }
+
+    public HashMap<String, Integer> getTokenizedMap(List<String> list) {
+
+        HashMap<String, Integer> map = new HashMap<>();
+
+        try {
+
+            for (String str : list) {
+                Pattern p = Pattern.compile("[\\w']+");
+                Matcher m = p.matcher(str);
+
+                while (m.find()) {
+
+                    String s = str.substring(m.start(), m.end()).toLowerCase();
+                    if(!stopwords.stopwordsSet.contains(s)) {
+                        if (map.containsKey(s)) {
+                            int val = map.get(s);
+                            map.put(s, val + 1);
+                        } else {
+                            map.put(s, 1);
+                        }
+                    }
+
+                }
+            }
+
+            return map;
+
+        } catch(Exception e) {
+
+        }
+        return new HashMap<String, Integer>();
     }
 }

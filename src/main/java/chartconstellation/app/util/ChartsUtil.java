@@ -19,6 +19,9 @@ public class ChartsUtil {
     @Autowired
     DbUtil dbUtil;
 
+    @Autowired
+    ClusterUtil clusterUtil;
+
     public HashMap<String, UserCharts> getAllUserCharts(String database, String collection) {
 
         List<Chart> chartsList  = dbUtil.getAttributesFromCollection(database, collection);
@@ -70,8 +73,15 @@ public class ChartsUtil {
 
     }
 
-    public void getClusterInfo() {
+    public List<String> getKeyWords(Chart chart) {
 
+        try {
+            List<String> attributes = chart.getAttributes();
+            List<String> keywords = new ArrayList<>(clusterUtil.getTokenizedMap(attributes).keySet());
+            return keywords;
+        } catch(Exception e) {
 
+        }
+        return new ArrayList<>();
     }
 }
