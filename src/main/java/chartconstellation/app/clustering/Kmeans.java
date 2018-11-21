@@ -134,7 +134,12 @@ public class Kmeans {
 
         for(IdCoordinates idCoordinate : idCoordinates) {
             int id = idCoordinate.getClusterId();
-            Point centroid = centroids.get(id-1);
+            Point centroid = null;
+            if(centroids.size() == 1) {
+                centroid = centroids.get(0);
+            } else {
+                centroid = centroids.get(id-1);
+            }
             mse += kmeansUtil.getEuclideanDistance(centroid, idCoordinate.getPoint());
         }
         return mse/size;
