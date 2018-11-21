@@ -431,6 +431,7 @@ app.controller("HomeController", ['$scope',
     }
 
     function removePaths() {
+      main = document.getElementById("main");
       var length = main.childNodes.length;
       if (length && length > 0) {
         _.forEach(main.childNodes, function(node, key) {
