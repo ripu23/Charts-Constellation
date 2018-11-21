@@ -107,3 +107,15 @@ div.data-coverage-span:hover{
   overflow-y: auto;
   max-height: 5rem;
 }
+
+.sliderUI{
+    height: 28px;
+    text-align: center;
+    width: 30px;
+    color: black;
+}
+
+.margins-slider{
+  margin-bottom: 10px;
+    margin-top: -8px;
+}

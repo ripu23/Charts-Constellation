@@ -40,8 +40,9 @@ app.controller("HomeController", ['$scope',
     var items = appendSVG(main, "g");
     var tooltips;
     bubbles.debug(false);
-    let ready = false;
-    let domCreated;
+    let domCreated = ShareData.data.domCreated;
+
+
     $("#main").selectable({
       classes: {
         "ui-selectable": "highlight"
@@ -81,46 +82,110 @@ app.controller("HomeController", ['$scope',
       if (err) throw err;
     });
 
-
-    $(document).on('moved.zf.slider', function() {
-      // console.log($('#timelineLeft').attr('value'));
-      // console.log($('#timelineRight').attr('value'));
-
-
-      if (!ready || domCreated) {
-        var updatedAttrWeight = $('#attrWeight').attr('aria-valuenow');
-        var updatedDescWeight = $('#descWeight').attr('aria-valuenow');
-        var updatedChartEncodingWeight = $('#chartEncodingWeight').attr('aria-valuenow');
-        var colorMap = populateColorMap();
-        var dataSend = {
-          "descWeight": parseFloat(updatedDescWeight),
-          "attrWeight": parseFloat(updatedAttrWeight),
-          "chartEncodingWeight": parseFloat(updatedChartEncodingWeight),
-          "colorMap": JSON.stringify(colorMap)
+    $(function() {
+      var handleAttr = $("#handle-attribute");
+      var handleEncoding = $("#handle-encoding");
+      var handleDesc = $("#handle-description");
+      $("#sliderAttribute").slider({
+        min: 0,
+        max: 1,
+        value: 1,
+        step: 0.1,
+        animate: true,
+        classes: {
+          "ui-slider": "highlight",
+        },
+        create: function() {
+          handleAttr.text($(this).slider("value"));
+        },
+        slide: function(event, ui) {
+          handleAttr.text(ui.value);
+        },
+        change:function(event, ui){
+          createDom();
         }
-        if (updatedAttrWeight && updatedDescWeight && updatedChartEncodingWeight) {
-          CoordinateService.getCoordinates(dataSend).then(function(data) {
-            removePaths();
-            removeAllChilds(items);
-            items = appendSVG(main, "g");
-            attr(items,{id: "mainG"});
-            clusters = data.data.coordinatesList;
-            $scope.clusterBoard = data.data.clusters;
-            ShareData.clusters = data.data.coordinatesList;
-            attributesMap = data.data.dataCoverage.attributesMap;
-            $scope.dataCoverage.countAttributes = Object.keys(data.data.dataCoverage.attributesMap).sort(function(a, b) {
-              return data.data.dataCoverage.attributesMap[b] - data.data.dataCoverage.attributesMap[a]
-            });
-            attributeOccurenceMap = data.data.dataCoverage.attributeOccurenceMap;
-            createClusters(clusters);
-            bringBubblesOnTop();
-          }, function(err) {
-            if (err) throw err;
-          });
+      });
+      $("#sliderEncoding").slider({
+        min: 0,
+        max: 1,
+        value: 1,
+        step: 0.1,
+        animate: true,
+        classes: {
+          "ui-slider": "highlight"
+        },
+        create: function() {
+          handleEncoding.text($(this).slider("value"));
+        },
+        slide: function(event, ui) {
+          handleEncoding.text(ui.value);
+        },
+        change:function(event, ui){
+          createDom();
         }
-        ready = true;
-      }
+      });
+      $("#sliderDescription").slider({
+        min: 0,
+        max: 1,
+        value: 1,
+        step: 0.1,
+        animate: true,
+        classes: {
+          "ui-slider": "highlight"
+        },
+        create: function() {
+          handleDesc.text($(this).slider("value"));
+          if(ShareData.data.domCreated == false){
+              createDom();
+          }
+        },
+        slide: function(event, ui) {
+          handleDesc.text(ui.value);
+        },
+        change:function(event, ui){
+          createDom();
+        }
+      });
     });
+
+    function createDom() {
+      var updatedAttrWeight = $('#sliderAttribute').slider("value")
+      var updatedDescWeight = $('#sliderDescription').slider("value")
+      var updatedChartEncodingWeight = $('#sliderEncoding').slider("value")
+      var colorMap = populateColorMap();
+      var dataSend = {
+        "descWeight": parseFloat(updatedDescWeight),
+        "attrWeight": parseFloat(updatedAttrWeight),
+        "chartEncodingWeight": parseFloat(updatedChartEncodingWeight),
+        "colorMap": JSON.stringify(colorMap)
+      }
+      if (updatedAttrWeight && updatedDescWeight && updatedChartEncodingWeight) {
+        CoordinateService.getCoordinates(dataSend).then(function(data) {
+
+          removePaths();
+          removeAllChilds(items);
+          $('#mainG').remove();
+          items = appendSVG(main, "g");
+          attr(items, {
+            id: "mainG"
+          });
+          clusters = data.data.coordinatesList;
+          $scope.clusterBoard = data.data.clusters;
+          ShareData.clusters = data.data.coordinatesList;
+          attributesMap = data.data.dataCoverage.attributesMap;
+          $scope.dataCoverage.countAttributes = Object.keys(data.data.dataCoverage.attributesMap).sort(function(a, b) {
+            return data.data.dataCoverage.attributesMap[b] - data.data.dataCoverage.attributesMap[a]
+          });
+          attributeOccurenceMap = data.data.dataCoverage.attributeOccurenceMap;
+          createClusters(clusters);
+          bringBubblesOnTop();
+          event.stopPropagation();
+          ShareData.data.domCreated = true;
+        }, function(err) {
+          if (err) throw err;
+        });
+      }
+    }
 
     function bringBubblesOnTop() {
       var tempG = $('#mainG');
@@ -224,10 +289,10 @@ app.controller("HomeController", ['$scope',
 
     $scope.clearFilter = function() {
       $scope.filters.filterList = [];
-      ShareData.data.filters = [];
-      var updatedAttrWeight = $('#attrWeight').attr('aria-valuenow');
-      var updatedDescWeight = $('#descWeight').attr('aria-valuenow');
-      var updatedChartEncodingWeight = $('#chartEncodingWeight').attr('aria-valuenow');
+      ShareData.data.filters.filterList = [];
+      var updatedAttrWeight = $('#sliderAttribute').slider("value")
+      var updatedDescWeight = $('#sliderDescription').slider("value")
+      var updatedChartEncodingWeight = $('#sliderEncoding').slider("value")
       var colorMap = populateColorMap();
       var dataSend = {
         "descWeight": parseFloat(updatedDescWeight),
@@ -237,11 +302,14 @@ app.controller("HomeController", ['$scope',
       }
       if (updatedAttrWeight && updatedDescWeight && updatedChartEncodingWeight) {
         CoordinateService.getCoordinates(dataSend).then(function(data) {
+          main = document.getElementById("main");
           removePaths();
           removeAllChilds(items);
-          main = document.getElementById("main");
+          $('#mainG').remove();
           items = appendSVG(main, "g");
-          attr(items,{id: "mainG"});
+          attr(items, {
+            id: "mainG"
+          });
           clusters = data.data.coordinatesList;
           $scope.clusterBoard = data.data.clusters;
           ShareData.clusters = data.data.coordinatesList;
@@ -252,7 +320,8 @@ app.controller("HomeController", ['$scope',
           attributeOccurenceMap = data.data.dataCoverage.attributeOccurenceMap;
           createClusters(clusters);
           bringBubblesOnTop();
-          domCreated = false;
+          event.stopPropagation();
+          ShareData.data.domCreated = true;
         }, function(err) {
           if (err) throw err;
         });
@@ -281,7 +350,6 @@ app.controller("HomeController", ['$scope',
     }
 
     $scope.dataCoverageIntersectionStart = function(val) {
-      console.log(val);
       if (attributeOccurenceMap[val]) {
         $scope.colorSequence = ClusterService.getSequentialColors(attributeOccurenceMap[val].length);
         attributeOccurenceMap
@@ -300,7 +368,6 @@ app.controller("HomeController", ['$scope',
     }
 
     $scope.dataCoverageIntersectionEnd = function(val) {
-      console.log(val);
       if (attributeOccurenceMap[val]) {
         _.forEach(attributeOccurenceMap[val], function(val, key) {
           $('#data-coverage-member-' + val).removeAttr("style");
@@ -343,7 +410,9 @@ app.controller("HomeController", ['$scope',
         removeAllChilds(items);
         main = document.getElementById("main");
         items = appendSVG(main, "g");
-        attr(items,{id: "mainG"});
+        attr(items, {
+          id: "mainG"
+        });
         clusters = data.data.coordinatesList;
         var newItems = data.data.clusters;
         $scope.clusterBoard = data.data.clusters;
@@ -355,7 +424,6 @@ app.controller("HomeController", ['$scope',
         attributeOccurenceMap = data.data.dataCoverage.attributeOccurenceMap;
         createClusters(clusters);
         bringBubblesOnTop();
-        domCreated = false;
       }, function(err) {
         if (err) throw err;
       });
