@@ -30,6 +30,6 @@
         "axis": {"shortTimeLabels": true}
       },
 	  "user": "Anushka",
-  "chartType": "line",
-  "description": "This dataset reveals that there is maximum number of homicides in the year 2000 and are almost constant till 2002 and minimized gradually in 2003."
+      "chartType": "line",
+      "description": "This dataset reveals that there is maximum number of homicides in the year 2000 and are almost constant till 2002 and minimized gradually in 2003."
     }

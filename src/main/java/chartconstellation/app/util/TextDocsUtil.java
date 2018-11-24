@@ -41,7 +41,7 @@ public class TextDocsUtil {
 
         List<DBObject> dobobjects = docutil.convertToDBObjectList(configuration.getInputPath());
 
-        dbUtil.updateDBDocs(dobobjects);
+        dbUtil.updateDBDocs(dobobjects, configuration.getMongoDatabase(), configuration.getOlympicchartcollection());
 
         DBCollection collection = mongoClient.getDB(configuration.getMongoDatabase())
                 .getCollection(configuration.getOlympicchartcollection());
@@ -70,6 +70,19 @@ public class TextDocsUtil {
 
         // loading dataset2
         List<DBObject> dobobjects2 = docutil.convertToDBObjectList(configuration.getDataset2inputPath());
+
+        dbUtil.updateDBDocs(dobobjects2, configuration.getMongoDatabase(), configuration.getCrimechartcollection());
+
+        DBCollection collection2 = mongoClient.getDB(configuration.getMongoDatabase())
+                .getCollection(configuration.getCrimechartcollection());
+
+        List<FeatureDistance> attrDistances2 = attributeUtil.computerAttributeDistance(collection2);
+
+        System.out.println(attrDistances2.size());
+
+        dbUtil.updateAttributeCollection(configuration.getMongoDatabase(),
+                configuration.getDataset2attributeDistanceCollection(),
+                attrDistances2);
 
 
     }
