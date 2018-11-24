@@ -18,6 +18,7 @@ public class Configuration {
     private String attributeDistanceCollection;
     private String totalFeatureCollection;
     private String descriptionDistancePath;
+    private String dataset2inputPath;
     private String crimechartcollection;
     private String dataset2descriptionCollection;
     private String dataset2attributeDistanceCollection;
@@ -153,6 +154,14 @@ public class Configuration {
 
     public void setDataset2descriptionDistancePath(String dataset2descriptionDistancePath) {
         this.dataset2descriptionDistancePath = dataset2descriptionDistancePath;
+    }
+
+    public String getDataset2inputPath() {
+        return dataset2inputPath;
+    }
+
+    public void setDataset2inputPath(String dataset2inputPath) {
+        this.dataset2inputPath = dataset2inputPath;
     }
 
     @Override
