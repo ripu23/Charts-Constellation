@@ -19,6 +19,7 @@ public class Configuration {
     private String totalFeatureCollection;
     private String descriptionDistancePath;
     private String dataset2inputPath;
+    private String dataset2mongoDatabase;
     private String crimechartcollection;
     private String dataset2descriptionCollection;
     private String dataset2attributeDistanceCollection;
@@ -27,6 +28,14 @@ public class Configuration {
     private WeightConfig featureWeights;
     private ClusterParams clusterParams;
     private ScalingConfig mdsScalingConfig;
+
+    public String getDataset2mongoDatabase() {
+        return dataset2mongoDatabase;
+    }
+
+    public void setDataset2mongoDatabase(String dataset2mongoDatabase) {
+        this.dataset2mongoDatabase = dataset2mongoDatabase;
+    }
 
     public ClusterParams getClusterParams() {
         return clusterParams;
@@ -176,6 +185,7 @@ public class Configuration {
                 ", totalFeatureCollection='" + totalFeatureCollection + '\'' +
                 ", descriptionDistancePath='" + descriptionDistancePath + '\'' +
                 ", dataset2inputPath='" + dataset2inputPath + '\'' +
+                ", dataset2mongoDatabase='" + dataset2mongoDatabase + '\'' +
                 ", crimechartcollection='" + crimechartcollection + '\'' +
                 ", dataset2descriptionCollection='" + dataset2descriptionCollection + '\'' +
                 ", dataset2attributeDistanceCollection='" + dataset2attributeDistanceCollection + '\'' +

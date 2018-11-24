@@ -59,7 +59,8 @@ public class TextDocsUtil {
                 , configuration.getDescriptionCollection()
                 , descriptionDistances );
 
-        MongoCollections mongoCollections = dbUtil.getCollections(configuration.getMongoDatabase());
+        MongoCollections mongoCollections = dbUtil.getCollections(configuration.getMongoDatabase()
+        , configuration.getDescriptionCollection(), configuration.getAttributeDistanceCollection());
 
         List<FeatureVector> featureVectors = featureMergeUtil.mergeAllFeatures(mongoCollections);
 
@@ -71,19 +72,37 @@ public class TextDocsUtil {
         // loading dataset2
         List<DBObject> dobobjects2 = docutil.convertToDBObjectList(configuration.getDataset2inputPath());
 
-        dbUtil.updateDBDocs(dobobjects2, configuration.getMongoDatabase(), configuration.getCrimechartcollection());
+        dbUtil.updateDBDocs(dobobjects2, configuration.getDataset2mongoDatabase(), configuration.getCrimechartcollection());
 
-        DBCollection collection2 = mongoClient.getDB(configuration.getMongoDatabase())
+        DBCollection collection2 = mongoClient.getDB(configuration.getDataset2mongoDatabase())
                 .getCollection(configuration.getCrimechartcollection());
 
         List<FeatureDistance> attrDistances2 = attributeUtil.computerAttributeDistance(collection2);
 
         System.out.println(attrDistances2.size());
 
-        dbUtil.updateAttributeCollection(configuration.getMongoDatabase(),
+        dbUtil.updateAttributeCollection(configuration.getDataset2mongoDatabase(),
                 configuration.getDataset2attributeDistanceCollection(),
                 attrDistances2);
 
+        List<FeatureDistance> descriptionDistances2 =
+                docutil.convertJsonToFeatureList(configuration.getDataset2descriptionDistancePath());
+
+        System.out.println(descriptionDistances2.size());
+
+        dbUtil.updateAttributeCollection(configuration.getDataset2mongoDatabase()
+                , configuration.getDataset2descriptionCollection()
+                , descriptionDistances2 );
+
+        MongoCollections mongoCollections2 = dbUtil.getCollections(configuration.getDataset2mongoDatabase()
+        , configuration.getDataset2descriptionCollection(), configuration.getDataset2attributeDistanceCollection());
+
+        List<FeatureVector> featureVectors2 = featureMergeUtil.mergeAllFeatures(mongoCollections2);
+
+
+        dbUtil.updateFeaturesCollection(configuration.getDataset2mongoDatabase()
+                , configuration.getDataset2totalFeatureCollection()
+                , featureVectors2);
 
     }
 
