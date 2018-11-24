@@ -167,13 +167,23 @@ public class Configuration {
     @Override
     public String toString() {
         return "Configuration{" +
-                "inputPath='" + inputPath + '\'' +
+                "updateData=" + updateData +
+                ", inputPath='" + inputPath + '\'' +
                 ", mongoDatabase='" + mongoDatabase + '\'' +
                 ", olympicchartcollection='" + olympicchartcollection + '\'' +
                 ", descriptionCollection='" + descriptionCollection + '\'' +
                 ", attributeDistanceCollection='" + attributeDistanceCollection + '\'' +
+                ", totalFeatureCollection='" + totalFeatureCollection + '\'' +
                 ", descriptionDistancePath='" + descriptionDistancePath + '\'' +
+                ", dataset2inputPath='" + dataset2inputPath + '\'' +
+                ", crimechartcollection='" + crimechartcollection + '\'' +
+                ", dataset2descriptionCollection='" + dataset2descriptionCollection + '\'' +
+                ", dataset2attributeDistanceCollection='" + dataset2attributeDistanceCollection + '\'' +
+                ", dataset2totalFeatureCollection='" + dataset2totalFeatureCollection + '\'' +
+                ", dataset2descriptionDistancePath='" + dataset2descriptionDistancePath + '\'' +
                 ", featureWeights=" + featureWeights +
+                ", clusterParams=" + clusterParams +
+                ", mdsScalingConfig=" + mdsScalingConfig +
                 '}';
     }
 }

@@ -35,13 +35,23 @@ public class DbUtil {
     @Autowired
     AttributeUtil attributeUtil;
 
-    public void updateDBDocs(List<DBObject> dobobjects) {
+//    public void updateDBDocs(List<DBObject> dobobjects) {
+//
+//        mongoClient.getDatabase(configuration.getMongoDatabase())
+//                .getCollection(configuration.getOlympicchartcollection()).drop();
+//
+//        mongoClient.getDB(configuration.getMongoDatabase())
+//                .getCollection(configuration.getOlympicchartcollection())
+//                .insert(dobobjects);
+//    }
 
-        mongoClient.getDatabase(configuration.getMongoDatabase())
-                .getCollection(configuration.getOlympicchartcollection()).drop();
+    public void updateDBDocs(List<DBObject> dobobjects, String database, String collection) {
 
-        mongoClient.getDB(configuration.getMongoDatabase())
-                .getCollection(configuration.getOlympicchartcollection())
+        mongoClient.getDatabase(database)
+                .getCollection(collection).drop();
+
+        mongoClient.getDB(database)
+                .getCollection(collection)
                 .insert(dobobjects);
     }
 

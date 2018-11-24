@@ -255,6 +255,8 @@ public class CoordinatesUtil {
             idCoordinate.setUserName(idUserMap.get(idCoordinate.getId()));
             idCoordinate.setChartType(idChartTypeMap.get(idCoordinate.getId()));
             idCoordinate.setChartName(chartsMap.get(idCoordinate.getId()).getChartName());
+            idCoordinate.setTitle(chartsMap.get(idCoordinate.getId()).getTitle());
+            idCoordinate.setDescription(chartsMap.get(idCoordinate.getId()).getDescription());
 
             if(coordinatesHashMap.containsKey(idCoordinate.getClusterId())) {
 
