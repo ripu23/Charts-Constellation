@@ -102,7 +102,7 @@ app.controller("HomeController", ['$scope',
         slide: function(event, ui) {
           handleAttr.text(ui.value);
         },
-        change:function(event, ui){
+        change: function(event, ui) {
           createDom();
         }
       });
@@ -121,7 +121,7 @@ app.controller("HomeController", ['$scope',
         slide: function(event, ui) {
           handleEncoding.text(ui.value);
         },
-        change:function(event, ui){
+        change: function(event, ui) {
           createDom();
         }
       });
@@ -136,14 +136,14 @@ app.controller("HomeController", ['$scope',
         },
         create: function() {
           handleDesc.text($(this).slider("value"));
-          if(ShareData.data.domCreated == false){
-              createDom();
+          if (ShareData.data.domCreated == false) {
+            createDom();
           }
         },
         slide: function(event, ui) {
           handleDesc.text(ui.value);
         },
-        change:function(event, ui){
+        change: function(event, ui) {
           createDom();
         }
       });
@@ -178,6 +178,8 @@ app.controller("HomeController", ['$scope',
             return data.data.dataCoverage.attributesMap[b] - data.data.dataCoverage.attributesMap[a]
           });
           attributeOccurenceMap = data.data.dataCoverage.attributeOccurenceMap;
+          ShareData.data.dataCoverage.attributeOccurenceMap = data.data.dataCoverage.attributeOccurenceMap;
+          ShareData.data.attributesMap = data.data.dataCoverage.attributesMap;
           createClusters(clusters);
           bringBubblesOnTop();
           createMapForTooltips(data.data.coordinatesList);
@@ -285,17 +287,28 @@ app.controller("HomeController", ['$scope',
     $(function() {
       $(document).tooltip({
         items: "circle",
+        position: { my: "left+15 center", at: "right center" },
+        collision: "flipfit",
+        track: true,
         content: function() {
           var element = $(this);
           var chartName = element.attr('chartName');
-          return "<img  src='../images/" + chartName + ".png'  />";
+          var template = ClusterService.makeTemplateForTooltip(chartName, $scope.allDetails);
+          return template;
         }
       });
     });
 
     $scope.clearFilter = function() {
       $scope.filters.filterList = [];
+      $scope.chartOptions = [];
+      $scope.userOptions = [];
+      $scope.attributeOptions = [];
       ShareData.data.filters.filterList = [];
+      ShareData.data.chartOptions = [];
+      ShareData.data.userOptions = [];
+      ShareData.data.attributeOptions = [];
+
       var updatedAttrWeight = $('#sliderAttribute').slider("value")
       var updatedDescWeight = $('#sliderDescription').slider("value")
       var updatedChartEncodingWeight = $('#sliderEncoding').slider("value")
@@ -356,14 +369,14 @@ app.controller("HomeController", ['$scope',
     }
 
     $scope.dataCoverageIntersectionStart = function(val) {
-      if (attributeOccurenceMap[val]) {
-        $scope.colorSequence = ClusterService.getSequentialColors(attributeOccurenceMap[val].length);
-        attributeOccurenceMap
-        attributesMap
-        _.forEach(attributeOccurenceMap[val], function(val, key) {
+      if (ShareData.data.dataCoverage.attributeOccurenceMap[val]) {
+        $scope.colorSequence = ClusterService.getSequentialColors(ShareData.data.dataCoverage.attributeOccurenceMap[val].length);
+
+
+        _.forEach(ShareData.data.dataCoverage.attributeOccurenceMap[val], function(val, key) {
           var _color = "ffa500";
-          if (attributesMap[val]) {
-            _color = $scope.colorSequence[attributesMap[val] % $scope.colorSequence.length];
+          if (ShareData.data.attributesMap[val]) {
+            _color = $scope.colorSequence[ShareData.data.attributesMap[val] % $scope.colorSequence.length];
           }
           $('#data-coverage-member-' + val).css({
             "background-color": "#" + _color
@@ -374,8 +387,8 @@ app.controller("HomeController", ['$scope',
     }
 
     $scope.dataCoverageIntersectionEnd = function(val) {
-      if (attributeOccurenceMap[val]) {
-        _.forEach(attributeOccurenceMap[val], function(val, key) {
+      if (ShareData.data.dataCoverage.attributeOccurenceMap[val]) {
+        _.forEach(ShareData.data.dataCoverage.attributeOccurenceMap[val], function(val, key) {
           $('#data-coverage-member-' + val).removeAttr("style");
         })
       }
@@ -422,12 +435,14 @@ app.controller("HomeController", ['$scope',
         clusters = data.data.coordinatesList;
         var newItems = data.data.clusters;
         $scope.clusterBoard = data.data.clusters;
+        $scope.$apply();
+        $scope.$digest();
         ShareData.clusters = data.data.coordinatesList;
-        attributesMap = data.data.dataCoverage.attributesMap;
-        $scope.dataCoverage.countAttributes = Object.keys(data.data.dataCoverage.attributesMap).sort(function(a, b) {
-          return data.data.dataCoverage.attributesMap[b] - data.data.dataCoverage.attributesMap[a]
-        });
-        attributeOccurenceMap = data.data.dataCoverage.attributeOccurenceMap;
+        attributeOccurenceMap = ShareData.data.dataCoverage.attributeOccurenceMap;
+        attributesMap = ShareData.data.attributesMap;
+        // $scope.dataCoverage.countAttributes = Object.keys(data.data.dataCoverage.attributesMap).sort(function(a, b) {
+        //   return data.data.dataCoverage.attributesMap[b] - data.data.dataCoverage.attributesMap[a]
+        // });
         createClusters(clusters);
         bringBubblesOnTop();
       }, function(err) {

@@ -42,21 +42,19 @@ app.service("ClusterService", function($http) {
     return allDetails;
   }
 
-  this.makeTemplateForTemplate = function(id, allDetails){
-    let imageTemplate = "<img class='map' src='../images/" + allDetails[id].chartName + ".png'  />";
-    let imageTemplate = ".png'  />";
-    let title = "<h5 class='subheader'>" + allDetails[id].title + " </h6> <br/>";
-    let createBy = "<p class= ''><strong>Created by: </strong>" + allDetails[id].userName + "</p> <br/>";
-    let chartId = "<p class= ''><strong>Chart id: </strong>" + allDetails[id].chartName + " </p> <br/>";
-    let chartType = "<p class= ''><strong>Chart type: </strong>" + allDetails[id].chartType + "</p>  <br/>";
-    let attributes = "<p class= ''><strong>Attributes: </strong>" + allDetails[id].attributes + "</p>  <br/>";
-    let creationTime = "<p class= ''><strong>Creation time: </strong>" + allDetails[id].creationTime + "</p>  <br/>";
-    let lineBreak = "<hr />";
-    let description = "<p class= ''><strong>Description </strong>" + allDetails[id].description + "</p>  <br/>";
+  this.makeTemplateForTooltip = function(id, allDetails){
+    let imageTemplate = "<img src='../images/" + allDetails[id].chartName + ".png'  />";
+    let title = "<h5 class='subheader'>" + allDetails[id].title + " </h5>";
+    let createdBy = "<p class= 'font-used'><strong>Created by: </strong>" + allDetails[id].userName + "</p>";
+    let chartId = "<p class= 'font-used'><strong>Chart id: </strong>" + allDetails[id].chartName + " </p>";
+    let chartType = "<p class= 'font-used'><strong>Chart type: </strong>" + allDetails[id].chartType + "</p>";
+    let attributes = "<p class= 'font-used'><strong>Attributes: </strong>" + allDetails[id].attributes + "</p>";
+    let creationTime = "<p class= 'font-used'><strong>Creation time: </strong>" + allDetails[id].creationTime + "</p>";
+    let description = "<p class= 'font-used'><strong>Description </strong>" + allDetails[id].description + "</p>";
     let divStart = "<div>";
     let divEnd = "</div>";
-    let finalTemplate = divStart + title + createdBy + chartId + chartType + attributes + creationTime + lineBreak +
-                        description + imageTemplate + divEnd;
+    let finalTemplate = divStart + title + description + createdBy + chartId + chartType + attributes + creationTime +
+                        imageTemplate + divEnd;
     return finalTemplate;
 
   }

@@ -53,7 +53,7 @@
 }
 
 path:hover {
-    fill: yellow;
+  fill: yellow;
 }
 
 .wrapper {
@@ -71,7 +71,8 @@ path:hover {
 .wrapper>div:nth-child(odd) {
   background: #ddd;
 }
-div.data-coverage-span:hover{
+
+div.data-coverage-span:hover {
   background-color: orange;
 }
 
@@ -80,16 +81,19 @@ div.data-coverage-span:hover{
   width: 25px;
   background-color: #b3b3b3;
 }
+
 .squareColorPallete {
   height: 13px;
   width: 13px;
 }
+
 .squareUnUsed {
   height: 25px;
   width: 25px;
   background-color: #ddd;
 }
-.used-div{
+
+.used-div {
   display: inline-flex;
 }
 
@@ -103,19 +107,28 @@ div.data-coverage-span:hover{
   max-height: 20rem;
 }
 
-.chartType-board-overflow{
+.chartType-board-overflow {
   overflow-y: auto;
   max-height: 5rem;
 }
 
-.sliderUI{
-    height: 28px;
-    text-align: center;
-    width: 30px;
-    color: black;
+.sliderUI {
+  height: 28px;
+  text-align: center;
+  width: 30px;
+  color: black;
 }
 
-.margins-slider{
+.margins-slider {
   margin-bottom: 10px;
-    margin-top: -8px;
+  margin-top: -8px;
+}
+
+.map {
+  width: 350px;
+  height: 350px;
+}
+
+.ui-tooltip {
+  max-width: 500px;
 }
