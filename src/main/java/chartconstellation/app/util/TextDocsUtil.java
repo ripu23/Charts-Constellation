@@ -36,6 +36,9 @@ public class TextDocsUtil {
     Configuration configuration;
 
     public void loadDocs() {
+
+        // Loading dataset 1
+
         List<DBObject> dobobjects = docutil.convertToDBObjectList(configuration.getInputPath());
 
         dbUtil.updateDBDocs(dobobjects);
@@ -64,6 +67,11 @@ public class TextDocsUtil {
         dbUtil.updateFeaturesCollection(configuration.getMongoDatabase()
                 , configuration.getTotalFeatureCollection()
                 , featureVectors);
+
+        // loading dataset2
+        List<DBObject> dobobjects2 = docutil.convertToDBObjectList(configuration.getDataset2inputPath());
+
+
     }
 
 }
