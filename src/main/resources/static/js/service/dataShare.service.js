@@ -19,8 +19,7 @@ app.factory('ShareData', function() {
   data.filters = {};
   data.filters.filterList = [];
   data.allDetails = [];
-  data.olympics = true;
-  data.crimes = false;
+  data.dataSetId = "olympics";
 	return {
 		data: data
   }

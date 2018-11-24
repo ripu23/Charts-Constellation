@@ -7,11 +7,10 @@ app.controller("IndexController", ['$scope',
     console.log('Reached index controller');
 
     $scope.switchDataset = function(){
-      if(ShareData.olympics){
-        ShareData.olympics = !ShareData.olympics;
-      }
-      if(ShareData.crimes){
-        ShareData.crimes = !ShareData.crimes;
+      if(ShareData.data.dataSetId.includes("olympics")){
+        ShareData.data.dataSetId = "crimes";
+      }else{
+        ShareData.data.dataSetId = "olympics";
       }
     }
   }
