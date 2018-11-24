@@ -18,6 +18,9 @@ app.factory('ShareData', function() {
   data.dataCoverage.attributesMap = {};
   data.filters = {};
   data.filters.filterList = [];
+  data.allDetails = [];
+  data.olympics = true;
+  data.crimes = false;
 	return {
 		data: data
   }
