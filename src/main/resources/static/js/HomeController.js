@@ -35,6 +35,7 @@ app.controller("HomeController", ['$scope',
     $scope.dataCoverage.countAttributes = ShareData.data.dataCoverage.countAttributes;
     $scope.dataCoverage.AttributeMap = ShareData.data.dataCoverage.AttributeMap;
     $scope.colorSequence = [];
+    $scope.allDetails = ShareData.data.allDetails;
     var bubbles = new BubbleSet();
     var main = document.getElementById("main");
     var items = appendSVG(main, "g");
@@ -179,12 +180,17 @@ app.controller("HomeController", ['$scope',
           attributeOccurenceMap = data.data.dataCoverage.attributeOccurenceMap;
           createClusters(clusters);
           bringBubblesOnTop();
-          event.stopPropagation();
+          createMapForTooltips(data.data.coordinatesList);
           ShareData.data.domCreated = true;
         }, function(err) {
           if (err) throw err;
         });
       }
+    }
+
+    function createMapForTooltips(data) {
+      $scope.allDetails = ClusterService.createMapForTooltips(data);
+
     }
 
     function bringBubblesOnTop() {
@@ -282,7 +288,7 @@ app.controller("HomeController", ['$scope',
         content: function() {
           var element = $(this);
           var chartName = element.attr('chartName');
-          return "<img class='map' src='../images/" + chartName + ".png'  />";
+          return "<img  src='../images/" + chartName + ".png'  />";
         }
       });
     });
