@@ -31,4 +31,15 @@ public class AttributesController {
         return attributes;
 
     }
+
+    @RequestMapping(value="/getAllAttributes2", method= RequestMethod.GET)
+    public Attributes getAttributes2() {
+
+        Set<String> AttributeSet = attributeUtil.getAllAttributes(configuration.getDataset2mongoDatabase(), configuration.getCrimechartcollection());
+
+        Attributes attributes = new Attributes();
+        attributes.setAttributesSet(AttributeSet);
+        return attributes;
+
+    }
 }
