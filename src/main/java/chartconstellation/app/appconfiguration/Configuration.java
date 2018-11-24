@@ -18,6 +18,11 @@ public class Configuration {
     private String attributeDistanceCollection;
     private String totalFeatureCollection;
     private String descriptionDistancePath;
+    private String crimechartcollection;
+    private String dataset2descriptionCollection;
+    private String dataset2attributeDistanceCollection;
+    private String dataset2totalFeatureCollection;
+    private String dataset2descriptionDistancePath;
     private WeightConfig featureWeights;
     private ClusterParams clusterParams;
     private ScalingConfig mdsScalingConfig;
@@ -108,6 +113,46 @@ public class Configuration {
 
     public void setDescriptionDistancePath(String descriptionDistancePath) {
         this.descriptionDistancePath = descriptionDistancePath;
+    }
+
+    public String getCrimechartcollection() {
+        return crimechartcollection;
+    }
+
+    public void setCrimechartcollection(String crimechartcollection) {
+        this.crimechartcollection = crimechartcollection;
+    }
+
+    public String getDataset2descriptionCollection() {
+        return dataset2descriptionCollection;
+    }
+
+    public void setDataset2descriptionCollection(String dataset2descriptionCollection) {
+        this.dataset2descriptionCollection = dataset2descriptionCollection;
+    }
+
+    public String getDataset2attributeDistanceCollection() {
+        return dataset2attributeDistanceCollection;
+    }
+
+    public void setDataset2attributeDistanceCollection(String dataset2attributeDistanceCollection) {
+        this.dataset2attributeDistanceCollection = dataset2attributeDistanceCollection;
+    }
+
+    public String getDataset2totalFeatureCollection() {
+        return dataset2totalFeatureCollection;
+    }
+
+    public void setDataset2totalFeatureCollection(String dataset2totalFeatureCollection) {
+        this.dataset2totalFeatureCollection = dataset2totalFeatureCollection;
+    }
+
+    public String getDataset2descriptionDistancePath() {
+        return dataset2descriptionDistancePath;
+    }
+
+    public void setDataset2descriptionDistancePath(String dataset2descriptionDistancePath) {
+        this.dataset2descriptionDistancePath = dataset2descriptionDistancePath;
     }
 
     @Override
