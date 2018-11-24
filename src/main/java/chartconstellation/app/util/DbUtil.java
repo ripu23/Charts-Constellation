@@ -91,15 +91,15 @@ public class DbUtil {
                 .insert(dbObjects);
     }
 
-    public MongoCollections getCollections(String database) {
+    public MongoCollections getCollections(String database, String desccollection, String attrcollection) {
 
         MongoCollections mongoCollections = new MongoCollections();
 
-        mongoCollections.setDescriptionCollection(mongoClient.getDB(configuration.getMongoDatabase())
-                .getCollection(configuration.getDescriptionCollection()));
+        mongoCollections.setDescriptionCollection(mongoClient.getDB(database)
+                .getCollection(desccollection));
 
-        mongoCollections.setAttributeCollection(mongoClient.getDB(configuration.getMongoDatabase())
-                .getCollection(configuration.getAttributeDistanceCollection()));
+        mongoCollections.setAttributeCollection(mongoClient.getDB(database)
+                .getCollection(attrcollection));
 
         return mongoCollections;
     }
