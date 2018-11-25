@@ -53,6 +53,9 @@ app.controller("HomeController", ['$scope',
     });
 
 
+    $scope.$on('datasetChanged', function(event, data){
+      createDom();
+    });
     ChartService.getChartTypes().then(function(data) {
       alertify.success('Successfully imported chartTypes');
       $scope.chartTypes = data.data.chartTypes;

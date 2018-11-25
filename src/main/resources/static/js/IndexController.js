@@ -9,8 +9,10 @@ app.controller("IndexController", ['$scope',
     $scope.switchDataset = function(){
       if(ShareData.data.dataSetId.includes("olympics")){
         ShareData.data.dataSetId = "crimes";
+        $scope.$broadcast('datasetChanged');
       }else{
         ShareData.data.dataSetId = "olympics";
+        $scope.$broadcast('datasetChanged');
       }
     }
   }
