@@ -54,7 +54,18 @@ app.controller("HomeController", ['$scope',
 
 
     $scope.$on('datasetChanged', function(event, data){
-      createDom();
+      UserService.getUserCharts().then(function(data) {
+        if (data && data.data) {
+          ShareData.userCharts = data.data;
+          $scope.users = data.data;
+          colors = ClusterService.getColors(data.data.length);
+          populateColorsForUsers();
+          createDom();
+        }
+      }, function(err) {
+        alertify.error('Something is wrong with API --> UserService --> getUsers');
+        if (err) throw err;
+      });
     });
     ChartService.getChartTypes().then(function(data) {
       alertify.success('Successfully imported chartTypes');
