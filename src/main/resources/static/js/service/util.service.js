@@ -1,40 +1,40 @@
 var app = angular.module("mainApp");
-app.service("ClusterService", function($http) {
+app.service("ClusterService", function($http, ShareData) {
   this.getColors = function(num) {
-    if(num > 0 && num < 66){
+    if (num > 0 && num < 66) {
       return palette('mpn65', num);
     }
     return null;
   }
 
-  this.getSequentialColors = function(num){
-    if(num > 0){
+  this.getSequentialColors = function(num) {
+    if (num > 0) {
       return palette('tol-dv', num);
     }
     return null;
   }
 
-  this.updateCluster = function(distances){
+  this.updateCluster = function(distances) {
     let clusters = [];
     const threshold = 0.3;
-    _.forEach(distances, function(val1, key1){
-      _.forEach(val1, function(val2, key2){
+    _.forEach(distances, function(val1, key1) {
+      _.forEach(val1, function(val2, key2) {
 
       })
     })
     return clusters;
   }
-  this.getClusters = function(){
-    return $http.get("/Cluster/getClusters").then(function(response){
+  this.getClusters = function() {
+    return $http.get("/Cluster/getClusters").then(function(response) {
       return response.data;
     });
   }
 
-  this.createMapForTooltips = function(data){
+  this.createMapForTooltips = function(data) {
     let allDetails = [];
-    _.forEach(data, function(eachCluster){
-      _.forEach(eachCluster, function(eachUser){
-        if(eachUser && eachUser.chartName){
+    _.forEach(data, function(eachCluster) {
+      _.forEach(eachCluster, function(eachUser) {
+        if (eachUser && eachUser.chartName) {
           allDetails[eachUser.chartName] = eachUser;
         }
       })
@@ -42,7 +42,7 @@ app.service("ClusterService", function($http) {
     return allDetails;
   }
 
-  this.makeTemplateForTooltip = function(id, allDetails){
+  this.makeTemplateForTooltip = function(id, allDetails) {
     let imageTemplate = "<img src='../images/" + allDetails[id].chartName + ".png'  />";
     let title = "<h5 class='subheader'>" + allDetails[id].title + " </h5>";
     let createdBy = "<p class= 'font-used'><strong>Created by: </strong>" + allDetails[id].userName + "</p>";
@@ -54,7 +54,7 @@ app.service("ClusterService", function($http) {
     let divStart = "<div>";
     let divEnd = "</div>";
     let finalTemplate = divStart + title + description + createdBy + chartId + chartType + attributes + creationTime +
-                        imageTemplate + divEnd;
+      imageTemplate + divEnd;
     return finalTemplate;
 
   }
@@ -63,10 +63,10 @@ app.service("ClusterService", function($http) {
     let images = [{
       img: 'ArunSankar1.png',
       user: 'Arun Sankar'
-    },{
+    }, {
       img: 'ArunSankar2.png',
       user: 'Arun Sankar'
-    },{
+    }, {
       img: 'ArunSankar3.png',
       user: 'Arun Sankar'
     }, {
@@ -110,9 +110,74 @@ app.service("ClusterService", function($http) {
       user: 'Varun'
     }];
 
+    let imagesCrimes = [{
+      img: 'Anushka1.png',
+      user: 'Anushka'
+    }, {
+      img: 'Anushka2.png',
+      user: 'Anushka'
+    }, {
+      img: 'Anushka3.png',
+      user: 'Anushka'
+    }, {
+      img: 'Anushka4.png',
+      user: 'Anushka'
+    }, {
+      img: 'Anushka5.png',
+      user: 'Anushka'
+    }, {
+      img: 'Deepika1.png',
+      user: 'Deepika'
+    }, {
+      img: 'Deepika2.png',
+      user: 'Deepika'
+    }, {
+      img: 'Deepika3.png',
+      user: 'Deepika'
+    }, {
+      img: 'Deepika4.png',
+      user: 'Deepika'
+    }, {
+      img: 'Deepika5.png',
+      user: 'Deepika'
+    }, {
+      img: 'Katrina1.png',
+      user: 'Katrina'
+    }, {
+      img: 'Katrina2.png',
+      user: 'Katrina'
+    }, {
+      img: 'Katrina3.png',
+      user: 'Katrina'
+    }, {
+      img: 'Katrina4.png',
+      user: 'Katrina'
+    }, {
+      img: 'Katrina5.png',
+      user: 'Katrina'
+    }, {
+      img: 'Priyanka1.png',
+      user: 'Priyanka'
+    }, , {
+      img: 'Priyanka2.png',
+      user: 'Priyanka'
+    }, {
+      img: 'Priyanka3.png',
+      user: 'Priyanka'
+    }, {
+      img: 'Priyanka4.png',
+      user: 'Priyanka'
+    }, {
+      img: 'Priyanka5.png',
+      user: 'Priyanka'
+    }];
+
     let constantUrl = '../images/';
     let tooltipUrl = "<img ng-src='" + constantUrl;
-    return{
+    if(ShareData.data.dataSetId == "crimes"){
+      images = imagesCrimes;
+    }
+    return {
       images: images,
       url: constantUrl,
       tooltipUrl: tooltipUrl

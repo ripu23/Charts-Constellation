@@ -7,4 +7,8 @@ app.controller("ImageViewController", ['$scope',
   console.log('reached ImageViewController');
   $scope.images = ClusterService.getImageUrl().images;
   $scope.constantUrl = ClusterService.getImageUrl().url;
+  $scope.$on('datasetChanged', function(event, data){
+    $scope.images = ClusterService.getImageUrl().images;
+    $scope.constantUrl = ClusterService.getImageUrl().url;
+  });
 }]);
