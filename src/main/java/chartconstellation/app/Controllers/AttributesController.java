@@ -5,6 +5,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import chartconstellation.app.appconfiguration.Configuration;
@@ -22,24 +23,22 @@ public class AttributesController {
     AttributeUtil attributeUtil;
 
     @RequestMapping(value="/getAllAttributes", method= RequestMethod.GET)
-    public Attributes getAttributes() {
+    public Attributes getAttributes(@RequestParam("datasetId") String datasetId) {
 
-        Set<String> AttributeSet = attributeUtil.getAllAttributes(configuration.getMongoDatabase(), configuration.getOlympicchartcollection());
+        if(datasetId.equals("olympics")) {
 
-        Attributes attributes = new Attributes();
-        attributes.setAttributesSet(AttributeSet);
-        return attributes;
+            Set<String> AttributeSet = attributeUtil.getAllAttributes(configuration.getMongoDatabase(), configuration.getOlympicchartcollection());
 
-    }
+            Attributes attributes = new Attributes();
+            attributes.setAttributesSet(AttributeSet);
+            return attributes;
+        } else {
+            Set<String> AttributeSet = attributeUtil.getAllAttributes(configuration.getDataset2mongoDatabase(), configuration.getCrimechartcollection());
 
-    @RequestMapping(value="/getAllAttributes2", method= RequestMethod.GET)
-    public Attributes getAttributes2() {
-
-        Set<String> AttributeSet = attributeUtil.getAllAttributes(configuration.getDataset2mongoDatabase(), configuration.getCrimechartcollection());
-
-        Attributes attributes = new Attributes();
-        attributes.setAttributesSet(AttributeSet);
-        return attributes;
+            Attributes attributes = new Attributes();
+            attributes.setAttributesSet(AttributeSet);
+            return attributes;
+        }
 
     }
 }

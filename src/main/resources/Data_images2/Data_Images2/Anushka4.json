@@ -10,11 +10,11 @@
       ],
       "mark": {
       "type": "bar",
-        //"interpolate": "monotone"
+        "interpolate": "monotone"
       },
       "encoding": {
         "x": {
-			//"timeUnit": "yearmonth",
+			"timeUnit": "yearmonth",
            "field": "Primary Type", "type": "nominal"
         },
         "y": {"aggregate": "count", "field": "*", "type": "quantitative"}

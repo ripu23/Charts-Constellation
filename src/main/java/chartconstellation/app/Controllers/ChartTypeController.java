@@ -5,6 +5,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import chartconstellation.app.appconfiguration.Configuration;
@@ -27,24 +28,41 @@ public class ChartTypeController {
     AttributeUtil attributeUtil;
 
     @RequestMapping(value="/getAllChartTypes", method= RequestMethod.GET)
-    public ChartType getAttributes() {
+    public ChartType getAttributes(@RequestParam("datasetId") String datasetId) {
 
-        ChartType chartTypeObj = chartsUtil.getAllChartTypes(configuration.getMongoDatabase()
-                , configuration.getOlympicchartcollection());
+        if(datasetId.equals("olympics")) {
 
-        return chartTypeObj;
+            ChartType chartTypeObj = chartsUtil.getAllChartTypes(configuration.getMongoDatabase()
+                    , configuration.getOlympicchartcollection());
+
+            return chartTypeObj;
+        } else {
+            ChartType chartTypeObj = chartsUtil.getAllChartTypes(configuration.getDataset2mongoDatabase()
+                    , configuration.getCrimechartcollection());
+            return chartTypeObj;
+        }
 
     }
     
 
     @RequestMapping(value="/getAllAttributes", method= RequestMethod.GET)
-    public Attributes getAllAttributes() {
+    public Attributes getAllAttributes(@RequestParam("datasetId") String datasetId) {
 
-        Set<String> AttributeSet = attributeUtil.getAllAttributes(configuration.getMongoDatabase(), configuration.getOlympicchartcollection());
+        if(datasetId.equals("olympics")) {
 
-        Attributes attributes = new Attributes();
-        attributes.setAttributesSet(AttributeSet);
-        return attributes;
+            Set<String> AttributeSet = attributeUtil.getAllAttributes(configuration.getMongoDatabase(), configuration.getOlympicchartcollection());
+
+            Attributes attributes = new Attributes();
+            attributes.setAttributesSet(AttributeSet);
+            return attributes;
+        } else {
+            Set<String> AttributeSet = attributeUtil.getAllAttributes(configuration.getDataset2mongoDatabase()
+                    , configuration.getCrimechartcollection());
+
+            Attributes attributes = new Attributes();
+            attributes.setAttributesSet(AttributeSet);
+            return attributes;
+        }
 
     }
 

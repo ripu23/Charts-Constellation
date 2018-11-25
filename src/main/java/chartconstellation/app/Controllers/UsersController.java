@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import chartconstellation.app.appconfiguration.Configuration;
@@ -23,16 +24,24 @@ public class UsersController {
     ChartsUtil chartsUtil;
 
     @RequestMapping(value="/getUserCharts", method= RequestMethod.GET)
-    public Collection<UserCharts> getUsers() {
+    public Collection<UserCharts> getUsers(@RequestParam("datasetId") String datasetId) {
 
-        HashMap<String, UserCharts> map = chartsUtil
-                .getAllUserCharts(configuration.getMongoDatabase()
-                        , configuration.getOlympicchartcollection());
+        if(datasetId.equals("olympics")) {
 
-        System.out.println(map.size());
-        System.out.println(map);
-
-        return map.values();
+            HashMap<String, UserCharts> map = chartsUtil
+                    .getAllUserCharts(configuration.getMongoDatabase()
+                            , configuration.getOlympicchartcollection());
+            System.out.println(map.size());
+            System.out.println(map);
+            return map.values();
+        } else {
+            HashMap<String, UserCharts> map = chartsUtil
+                    .getAllUserCharts(configuration.getDataset2mongoDatabase()
+                            , configuration.getCrimechartcollection());
+            System.out.println(map.size());
+            System.out.println(map);
+            return map.values();
+        }
 
     }
 }
