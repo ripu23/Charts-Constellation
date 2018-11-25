@@ -39,12 +39,26 @@ public class CoordinatesController {
     public OutputResponse coordinates(@RequestParam("descWeight") Double descWeight,
                                                        @RequestParam("attrWeight") Double attrWeight,
                                                        @RequestParam("chartEncodingWeight") Double chartEncodingWeight,
-                                                       @RequestParam("colorMap") Object colorMap) {
+                                                       @RequestParam("colorMap") Object colorMap,
+                                      @RequestParam("datasetId") String datasetId) {
 
-        List<FeatureVector> featurevectors = dbUtil.getFeaturesFromCollection(configuration.getMongoDatabase(),
-                configuration.getTotalFeatureCollection());
+        System.out.println("datasetId "+datasetId);
 
-        List<Chart> chartObjs = dbUtil.getAttributesFromCollection(configuration.getMongoDatabase(), configuration.getOlympicchartcollection());
+        List<FeatureVector> featurevectors = new ArrayList<>();
+        List<Chart> chartObjs = new ArrayList<>();
+
+        if(datasetId.equals("olympics")) {
+            featurevectors = dbUtil.getFeaturesFromCollection(configuration.getMongoDatabase(),
+                    configuration.getTotalFeatureCollection());
+
+            chartObjs = dbUtil.getAttributesFromCollection(configuration.getMongoDatabase(), configuration.getOlympicchartcollection());
+        } else {
+            featurevectors = dbUtil.getFeaturesFromCollection(configuration.getDataset2mongoDatabase(),
+                    configuration.getDataset2totalFeatureCollection());
+
+            chartObjs = dbUtil.getAttributesFromCollection(configuration.getDataset2mongoDatabase(),
+                    configuration.getCrimechartcollection());
+        }
 
         HashMap<Integer, List<IdCoordinates>> coordinatesMap = coordinatesUtil.getCoordinates(chartObjs, 3, featurevectors, descWeight, attrWeight, chartEncodingWeight, colorMap);
 
@@ -69,7 +83,9 @@ public class CoordinatesController {
     }
 
     @RequestMapping(value="/updateFilter", method= RequestMethod.GET)
-    public OutputResponse filterCoordinates(@RequestParam("filter") String filterMap, @RequestParam("colorMap") Object colorMap) {
+    public OutputResponse filterCoordinates(@RequestParam("filter") String filterMap,
+                                            @RequestParam("colorMap") Object colorMap,
+                                            @RequestParam("datasetId") String datasetId) {
     	try {
 
 			Filters filters =  new ObjectMapper().readValue(filterMap, Filters.class);
@@ -89,9 +105,21 @@ public class CoordinatesController {
                 }
             }
 
-            List<Chart> chartObjs = dbUtil.searchDocsInaCollection(configuration.getMongoDatabase(), configuration.getOlympicchartcollection(), users, charts);
-            List<FeatureVector> featurevectors = dbUtil.getFeaturesFromCollection(configuration.getMongoDatabase(),
-                    configuration.getTotalFeatureCollection());
+            List<FeatureVector> featurevectors = new ArrayList<>();
+            List<Chart> chartObjs = new ArrayList<>();
+
+            if(datasetId.equals("olympics")) {
+                featurevectors = dbUtil.getFeaturesFromCollection(configuration.getMongoDatabase(),
+                        configuration.getTotalFeatureCollection());
+
+                chartObjs = dbUtil.getAttributesFromCollection(configuration.getMongoDatabase(), configuration.getOlympicchartcollection());
+            } else {
+                featurevectors = dbUtil.getFeaturesFromCollection(configuration.getDataset2mongoDatabase(),
+                        configuration.getDataset2totalFeatureCollection());
+
+                chartObjs = dbUtil.getAttributesFromCollection(configuration.getDataset2mongoDatabase(),
+                        configuration.getCrimechartcollection());
+            }
 
             Set<String> filteredIds = new HashSet<>();
 
