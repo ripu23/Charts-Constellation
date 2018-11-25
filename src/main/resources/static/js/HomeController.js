@@ -163,9 +163,9 @@ app.controller("HomeController", ['$scope',
     });
 
     function createDom() {
-      var updatedAttrWeight = $('#sliderAttribute').slider("value")
-      var updatedDescWeight = $('#sliderDescription').slider("value")
-      var updatedChartEncodingWeight = $('#sliderEncoding').slider("value")
+      var updatedAttrWeight = $('#sliderAttribute').slider("value");
+      var updatedDescWeight = $('#sliderDescription').slider("value");
+      var updatedChartEncodingWeight = $('#sliderEncoding').slider("value");
       var colorMap = populateColorMap();
       var dataSend = {
         "descWeight": parseFloat(updatedDescWeight),
@@ -570,9 +570,10 @@ app.controller("HomeController", ['$scope',
       $scope.filters.filterList = _.reject($scope.filters.filterList, function(val, key) {
         if (val && val.map && val.map.weights) return true;
       });
-      var updatedAttrWeight = $('#attrWeight').attr('aria-valuenow');
-      var updatedDescWeight = $('#descWeight').attr('aria-valuenow');
-      var updatedChartEncodingWeight = $('#chartEncodingWeight').attr('aria-valuenow');
+
+      var updatedAttrWeight = $('#sliderAttribute').slider("value");
+      var updatedDescWeight = $('#sliderDescription').slider("value");
+      var updatedChartEncodingWeight = $('#sliderEncoding').slider("value");
       let weightObj = {};
       weightObj.weights = [];
       weightObj.weights.push(updatedDescWeight);
