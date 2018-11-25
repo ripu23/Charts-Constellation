@@ -191,6 +191,7 @@ app.controller("HomeController", ['$scope',
 
     function createMapForTooltips(data) {
       $scope.allDetails = ClusterService.createMapForTooltips(data);
+      ShareData.data.allDetails = $scope.allDetails;
 
     }
 
@@ -292,7 +293,7 @@ app.controller("HomeController", ['$scope',
         content: function() {
           var element = $(this);
           var chartName = element.attr('chartName');
-          var template = ClusterService.makeTemplateForTooltip(chartName, $scope.allDetails);
+          var template = ClusterService.makeTemplateForTooltip(chartName, ShareData.data.allDetails);
           return template;
         }
       });
@@ -444,6 +445,7 @@ app.controller("HomeController", ['$scope',
         // });
         createClusters(clusters);
         bringBubblesOnTop();
+        createMapForTooltips(data.data.coordinatesList);
       }, function(err) {
         if (err) throw err;
       });
