@@ -1,5 +1,7 @@
 package chartconstellation.app.entities.response;
 
+import java.util.List;
+
 public class IdCoordinates {
 
     private String id;
@@ -11,6 +13,24 @@ public class IdCoordinates {
     private String title;
     private String description;
     private Point point;
+    private List<String> attributes;
+    private String Date;
+
+    public List<String> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(List<String> attributes) {
+        this.attributes = attributes;
+    }
+
+    public String getDate() {
+        return Date;
+    }
+
+    public void setDate(String date) {
+        Date = date;
+    }
 
     public String getTitle() {
         return title;
