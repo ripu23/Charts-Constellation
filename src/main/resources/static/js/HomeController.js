@@ -435,6 +435,7 @@ app.controller("HomeController", ['$scope',
       if (!colorMap) {
         colorMap = populateColorMap();
       }
+      ShareData.data.filters.filterList = obj;
       toBeSent.updatedFilters = obj;
       toBeSent.colorMap = JSON.stringify(colorMap);
       CoordinateService.updateClusters(toBeSent).then(function(data) {
@@ -446,6 +447,7 @@ app.controller("HomeController", ['$scope',
         attr(items, {
           id: "mainG"
         });
+        $scope.filters.filterList = ShareData.data.filters.filterList;
         clusters = data.data.coordinatesList;
         var newItems = data.data.clusters;
         $scope.clusterBoard = data.data.clusters;
