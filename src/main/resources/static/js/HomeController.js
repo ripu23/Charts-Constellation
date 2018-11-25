@@ -11,7 +11,6 @@ app.controller("HomeController", ['$scope',
   'ClusterService',
   function($scope, DistanceService, CoordinateService, ShareData, UserService, ChartService, ClusterService) {
 
-    console.log('%cReached home contrlloler', 'color :red');
     let clusters = [];
     let clustersUI = {};
     let paths = [];
