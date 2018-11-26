@@ -52,6 +52,22 @@ app.controller("HomeController", ['$scope',
       }
     });
 
+    $scope.$on('routeToHome', function(event){
+      UserService.getUserCharts().then(function(data) {
+        if (data && data.data) {
+          ShareData.userCharts = data.data;
+          $scope.users = data.data;
+          colors = ClusterService.getColors(data.data.length);
+          populateColorsForUsers();
+          createDom();
+          getChartTypes();
+          getAllAttributes();
+        }
+      }, function(err) {
+        alertify.error('Something is wrong with API --> UserService --> getUsers');
+        if (err) throw err;
+      });
+    });
 
     $scope.$on('datasetChanged', function(event, data){
       UserService.getUserCharts().then(function(data) {
@@ -61,12 +77,37 @@ app.controller("HomeController", ['$scope',
           colors = ClusterService.getColors(data.data.length);
           populateColorsForUsers();
           createDom();
+          getChartTypes();
+          getAllAttributes();
         }
       }, function(err) {
         alertify.error('Something is wrong with API --> UserService --> getUsers');
         if (err) throw err;
       });
     });
+
+    function getChartTypes() {
+      ChartService.getChartTypes().then(function(data) {
+        alertify.success('Successfully imported chartTypes');
+        $scope.chartTypes = data.data.chartTypes;
+        ShareData.chartTypes = data.data.chartTypes;
+      }, function(err) {
+        alertify.error('Something is wrong with API --> ChartService --> getCharts');
+        if (err) throw err;
+      });
+    }
+
+    function getAllAttributes() {
+      ChartService.getAllAttributes().then(function(data) {
+        $scope.attributeList = data.data.attributesSet;
+        ShareData.attributeList = data.data.attributesSet;
+      }, function(err) {
+        alertify.error('Something is wrong with API --> ChartService --> getAllAttributes');
+        if (err) throw err;
+      })
+    }
+
+
     ChartService.getChartTypes().then(function(data) {
       alertify.success('Successfully imported chartTypes');
       $scope.chartTypes = data.data.chartTypes;

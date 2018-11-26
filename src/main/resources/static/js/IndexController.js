@@ -15,5 +15,9 @@ app.controller("IndexController", ['$scope',
         $scope.$broadcast('datasetChanged');
       }
     }
+
+    $scope.home = function(){
+      $scope.$broadcast('routeToHome');
+    }
   }
 ]);
