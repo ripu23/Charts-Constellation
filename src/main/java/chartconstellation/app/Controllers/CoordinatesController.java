@@ -93,6 +93,7 @@ public class CoordinatesController {
 			List<Filter> filtersList = filters.getFilterList();
 			List<String> users = null;
 			List<String> charts = null;
+			List<String> weights = null;
 			for(Filter filter : filtersList) {
                 Map<String, List<String>> map = filter.getMap();
                 if(map.containsKey("users")) {
@@ -102,8 +103,21 @@ public class CoordinatesController {
                     charts = map.get("charts");
                 }
                 if(map.containsKey("weights")) {
-
+                    weights = map.get("weights");
                 }
+            }
+
+            Double descWeight = 1.0;
+			Double attrWeight = 1.0;
+			Double chartEncodingWeight = 1.0;
+
+			try {
+
+                descWeight = Double.parseDouble(weights.get(2));
+                attrWeight = Double.parseDouble(weights.get(0));
+                chartEncodingWeight = Double.parseDouble(weights.get(1));
+            } catch (Exception e) {
+
             }
 
             List<FeatureVector> featurevectors = new ArrayList<>();
@@ -149,7 +163,7 @@ public class CoordinatesController {
 //            System.out.println("Filterd feature vectors "+filteredFeatureVectors.size());
 //            System.out.println(filteredFeatureVectors);
 
-            HashMap<Integer, List<IdCoordinates>> coordinatesMap = coordinatesUtil.getCoordinates(datasetId, chartObjs,2, filteredFeatureVectors, 0.4, 0.4,0.2, colorMap);
+            HashMap<Integer, List<IdCoordinates>> coordinatesMap = coordinatesUtil.getCoordinates(datasetId, chartObjs,2, filteredFeatureVectors, descWeight, attrWeight,chartEncodingWeight, colorMap);
 //            System.out.println("Filtered coordinates map "+coordinatesMap);
 //            System.out.println(coordinatesMap);
             List<Cluster> clusterList = clusterUtil.generateClusterInfo(coordinatesMap, chartObjs);
