@@ -180,6 +180,7 @@ public class CoordinatesController {
             //dataCoverageResponse.setAttributeKeys(attributesMap.keySet());
 
             OutputResponse outputResponse = new OutputResponse();
+            outputResponse.setFilterMap(filterMap);
             outputResponse.setCoordinatesList(coordinatesMap.values());
             outputResponse.setClusters(clusterList);
             outputResponse.setDataCoverage(dataCoverageResponse);
