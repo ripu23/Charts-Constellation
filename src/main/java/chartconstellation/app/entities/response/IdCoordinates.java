@@ -100,7 +100,8 @@ public class IdCoordinates {
         return chartName;
     }
 
-    public void setChartName(String chartName) {
+    public void setChartName(String chartName)
+    {
         this.chartName = chartName;
     }
 
@@ -111,8 +112,13 @@ public class IdCoordinates {
                 ", userName='" + userName + '\'' +
                 ", clusterId=" + clusterId +
                 ", chartType='" + chartType + '\'' +
+                ", chartName='" + chartName + '\'' +
                 ", color='" + color + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
                 ", point=" + point +
+                ", attributes=" + attributes +
+                ", Date='" + Date + '\'' +
                 '}';
     }
 }
