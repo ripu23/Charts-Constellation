@@ -113,13 +113,13 @@ public class CoordinatesController {
                 featurevectors = dbUtil.getFeaturesFromCollection(configuration.getMongoDatabase(),
                         configuration.getTotalFeatureCollection());
 
-                chartObjs = dbUtil.getAttributesFromCollection(configuration.getMongoDatabase(), configuration.getOlympicchartcollection());
+                chartObjs = dbUtil.searchDocsInaCollection(configuration.getMongoDatabase(), configuration.getOlympicchartcollection(), users, charts);
             } else {
                 featurevectors = dbUtil.getFeaturesFromCollection(configuration.getDataset2mongoDatabase(),
                         configuration.getDataset2totalFeatureCollection());
 
-                chartObjs = dbUtil.getAttributesFromCollection(configuration.getDataset2mongoDatabase(),
-                        configuration.getCrimechartcollection());
+                chartObjs = dbUtil.searchDocsInaCollection(configuration.getDataset2mongoDatabase(),
+                        configuration.getCrimechartcollection(), users, charts);
             }
 
             Set<String> filteredIds = new HashSet<>();
