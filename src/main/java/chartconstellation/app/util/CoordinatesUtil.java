@@ -170,11 +170,18 @@ public class CoordinatesUtil {
         return clusterScalingConfig;
     }
 
-    public HashMap<String, String> getIdUserMap() {
+    public HashMap<String, String> getIdUserMap(String datasetId) {
 
-        HashMap<String, UserCharts> map = chartsUtil
-                .getAllUserCharts(configuration.getMongoDatabase()
-                        , configuration.getOlympicchartcollection());
+        HashMap<String, UserCharts> map = new HashMap<>();
+        if(datasetId.equals("olympics")) {
+            map = chartsUtil
+                    .getAllUserCharts(configuration.getMongoDatabase()
+                            , configuration.getOlympicchartcollection());
+        } else {
+            map = chartsUtil
+                    .getAllUserCharts(configuration.getDataset2mongoDatabase()
+                            , configuration.getCrimechartcollection());
+        }
 
         HashMap<String, String> idUserMap = new HashMap<>();
 
@@ -228,10 +235,12 @@ public class CoordinatesUtil {
         return chartsMap;
     }
 
-    public HashMap<Integer, List<IdCoordinates>> getCoordinates(List<Chart> charts, int cluster_size, List<FeatureVector> featurevectors, Double descWeight, Double attrWeight, Double chartEncodingWeight, Object colorMap) {
+    public HashMap<Integer, List<IdCoordinates>> getCoordinates(String datasetId, List<Chart> charts, int cluster_size, List<FeatureVector> featurevectors, Double descWeight, Double attrWeight, Double chartEncodingWeight, Object colorMap) {
 
         HashMap<String, String> userColorMap = getColorMap(colorMap);
-        HashMap<String, String> idUserMap = getIdUserMap();
+        System.out.println(userColorMap);
+        HashMap<String, String> idUserMap = getIdUserMap(datasetId);
+        System.out.println(idUserMap);
         HashMap<String, String> idChartTypeMap = getChartTypeMap(charts);
         HashMap<String, Chart> chartsMap = getChartsMap(charts);
 
