@@ -3,7 +3,9 @@ var app = angular.module("mainApp");
 
 app.controller("IndexController", ['$scope',
   'ShareData',
-  function($scope, ShareData, ClusterService) {
+  '$rootScope',
+  '$location',
+  function($scope, ShareData, $rootScope, $location) {
     console.log('Reached index controller');
 
     $scope.switchDataset = function(){
@@ -16,8 +18,9 @@ app.controller("IndexController", ['$scope',
       }
     }
 
-    $scope.home = function(){
-      $scope.$broadcast('routeToHome');
+    $scope.goToHome = function(){
+      $rootScope.$broadcast('routeToHome');
+      $location.path('/');
     }
   }
 ]);

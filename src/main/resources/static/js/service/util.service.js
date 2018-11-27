@@ -53,7 +53,7 @@ app.service("ClusterService", function($http, ShareData) {
     let description = "<p class= 'font-used'><strong>Description </strong>" + allDetails[id].description + "</p>";
     let divStart = "<div>";
     let divEnd = "</div>";
-    let finalTemplate = divStart + title + description + createdBy + chartId + chartType + attributes + creationTime +
+    let finalTemplate = divStart + title + description + createdBy + chartId + chartType + attributes +
       imageTemplate + divEnd;
     return finalTemplate;
 

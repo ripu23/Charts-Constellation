@@ -9,7 +9,8 @@ app.controller("HomeController", ['$scope',
   'UserService',
   'ChartService',
   'ClusterService',
-  function($scope, DistanceService, CoordinateService, ShareData, UserService, ChartService, ClusterService) {
+  '$rootScope',
+  function($scope, DistanceService, CoordinateService, ShareData, UserService, ChartService, ClusterService, $rootScope) {
 
     let clusters = [];
     let clustersUI = {};
@@ -52,24 +53,11 @@ app.controller("HomeController", ['$scope',
       }
     });
 
-    $scope.$on('routeToHome', function(event){
-      UserService.getUserCharts().then(function(data) {
-        if (data && data.data) {
-          ShareData.userCharts = data.data;
-          $scope.users = data.data;
-          colors = ClusterService.getColors(data.data.length);
-          populateColorsForUsers();
-          createDom();
-          getChartTypes();
-          getAllAttributes();
-        }
-      }, function(err) {
-        alertify.error('Something is wrong with API --> UserService --> getUsers');
-        if (err) throw err;
-      });
+    $rootScope.$on('routeToHome', function(event) {
+      createDom();
     });
 
-    $scope.$on('datasetChanged', function(event, data){
+    $scope.$on('datasetChanged', function(event, data) {
       UserService.getUserCharts().then(function(data) {
         if (data && data.data) {
           ShareData.userCharts = data.data;
@@ -310,7 +298,6 @@ app.controller("HomeController", ['$scope',
       paths = [];
       _.forEach(clustersUI, function(cluster, idx) {
         var svg = appendSVG(main, "path");
-        // idx += 1;
         attr(svg, {
           id: "path" + idx
         });
@@ -342,7 +329,10 @@ app.controller("HomeController", ['$scope',
     $(function() {
       $(document).tooltip({
         items: "circle",
-        position: { my: "left+15 center", at: "right center" },
+        position: {
+          my: "left+15 center",
+          at: "right center"
+        },
         collision: "flipfit",
         track: true,
         content: function() {
@@ -488,7 +478,8 @@ app.controller("HomeController", ['$scope',
         attr(items, {
           id: "mainG"
         });
-        $scope.filters.filterList = ShareData.data.filters.filterList;
+        let x = angular.fromJson(data.data.filterMap);
+        $scope.filters.filterList = x.filterList;
         clusters = data.data.coordinatesList;
         var newItems = data.data.clusters;
         $scope.clusterBoard = data.data.clusters;
@@ -613,7 +604,6 @@ app.controller("HomeController", ['$scope',
       $scope.filters.filterList = _.reject($scope.filters.filterList, function(val, key) {
         if (val && val.map && val.map.weights) return true;
       });
-
       var updatedAttrWeight = $('#sliderAttribute').slider("value");
       var updatedDescWeight = $('#sliderDescription').slider("value");
       var updatedChartEncodingWeight = $('#sliderEncoding').slider("value");
