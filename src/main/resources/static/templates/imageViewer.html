@@ -4,7 +4,8 @@
       <div class="card">
         <img ng-src="{{constantUrl}}{{image.img}}" class="image-view-img">
         <div class="card-section">
-          <h4>User: {{image.user}}</h4>
+          <p class="font-used" ng-repeat="(key, val) in image" ng-if="key == 'title' || key == 'description' || key =='title' || key == 'user' ||
+          key == 'clusterId' || key == 'chartType' || key == 'attributes'">{{key | uppercase}}: {{val}}</p>
         </div>
       </div>
     </div>
