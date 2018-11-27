@@ -575,9 +575,11 @@ app.controller("HomeController", ['$scope',
             userObj.users.push($scope.users[key].userName);
           }
         })
-        $scope.filters.filterList.push({
-          map: userObj
-        });
+        if(userObj.users.length > 0){
+          $scope.filters.filterList.push({
+            map: userObj
+          });
+        }
       }
     }
 
@@ -594,9 +596,12 @@ app.controller("HomeController", ['$scope',
             attributeObj.attributes.push($scope.attributeList[key]);
           }
         })
-        $scope.filters.filterList.push({
-          map: attributeObj
-        });
+
+        if(attributeObj.attributes.length > 0){
+          $scope.filters.filterList.push({
+            map: attributeObj
+          });
+        }
       }
     }
 
