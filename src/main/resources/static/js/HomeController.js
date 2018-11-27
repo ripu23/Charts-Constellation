@@ -202,34 +202,42 @@ app.controller("HomeController", ['$scope',
         "chartEncodingWeight": parseFloat(updatedChartEncodingWeight),
         "colorMap": JSON.stringify(colorMap)
       }
-      if (updatedAttrWeight && updatedDescWeight && updatedChartEncodingWeight) {
-        CoordinateService.getCoordinates(dataSend).then(function(data) {
-
-          removePaths();
-          removeAllChilds(items);
-          $('#mainG').remove();
-          items = appendSVG(main, "g");
-          attr(items, {
-            id: "mainG"
-          });
-          clusters = data.data.coordinatesList;
-          $scope.clusterBoard = data.data.clusters;
-          ShareData.clusters = data.data.coordinatesList;
-          attributesMap = data.data.dataCoverage.attributesMap;
-          $scope.dataCoverage.countAttributes = Object.keys(data.data.dataCoverage.attributesMap).sort(function(a, b) {
-            return data.data.dataCoverage.attributesMap[b] - data.data.dataCoverage.attributesMap[a]
-          });
-          attributeOccurenceMap = data.data.dataCoverage.attributeOccurenceMap;
-          ShareData.data.dataCoverage.attributeOccurenceMap = data.data.dataCoverage.attributeOccurenceMap;
-          ShareData.data.attributesMap = data.data.dataCoverage.attributesMap;
-          createClusters(clusters);
-          bringBubblesOnTop();
-          createMapForTooltips(data.data.coordinatesList);
-          ShareData.data.domCreated = true;
-        }, function(err) {
-          if (err) throw err;
-        });
+      if (isNaN(dataSend.attrWeight)) {
+        dataSend.attrWeight = 1;
       }
+      if (isNaN(dataSend.chartEncodingWeight)) {
+        dataSend.chartEncodingWeight = 1;
+      }
+      if (isNaN(dataSend.descWeight)) {
+        dataSend.descWeight = 1;
+      }
+
+      CoordinateService.getCoordinates(dataSend).then(function(data) {
+
+        removePaths();
+        removeAllChilds(items);
+        $('#mainG').remove();
+        items = appendSVG(main, "g");
+        attr(items, {
+          id: "mainG"
+        });
+        clusters = data.data.coordinatesList;
+        $scope.clusterBoard = data.data.clusters;
+        ShareData.clusters = data.data.coordinatesList;
+        attributesMap = data.data.dataCoverage.attributesMap;
+        $scope.dataCoverage.countAttributes = Object.keys(data.data.dataCoverage.attributesMap).sort(function(a, b) {
+          return data.data.dataCoverage.attributesMap[b] - data.data.dataCoverage.attributesMap[a]
+        });
+        attributeOccurenceMap = data.data.dataCoverage.attributeOccurenceMap;
+        ShareData.data.dataCoverage.attributeOccurenceMap = data.data.dataCoverage.attributeOccurenceMap;
+        ShareData.data.attributesMap = data.data.dataCoverage.attributesMap;
+        createClusters(clusters);
+        bringBubblesOnTop();
+        createMapForTooltips(data.data.coordinatesList);
+        ShareData.data.domCreated = true;
+      }, function(err) {
+        if (err) throw err;
+      });
     }
 
     function createMapForTooltips(data) {
@@ -575,7 +583,7 @@ app.controller("HomeController", ['$scope',
             userObj.users.push($scope.users[key].userName);
           }
         })
-        if(userObj.users.length > 0){
+        if (userObj.users.length > 0) {
           $scope.filters.filterList.push({
             map: userObj
           });
@@ -597,7 +605,7 @@ app.controller("HomeController", ['$scope',
           }
         })
 
-        if(attributeObj.attributes.length > 0){
+        if (attributeObj.attributes.length > 0) {
           $scope.filters.filterList.push({
             map: attributeObj
           });
