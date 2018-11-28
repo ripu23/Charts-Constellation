@@ -68,9 +68,9 @@ path:hover {
   padding: 4px;
 }
 
-.wrapper>div:nth-child(odd) {
+/* .wrapper>div:nth-child(odd) {
   background: #ddd;
-}
+} */
 
 div.data-coverage-span:hover {
   background-color: orange;

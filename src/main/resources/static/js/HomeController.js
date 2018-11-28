@@ -239,6 +239,7 @@ app.controller("HomeController", ['$scope',
         createClusters(clusters);
         bringBubblesOnTop();
         createMapForTooltips(data.data.coordinatesList);
+        // usedUnusedColor();
         ShareData.data.domCreated = true;
       }, function(err) {
         if (err) throw err;
@@ -398,6 +399,7 @@ app.controller("HomeController", ['$scope',
           createClusters(clusters);
           bringBubblesOnTop();
           event.stopPropagation();
+          // usedUnusedColor();
           ShareData.data.domCreated = true;
         }, function(err) {
           if (err) throw err;
@@ -405,6 +407,14 @@ app.controller("HomeController", ['$scope',
       }
     }
 
+    $scope.usedUnusedColor = function(){
+      _.forEach(ShareData.data.attributesMap, function(val, key){
+        if(val == 0){
+            $("#data-coverage-member-" + key).css("background", "#ddd");
+        }
+
+      });
+    }
 
     $scope.highlightCluster = function(idx) {
       $("#path" + idx).css("fill", "blue");
@@ -507,6 +517,7 @@ app.controller("HomeController", ['$scope',
         createClusters(clusters);
         bringBubblesOnTop();
         createMapForTooltips(data.data.coordinatesList);
+        usedUnusedColor();
       }, function(err) {
         if (err) throw err;
       });
