@@ -56,11 +56,11 @@ app.service("ClusterService", function($http, ShareData) {
     let chartId = "<p class= 'font-used'><strong>Chart id: </strong>" + allDetails[id].chartName + " </p>";
     let chartType = "<p class= 'font-used'><strong>Chart type: </strong>" + allDetails[id].chartType + "</p>";
     let attributes = "<p class= 'font-used'><strong>Attributes: </strong>" + allDetails[id].attributes + "</p>";
-    let creationTime = "<p class= 'font-used'><strong>Creation time: </strong>" + allDetails[id].creationTime + "</p>";
+    let date = "<p class= 'font-used'><strong>Creation time: </strong>" + allDetails[id].date + "</p>";
     let description = "<p class= 'font-used'><strong>Description </strong>" + allDetails[id].description + "</p>";
     let divStart = "<div>";
     let divEnd = "</div>";
-    let finalTemplate = divStart + title + description + createdBy + chartId + chartType + attributes + creationTime +
+    let finalTemplate = divStart + title + description + createdBy + chartId + chartType + attributes + date +
       imageTemplate + divEnd;
     return finalTemplate;
 
