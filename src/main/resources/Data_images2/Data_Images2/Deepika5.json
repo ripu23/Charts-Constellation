@@ -40,5 +40,11 @@
   },
   "user": "Deepika",
   "chartType": "line",
+  "dateTime": {
+    "fullTime": "Sept 10 2018",
+    "year": "2018",
+    "month": "09",
+    "date": "10"
+  },
   "description": "This dataset reveals that there are maximum number of thefts in 2008 around 100,000 and then to around 80,000 in 2009 and drastically decreased from 2009 to 2011."
 }

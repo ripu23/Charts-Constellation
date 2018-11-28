@@ -30,5 +30,11 @@
       },
 	  "user": "Priyanka",
   "chartType": "line",
+   "dateTime": {
+     "fullTime": "Sept 10 2018",
+     "year": "2018",
+     "month": "09",
+     "date": "10"
+   },
   "description": "This dataset reveals that there are maximum number of thefts in 2005, increasing gradually and then decreasing after it reached its peak"
     }

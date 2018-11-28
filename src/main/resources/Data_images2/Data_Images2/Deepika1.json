@@ -30,5 +30,11 @@
       },
 	 "user": "Deepika",
   "chartType": "point",
-  "description": "This dataset reveals that there is maximum number of arrests in the year 2009 and 2010 around 110,000 and minimized gradually in 2011 to around 60,000 and approached to 0 in 2012." 
+  "description": "This dataset reveals that there is maximum number of arrests in the year 2009 and 2010 around 110,000 and minimized gradually in 2011 to around 60,000 and approached to 0 in 2012.",
+  "dateTime": {
+    "fullTime": "July 20 2018",
+    "year": "2018",
+    "month": "07",
+    "date": "20"
+  }
     }

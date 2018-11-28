@@ -29,5 +29,12 @@
         "axis": {"shortTimeLabels": true}
       },
 	"chartType": "line",
+  "dateTime": {
+    "fullTime": "July 20 2018",
+    "year": "2018",
+    "month": "07",
+    "date": "20"
+  },
+  "user": "Katrina",
   "description": "This dataset reveals that there is a slight decrease in the number of arrests from 2011 to 2013 and then there is a considerable amount of decrease from 2013 to 2015 from 80,000 to almost 0"
     }

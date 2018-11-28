@@ -1,6 +1,12 @@
 {
        
   "id": 2,
+  "dateTime": {
+    "fullTime": "June 4 2018",
+    "year": "2018",
+    "month": "06",
+    "date": "04"
+  },
   "title": "No of Homicides that took place for the period 2000-2003",
       "data": {
         "url" : "homicides1.csv"  
@@ -31,5 +37,6 @@
       },
 	  "user": "Anushka",
       "chartType": "line",
+
       "description": "This dataset reveals that there is maximum number of homicides in the year 2000 and are almost constant till 2002 and minimized gradually in 2003."
     }

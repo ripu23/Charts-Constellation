@@ -30,5 +30,11 @@
       },
 	  "user": "Priyanka",
   "chartType": "line",
+   "dateTime": {
+     "fullTime": "July 20 2018",
+     "year": "2018",
+     "month": "07",
+     "date": "20"
+   },
   "description": "This dataset reveals that there is a gradual increase in the number of arrests till 2005 where it reached the peak. From there there is a gradual decrease in the later part."
     }

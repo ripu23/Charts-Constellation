@@ -266,7 +266,7 @@ public class CoordinatesUtil {
             idCoordinate.setChartName(chartsMap.get(idCoordinate.getId()).getChartName());
             idCoordinate.setTitle(chartsMap.get(idCoordinate.getId()).getTitle());
             idCoordinate.setDescription(chartsMap.get(idCoordinate.getId()).getDescription());
-//            idCoordinate.setDate(chartsMap.get(idCoordinate.getId()).getDateTime().toString());
+            idCoordinate.setDate(chartsMap.get(idCoordinate.getId()).getDateTime().toString());
             idCoordinate.setAttributes(chartsMap.get(idCoordinate.getId()).getAttributes());
 
             if(coordinatesHashMap.containsKey(idCoordinate.getClusterId())) {
