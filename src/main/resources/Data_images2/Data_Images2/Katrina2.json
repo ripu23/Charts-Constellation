@@ -11,8 +11,8 @@
       "encoding": {
         "x": {
 			"timeUnit": "yearmonth",
-           "field": "YEAR", "type": "temporal",
-		   "axis": {"title": "YEAR"}
+           "field": "Year", "type": "temporal",
+		   "axis": {"title": "Year"}
         },
         "y": {"aggregate": "count", "field": "*", "type": "quantitative"}
       },

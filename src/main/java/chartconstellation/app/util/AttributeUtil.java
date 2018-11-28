@@ -204,5 +204,15 @@ public class AttributeUtil {
         return temp;
     }
 
+    public HashMap<String, Integer> getFullAttributesMap(HashMap<String, Integer> attributesMap, List<String> list) {
+
+        for(String str : list) {
+            if(!attributesMap.containsKey(str)) {
+                attributesMap.put(str, 0);
+            }
+        }
+        return attributesMap;
+    }
+
 
 }
