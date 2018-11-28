@@ -4,7 +4,8 @@ var app = angular.module("mainApp");
 app.controller("ImageViewController", ['$scope',
  'ClusterService',
  'ShareData',
- function($scope, ClusterService, ShareData) {
+ 'CoordinateService',
+ function($scope, ClusterService, ShareData, CoordinateService) {
   console.log('reached ImageViewController');
   $scope.images = ClusterService.getImageUrl().images;
   $scope.constantUrl = ClusterService.getImageUrl().url;
@@ -22,6 +23,7 @@ app.controller("ImageViewController", ['$scope',
     $scope.images = ClusterService.getImageUrl().images;
     $scope.constantUrl = ClusterService.getImageUrl().url;
     $scope.dataset = ClusterService.getFullDatasetName(ShareData.data.dataSetId);
+    makeMap();
   });
   $scope.dataset = ClusterService.getFullDatasetName(ShareData.data.dataSetId);
   makeMap();
