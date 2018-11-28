@@ -35,5 +35,12 @@
         "type": "quantitative"
       }
     }
-  }]
+  }
+  ],
+  "dateTime": {
+    "fullTime": "July 20 2018",
+    "year": "2018",
+    "month": "07",
+    "date": "20"
+  }
 }

@@ -30,6 +30,12 @@
       },
 	"user": "Anushka",
   "chartType": "line",
+  "dateTime": {
+    "fullTime": "Sept 10 2018",
+    "year": "2018",
+    "month": "09",
+    "date": "10"
+  },
   "description": "This dataset reveals that there are maximum number of thefts in 2000 and drastically decreased from 2001 to 2002 and approached 0 in 2003"
     }
 	

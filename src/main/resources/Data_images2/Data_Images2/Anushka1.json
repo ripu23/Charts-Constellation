@@ -1,6 +1,12 @@
 {
    
   "id": 1,
+  "dateTime": {
+    "fullTime": "July 20 2018",
+    "year": "2018",
+    "month": "07",
+    "date": "20"
+  },
   "title": "No of arrests Vs time for the period 2000-2003",
       "data": {
         "url" : "arrestVsmonth1.csv"  

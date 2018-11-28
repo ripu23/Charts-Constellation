@@ -28,5 +28,11 @@
       },
 	   "user": "Katrina",
   "chartType": "bar",
+   "dateTime": {
+     "fullTime": "Feb 02 2018",
+     "year": "2018",
+     "month": "02",
+     "date": "02"
+   },
   "description": "This dataset reveals that there is maximum crime rate in streets which rose up to 250,000 followed by the residence for the period 2011-2016"
     }

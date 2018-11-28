@@ -29,9 +29,14 @@
     },
       "config": {
         "axis": {"shortTimeLabels": true}
-      }
-    },
+      },
 	 "user": "Anushka",
   "chartType": "bar",
+  "dateTime": {
+    "fullTime": "April 16 2018",
+    "year": "2018",
+    "month": "04",
+    "date": "16"
+  },
   "description": "This dataset reveals that there is maximum number of arrests for narcotics for the period 2000-2003"
     }
