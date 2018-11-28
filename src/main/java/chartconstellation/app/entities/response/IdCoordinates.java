@@ -1,6 +1,8 @@
 package chartconstellation.app.entities.response;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class IdCoordinates {
 
@@ -13,15 +15,15 @@ public class IdCoordinates {
     private String title;
     private String description;
     private Point point;
-    private List<String> attributes;
+    private Set<String> attributes;
     private String Date;
 
-    public List<String> getAttributes() {
+    public Set<String> getAttributes() {
         return attributes;
     }
 
     public void setAttributes(List<String> attributes) {
-        this.attributes = attributes;
+        this.attributes = new HashSet<>(attributes);
     }
 
     public String getDate() {

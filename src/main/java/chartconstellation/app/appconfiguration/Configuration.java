@@ -1,9 +1,12 @@
 package chartconstellation.app.appconfiguration;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.util.List;
 
 @Component
 @ConfigurationProperties
@@ -28,6 +31,8 @@ public class Configuration {
     private WeightConfig featureWeights;
     private ClusterParams clusterParams;
     private ScalingConfig mdsScalingConfig;
+    private List<String> dataset1Attributes;
+    private List<String> dataset2Attributes;
 
     public String getDataset2mongoDatabase() {
         return dataset2mongoDatabase;
@@ -169,8 +174,25 @@ public class Configuration {
         return dataset2inputPath;
     }
 
-    public void setDataset2inputPath(String dataset2inputPath) {
+    public void setDataset2inputPath(String dataset2inputPath)
+    {
         this.dataset2inputPath = dataset2inputPath;
+    }
+
+    public List<String> getDataset2Attributes() {
+        return dataset2Attributes;
+    }
+
+    public void setDataset2Attributes(List<String> dataset2Attributes) {
+        this.dataset2Attributes = dataset2Attributes;
+    }
+
+    public List<String> getDataset1Attributes() {
+        return dataset1Attributes;
+    }
+
+    public void setDataset1Attributes(List<String> dataset1Attributes) {
+        this.dataset1Attributes = dataset1Attributes;
     }
 
     @Override
@@ -194,6 +216,8 @@ public class Configuration {
                 ", featureWeights=" + featureWeights +
                 ", clusterParams=" + clusterParams +
                 ", mdsScalingConfig=" + mdsScalingConfig +
+                ", dataset1Attributes=" + dataset1Attributes +
+                ", dataset2Attributes=" + dataset2Attributes +
                 '}';
     }
 }
