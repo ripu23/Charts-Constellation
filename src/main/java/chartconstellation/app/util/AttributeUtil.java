@@ -22,6 +22,8 @@ public class AttributeUtil {
     @Autowired
     MongoClient mongoClient;
 
+    public String stopwordAttribute = "*";
+
     public double jaccardSimilarity(Set<String> s1, Set<String> s2) {
 
         final int sa = s1.size();
@@ -66,6 +68,7 @@ public class AttributeUtil {
         } catch(Exception e) {
 
         }
+        attrs.remove(stopwordAttribute);
         return attrs;
     }
 
@@ -88,6 +91,7 @@ public class AttributeUtil {
         for(DBObject obj : docs) {
             JSONObject jsonObj = new JSONObject(obj.toString());
             Set<String> set = new HashSet<String>(getAttributesOfaObject(jsonObj));
+            set.remove(stopwordAttribute);
             allAttributes.addAll(set);
         }
         return allAttributes;
