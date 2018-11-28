@@ -14,7 +14,6 @@
       },
       "encoding": {
         "x": {
-			//"timeUnit": "yearmonth",
            "field": "Primary Type", "type": "nominal"
         },
         "y": {"aggregate": "count", "field": "*", "type": "quantitative"}
@@ -29,8 +28,7 @@
     },
       "config": {
         "axis": {"shortTimeLabels": true}
-      }
-    },
+      },
 	 "user": "Anushka",
   "chartType": "bar",
   "description": "This dataset reveals that there is maximum number of arrests for narcotics for the period 2000-2003"
