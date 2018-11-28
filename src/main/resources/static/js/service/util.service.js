@@ -42,6 +42,13 @@ app.service("ClusterService", function($http, ShareData) {
     return allDetails;
   }
 
+  this.getFullDatasetName = function(id){
+    switch(id){
+      case "olympics": return "120 years of Olympic History";
+      case "crimes": return "Crimes in Chicago";
+    }
+  }
+
   this.makeTemplateForTooltip = function(id, allDetails) {
     let imageTemplate = "<img src='../images/" + allDetails[id].chartName + ".png'  />";
     let title = "<h5 class='subheader'>" + allDetails[id].title + " </h5>";
@@ -53,7 +60,7 @@ app.service("ClusterService", function($http, ShareData) {
     let description = "<p class= 'font-used'><strong>Description </strong>" + allDetails[id].description + "</p>";
     let divStart = "<div>";
     let divEnd = "</div>";
-    let finalTemplate = divStart + title + description + createdBy + chartId + chartType + attributes +
+    let finalTemplate = divStart + title + description + createdBy + chartId + chartType + attributes + creationTime +
       imageTemplate + divEnd;
     return finalTemplate;
 

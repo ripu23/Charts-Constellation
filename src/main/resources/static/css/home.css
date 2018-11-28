@@ -132,3 +132,11 @@ div.data-coverage-span:hover {
 .ui-tooltip {
   max-width: 500px;
 }
+
+.custom-card{
+  height: 740px;
+}
+
+.image-panel-font {
+  font-family: Verdana;
+}

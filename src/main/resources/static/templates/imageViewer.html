@@ -1,11 +1,17 @@
-<div class="grid-container fluid">
-  <div class="grid-x grid-padding-x medium-up-3">
-    <div class="cell" ng-repeat="image in images">
-      <div class="card">
-        <img ng-src="{{constantUrl}}{{image.img}}" class="image-view-img">
-        <div class="card-section">
-          <p class="font-used" ng-repeat="(key, val) in image" ng-if="key == 'title' || key == 'description' || key =='title' || key == 'user' ||
-          key == 'clusterId' || key == 'chartType' || key == 'attributes'">{{key | uppercase}}: {{val}}</p>
+<div>
+  <div class="callout secondary">
+    <h5 class="text-center image-panel-font">List of all the charts for dataset: {{dataset}}</h5>
+  </div>
+  <div class="grid-container fluid">
+    <div class="grid-x grid-padding-x medium-up-3">
+      <div class="cell" ng-repeat="image in images">
+        <div class="card custom-card">
+          <img ng-src="{{constantUrl}}{{image.img}}" class="image-view-img">
+          <div class="card-section">
+            <p class="font-used" ng-repeat="(key, val) in image" ng-if="key == 'title' || key == 'description' || key =='title' || key == 'user' ||
+            key == 'clusterId' || key == 'chartType' || key == 'attributes'">{{key | uppercase}}:
+              {{val}}</p>
+          </div>
         </div>
       </div>
     </div>

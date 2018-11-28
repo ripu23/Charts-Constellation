@@ -10,7 +10,8 @@ app.controller("HomeController", ['$scope',
   'ChartService',
   'ClusterService',
   '$rootScope',
-  function($scope, DistanceService, CoordinateService, ShareData, UserService, ChartService, ClusterService, $rootScope) {
+  '$location',
+  function($scope, DistanceService, CoordinateService, ShareData, UserService, ChartService, ClusterService, $rootScope, $location) {
 
     let clusters = [];
     let clustersUI = {};
@@ -54,7 +55,11 @@ app.controller("HomeController", ['$scope',
     });
 
     $rootScope.$on('routeToHome', function(event) {
-      createDom();
+
+      if($location.path() != '/'){
+          createDom();
+      }
+
     });
 
     $scope.$on('datasetChanged', function(event, data) {
