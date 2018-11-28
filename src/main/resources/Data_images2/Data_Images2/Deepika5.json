@@ -17,7 +17,7 @@
   "encoding": {
     "x": {
       "timeUnit": "year",
-      "field": "YEAR",
+      "field": "Year",
       "type": "temporal",
       "axis": {
         "title": "YEAR"

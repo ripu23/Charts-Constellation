@@ -66,10 +66,17 @@ public class CoordinatesController {
         List<Cluster> clusterList = clusterUtil.generateClusterInfo(coordinatesMap, chartObjs);
 
         HashMap<String, Integer> attributesMap = attributeUtil.getAttributesList(chartObjs);
+        HashMap<String, Integer> attributesFullMap = new HashMap<>();
+        if(datasetId.equals("olympics")) {
+            attributesFullMap = attributeUtil.getFullAttributesMap(attributesMap, configuration.getDataset1Attributes());
+        } else {
+            attributesFullMap = attributeUtil.getFullAttributesMap(attributesMap, configuration.getDataset2Attributes());
+        }
+
         HashMap<String, Set<String>> attributeCoOccurenceMap = attributeUtil.getAttributeCooccurenceMap(chartObjs);
 
         DataCoverageResponse dataCoverageResponse = new DataCoverageResponse();
-        dataCoverageResponse.setAttributesMap(attributesMap);
+        dataCoverageResponse.setAttributesMap(attributesFullMap);
         dataCoverageResponse.setAttributeOccurenceMap(attributeCoOccurenceMap);
         //dataCoverageResponse.setAttributeKeys(attributesMap.keySet());
 
@@ -174,8 +181,15 @@ public class CoordinatesController {
             HashMap<String, Integer> attributesMap = attributeUtil.getAttributesList(chartObjs);
             HashMap<String, Set<String>> attributeCoOccurenceMap = attributeUtil.getAttributeCooccurenceMap(chartObjs);
 
+            HashMap<String, Integer> attributesFullMap = new HashMap<>();
+            if(datasetId.equals("olympics")) {
+                attributesFullMap = attributeUtil.getFullAttributesMap(attributesMap, configuration.getDataset1Attributes());
+            } else {
+                attributesFullMap = attributeUtil.getFullAttributesMap(attributesMap, configuration.getDataset2Attributes());
+            }
+
             DataCoverageResponse dataCoverageResponse = new DataCoverageResponse();
-            dataCoverageResponse.setAttributesMap(attributesMap);
+            dataCoverageResponse.setAttributesMap(attributesFullMap);
             dataCoverageResponse.setAttributeOccurenceMap(attributeCoOccurenceMap);
             //dataCoverageResponse.setAttributeKeys(attributesMap.keySet());
 
