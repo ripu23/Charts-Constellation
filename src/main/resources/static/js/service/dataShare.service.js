@@ -21,6 +21,7 @@ app.factory('ShareData', function() {
   data.allDetails = [];
   data.dataSetId = "olympics";
   data.sliderDone = false;
+  data.suggestionsMap = {};
 	return {
 		data: data
   }

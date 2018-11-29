@@ -11,7 +11,7 @@
       },
       "encoding": {
         "x": {
-			//"timeUnit": "yearmonth",
+			"timeUnit": "yearmonth",
            "field": "Location Description", "type": "nominal"
         },
         "y": {"aggregate": "count", "field": "*", "type": "quantitative"}

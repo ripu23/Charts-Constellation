@@ -38,6 +38,7 @@ app.controller("HomeController", ['$scope',
     $scope.dataCoverage.AttributeMap = ShareData.data.dataCoverage.AttributeMap;
     $scope.colorSequence = [];
     $scope.allDetails = ShareData.data.allDetails;
+    $scope.suggestionsMap = ShareData.data.suggestionsMap;
     var bubbles = new BubbleSet();
     var main = document.getElementById("main");
     var items = appendSVG(main, "g");
@@ -251,7 +252,10 @@ app.controller("HomeController", ['$scope',
         attributeOccurenceMap = data.data.dataCoverage.attributeOccurenceMap;
         ShareData.data.dataCoverage.attributeOccurenceMap = data.data.dataCoverage.attributeOccurenceMap;
         ShareData.data.attributesMap = data.data.dataCoverage.attributesMap;
+        ShareData.data.suggestionsMap = data.data.attributeSuggestions.userExploringAttributes;
+        ShareData.data.suggestions = data.data.attributeSuggestions.suggestions;
         $scope.suggestionsMap = data.data.attributeSuggestions.userExploringAttributes;
+
         createClusters(clusters);
         bringBubblesOnTop();
         createMapForTooltips(data.data.coordinatesList);
@@ -463,7 +467,7 @@ app.controller("HomeController", ['$scope',
           }
           if (element.is("td")) {
             if (element.attr('suggestions')) {
-              return ClusterService.getTemplateForSuggestions($scope.suggestionsMap, element.attr('suggestions'));
+              return ClusterService.getTemplateForSuggestions(ShareData.data.suggestionsMap, element.attr('suggestions'));
             }
           }
 
@@ -551,7 +555,7 @@ app.controller("HomeController", ['$scope',
       CoordinateService.updateClusters(toBeSent).then(function(data) {
 
         removePaths();
-        items = document.getElementById("mainG");
+        items = getItemsToBeRemoved();
         removeAllChilds(items);
         main = document.getElementById("main");
         items = appendSVG(main, "g");
@@ -562,7 +566,6 @@ app.controller("HomeController", ['$scope',
         $scope.filters.filterList = x.filterList;
         clusters = data.data.coordinatesList;
         var newItems = data.data.clusters;
-        $scope.clusterBoard = data.data.clusters;
         ShareData.clusters = data.data.coordinatesList;
         attributeOccurenceMap = ShareData.data.dataCoverage.attributeOccurenceMap;
         attributesMap = ShareData.data.attributesMap;
@@ -579,6 +582,16 @@ app.controller("HomeController", ['$scope',
       });
     }
 
+    function getItemsToBeRemoved () {
+      let itemsArray = document.getElementsByTagName("g");
+      let toBeReturned;
+      _.forEach(itemsArray, function(item, key){
+        if(item.id === "mainG" && item.innnerHTML != ""){
+          toBeReturned = item;
+        }
+      });
+      return toBeReturned;
+    }
     $scope.usedUnusedColor = function() {
       _.forEach(ShareData.data.attributesMap, function(val, key) {
         if (val == 0) {
@@ -677,7 +690,6 @@ app.controller("HomeController", ['$scope',
         $scope.filters.filterList = x.filterList;
         clusters = data.data.coordinatesList;
         var newItems = data.data.clusters;
-        $scope.clusterBoard = data.data.clusters;
         ShareData.clusters = data.data.coordinatesList;
         attributeOccurenceMap = ShareData.data.dataCoverage.attributeOccurenceMap;
         attributesMap = ShareData.data.attributesMap;
@@ -694,6 +706,8 @@ app.controller("HomeController", ['$scope',
       });
 
     }
+
+
 
     function removePaths() {
       main = document.getElementById("main");

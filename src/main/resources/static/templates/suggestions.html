@@ -9,7 +9,10 @@
 
     <md-dialog-content>
       <div class="md-dialog-content">
-        <h2>Here is a list of suggestions of those of attributes that have only a few charts or not have at all.</h2>
+        <h4 class="subheader">Here is a list of suggestions of those of attributes that have only a few charts or not have at all.</h4>
+        <p class=""><span ng-repeat="suggestion in suggestions track by $index">{{suggestion}}
+            <span ng-if="$index < suggestions.length - 1">,</span>
+          </span>
 
 
       </div>
