@@ -8,6 +8,20 @@ import java.util.*;
 @Component
 public class AttributeRecommendations {
 
+    public <K,V extends Comparable<? super V>>
+    SortedSet<Map.Entry<K,V>> entriesSortedByValues(Map<K,V> map) {
+        SortedSet<Map.Entry<K,V>> sortedEntries = new TreeSet<Map.Entry<K,V>>(
+                new Comparator<Map.Entry<K,V>>() {
+                    @Override public int compare(Map.Entry<K,V> e1, Map.Entry<K,V> e2) {
+                        int res = e1.getValue().compareTo(e2.getValue());
+                        return res != 0 ? res : 1;
+                    }
+                }
+        );
+        sortedEntries.addAll(map.entrySet());
+        return sortedEntries;
+    }
+
     public Double cosineSimilarity(HashMap<String, Integer> map1, HashMap<String, Integer> map2) {
         Double denom = 0.0;
         Double num = 0.0;
@@ -88,9 +102,33 @@ public class AttributeRecommendations {
         return usersMap;
     }
 
+    public Set<String> unusedAttributes(Set<String> usedAttributes, List<String> allAttributes) {
+
+        Set<String> output = new HashSet<>();
+
+        for(String str : allAttributes) {
+            if(!usedAttributes.contains(str)) {
+                output.add(str);
+            }
+        }
+        return output;
+
+    }
+
+    public Set<String> getAttributes(Set<String> attributes,int k) {
+        List<String> list = new ArrayList<String>(attributes);
+        Collections.shuffle(list);
+        Set<String> output = new HashSet<>();
+        for(int i=0; i<k; i++) {
+            output.add(list.get(i));
+        }
+        return output;
+    }
+
     public HashMap<String, Set<String>> getAttributeRecommendationsForAllUsers(Collection<List<IdCoordinates>> coordinatesCollection, List<String> fullAttributesList) {
 
         Iterator<List<IdCoordinates>> itr = coordinatesCollection.iterator();
+        Set<String> usedAttributes = new HashSet<>();
 
         List<IdCoordinates> idCoordinatesList = new ArrayList<>();
         while(itr.hasNext()) {
@@ -103,19 +141,34 @@ public class AttributeRecommendations {
 
         HashMap<String, HashMap<String, Integer>> map = getUsersAttributesMap(idCoordinatesList);
         for(Map.Entry<String, HashMap<String, Integer>> entry1 : map.entrySet()) {
-            //System.out.print(entry1.getKey()+" ");
-            TreeMap<Double, String> treeMap = new TreeMap<>();
+            usedAttributes.addAll(entry1.getValue().keySet());
+        }
+
+        Set<String> unusedAttributes = unusedAttributes(usedAttributes, fullAttributesList);
+        System.out.println("unused attributes"+ unusedAttributes);
+
+        for(Map.Entry<String, HashMap<String, Integer>> entry1 : map.entrySet()) {
+            System.out.print(entry1.getKey()+" ");
+            Map<String, Double> treeMap = new HashMap<>();
+
             for(Map.Entry<String, HashMap<String, Integer>> entry2 : map.entrySet()) {
                 if(!entry1.getKey().equals(entry2.getKey())) {
-                    treeMap.put(cosineSimilarity(entry1.getValue(), entry2.getValue()), entry2.getKey());
-                    //System.out.println(cosineSimilarity(entry1.getValue(), entry2.getValue()));
+                    treeMap.put(entry2.getKey(), cosineSimilarity(entry1.getValue(), entry2.getValue())) ;
+                    System.out.println(cosineSimilarity(entry1.getValue(), entry2.getValue()));
                 }
             }
+            SortedSet<Map.Entry<String, Double>> sortedTreeMap = entriesSortedByValues(treeMap);
             int size = treeMap.size();
+            System.out.println("size" + size);
             int count = 0;
-            for(Map.Entry<Double, String> entry : treeMap.entrySet()) {
-                Set<String> diffSet = getDissimilarAttributes(entry1.getValue(), map.get(entry.getValue()));
+            Iterator<Map.Entry<String, Double>> itr1 = sortedTreeMap.iterator();
+            while(itr1.hasNext()){
+                Map.Entry<String, Double> entry = itr1.next();
+                Set<String> diffSet = getDissimilarAttributes(entry1.getValue(), map.get(entry.getKey()));
+
                 if(count < size/2) {
+
+                    System.out.println("manoj");
 
                     if(userExploringAttributes.containsKey(entry1.getKey())) {
                         Set<String> outputSet = userExploringAttributes.get(entry1.getKey());
@@ -124,6 +177,14 @@ public class AttributeRecommendations {
                     } else {
                         userExploringAttributes.put(entry1.getKey(), diffSet);
                     }
+
+                    Set<String> addAttributes = getAttributes(unusedAttributes, 3);
+
+                    System.out.println(addAttributes);
+                    Set<String> a = userExploringAttributes.get(entry1.getKey());
+                    a.addAll(addAttributes);
+
+                    userExploringAttributes.put(entry1.getKey(), a);
                 } else {
 
                     if(userSimilarAttributes.containsKey(entry1.getKey())) {

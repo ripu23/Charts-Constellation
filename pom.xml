@@ -63,6 +63,12 @@
 			<artifactId>commons-io</artifactId>
 			<version>2.5</version>
 		</dependency>
+		<dependency>
+			<groupId>MDS_Basic</groupId>
+			<artifactId>MDS_BASIC_Art</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
 
 	</dependencies>
 

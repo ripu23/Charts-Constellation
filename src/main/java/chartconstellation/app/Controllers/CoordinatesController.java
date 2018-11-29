@@ -86,7 +86,15 @@ public class CoordinatesController {
         outputResponse.setClusters(clusterList);
         outputResponse.setDataCoverage(dataCoverageResponse);
 
-        HashMap<String, Set<String>> userExploringAttributes  = attributeRecommendations.getAttributeRecommendationsForAllUsers(outputResponse.getCoordinatesList(), configuration.getDataset1Attributes());
+        HashMap<String, Set<String>> userExploringAttributes = new HashMap<>();
+
+        if(datasetId.equals("olympics")) {
+            userExploringAttributes = attributeRecommendations.getAttributeRecommendationsForAllUsers(outputResponse.getCoordinatesList(), configuration.getDataset1Attributes());
+        } else {
+            userExploringAttributes = attributeRecommendations.getAttributeRecommendationsForAllUsers(outputResponse.getCoordinatesList(), configuration.getDataset2Attributes());
+        }
+
+        System.out.println(userExploringAttributes);
 
         AttributeSuggestions attributeSuggestions = new AttributeSuggestions();
         attributeSuggestions.setUserExploringAttributes(userExploringAttributes);
