@@ -20,6 +20,7 @@ app.factory('ShareData', function() {
   data.filters.filterList = [];
   data.allDetails = [];
   data.dataSetId = "olympics";
+  data.sliderDone = false;
 	return {
 		data: data
   }

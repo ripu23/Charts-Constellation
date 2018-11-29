@@ -198,6 +198,7 @@ app.controller("HomeController", ['$scope',
       });
     });
 
+
     function createDom() {
       var updatedAttrWeight = $('#sliderAttribute').slider("value");
       var updatedDescWeight = $('#sliderDescription').slider("value");
@@ -284,7 +285,37 @@ app.controller("HomeController", ['$scope',
     }
 
 
-    $(function() {
+    if (ShareData.data.sliderDone == false) {
+      $(function() {
+        $("#slider-range").slider({
+          value: 0,
+          min: 0,
+          max: 0,
+          step: 1,
+          create: function(event, ui) {
+            ShareData.data.sliderDone = true;
+          },
+          slide: function(event, ui) {
+            console.log(ui.value);
+            var colorMap;
+            var toBeSent = {};
+            if (!colorMap) {
+              colorMap = populateColorMap();
+            }
+            toBeSent.colorMap = JSON.stringify(colorMap);
+            toBeSent.num = ui.value;
+            CoordinateService.getClustersForTimeRange(toBeSent).then(function(data) {
+              createDom();
+            }, function(err) {
+              if (err) throw err;
+              alertify.error("Something is wrong with API: CoordinateService -> getClustersForTimeRange");
+            })
+          }
+        });
+      });
+    }
+
+    function intializeSlider() {
       $("#slider-range").slider({
         value: 0,
         min: 0,
@@ -307,7 +338,7 @@ app.controller("HomeController", ['$scope',
           })
         }
       });
-    });
+    }
 
     $scope.showSuggestions = function(ev) {
       $mdDialog.show({
@@ -467,8 +498,10 @@ app.controller("HomeController", ['$scope',
           attributeOccurenceMap = data.data.dataCoverage.attributeOccurenceMap;
           createClusters(clusters);
           bringBubblesOnTop();
-          event.stopPropagation();
-          // usedUnusedColor();
+          var numSlider = ClusterService.getNumberForSlider();
+          intializeSlider();
+          $("#slider-range").slider("option", "max", numSlider);
+          $("#slider-range").slider("option", "value", numSlider);
           ShareData.data.domCreated = true;
         }, function(err) {
           if (err) throw err;
@@ -586,6 +619,10 @@ app.controller("HomeController", ['$scope',
         createClusters(clusters);
         bringBubblesOnTop();
         createMapForTooltips(data.data.coordinatesList);
+        var numSlider = ClusterService.getNumberForSlider();
+        intializeSlider();
+        $("#slider-range").slider("option", "max", numSlider);
+        $("#slider-range").slider("option", "value", numSlider);
         usedUnusedColor();
       }, function(err) {
         if (err) throw err;

@@ -18,6 +18,7 @@
                           <div class="used-div">
                             <div class="squareUsed"></div>
                             <p class="font-used">Used</p>
+                            
                           </div>
                         </div>
                         <div class="cell large-6">
@@ -50,7 +51,7 @@
               <div class="accordion-content cluster-board-overflow" data-tab-content>
                 <div class="grid-container">
                   <div class="grid-y">
-                    <div class="cell" ng-repeat="cluster in clusterBoard track by $index">
+                    <div class="cell" ng-repeat="cluster in clusterBoard track by $index">{{cluster}}
                       <h6 class="subheader" ng-mouseover="highlightCluster($index)" ng-mouseleave="removeCss($index)">Cluster: {{$index + 1}}</h6>
                       <p class="font-chart"><strong>Users:</strong> <span ng-repeat="userName in cluster.users.Users">{{userName}}
                           <span ng-if="$index < cluster.users.Users.length - 1">,</span>
