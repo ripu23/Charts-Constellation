@@ -110,8 +110,11 @@ public class CoordinatesController {
     @RequestMapping(value="/updateFilter", method= RequestMethod.GET)
     public OutputResponse filterCoordinates(@RequestParam("filter") String filterMap,
                                             @RequestParam("colorMap") Object colorMap,
-                                            @RequestParam("datasetId") String datasetId) {
+                                            @RequestParam("datasetId") String datasetId,
+                                            @RequestParam("dateRange") int dateRange) {
     	try {
+
+    	    System.out.println("date range "+dateRange);
 
 			Filters filters =  new ObjectMapper().readValue(filterMap, Filters.class);
 			List<Filter> filtersList = filters.getFilterList();
@@ -160,14 +163,32 @@ public class CoordinatesController {
                         configuration.getCrimechartcollection(), users, charts);
             }
 
+            Collections.sort(chartObjs, new Comparator<Chart>() {
+
+                public int compare(Chart o1, Chart o2) {
+                    // compare two instance of `Score` and return `int` as result.
+                    if(o1.getDateTime().getYear().equals(o2.getDateTime().getYear())) {
+                        if(o1.getDateTime().getMonth().equals(o2.getDateTime().getMonth())) {
+                            return o1.getDateTime().getDate().compareTo(o2.getDateTime().getDate());
+                        } else {
+                            return o1.getDateTime().getMonth().compareTo(o2.getDateTime().getMonth());
+                        }
+                    } else {
+                        return o1.getDateTime().getYear().compareTo(o2.getDateTime().getYear());
+                    }
+
+                }
+            });
+
+            System.out.println(chartObjs);
+            chartObjs = chartObjs.subList(0, dateRange);
+            System.out.println(chartObjs);
+
             Set<String> filteredIds = new HashSet<>();
 
             for(Chart chartObj : chartObjs) {
                 filteredIds.add(chartObj.getId());
             }
-
-            System.out.println("filtrerd IDs "+ filteredIds.size());
-            System.out.println("charts "+ chartObjs.size());
 
             List<FeatureVector> filteredFeatureVectors = new ArrayList<>();
             for(FeatureVector featureVector : featurevectors) {
@@ -226,9 +247,6 @@ public class CoordinatesController {
                 attributeSuggestions.setSuggestions(configuration.getAttributes2());
                 userExploringAttributes = attributeRecommendations.getAttributeRecommendationsForAllUsers(outputResponse.getCoordinatesList(), configuration.getDataset2Attributes());
             }
-
-            System.out.println(userExploringAttributes);
-
 
             attributeSuggestions.setUserExploringAttributes(userExploringAttributes);
 
