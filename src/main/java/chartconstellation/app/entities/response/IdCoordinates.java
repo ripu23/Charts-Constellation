@@ -23,7 +23,7 @@ public class IdCoordinates {
     }
 
     public void setAttributes(List<String> attributes) {
-        this.attributes = new HashSet<>(attributes);
+        this.attributes = new HashSet<String>(attributes);
     }
 
     public String getDate() {

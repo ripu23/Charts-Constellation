@@ -1,5 +1,6 @@
 package chartconstellation.app.util;
 
+import chartconstellation.app.entities.DateTime;
 import chartconstellation.app.entities.response.Cluster;
 import chartconstellation.app.entities.Chart;
 import chartconstellation.app.entities.response.IdCoordinates;
