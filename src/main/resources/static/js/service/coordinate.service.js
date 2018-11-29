@@ -22,20 +22,10 @@ app.service("CoordinateService", function($http, ShareData) {
         params: {
           filter: data.updatedFilters,
           colorMap: data.colorMap,
+          dataRange: data.dateRange,
           datasetId: ShareData.data.dataSetId
         }
       })
     }
 
-    this.getClustersForTimeRange = function getClustersForTimeRange(data) {
-      return $http({
-        method: 'GET',
-        url: '/coordinates/updateFilter',
-        params: {
-          num: data.num,
-          colorMap: data.colorMap,
-          datasetId: ShareData.data.dataSetId
-        }
-      })
-    }
 })

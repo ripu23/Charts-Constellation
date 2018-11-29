@@ -323,20 +323,7 @@ app.controller("HomeController", ['$scope',
             ShareData.data.sliderDone = true;
           },
           slide: function(event, ui) {
-            console.log(ui.value);
-            var colorMap;
-            var toBeSent = {};
-            if (!colorMap) {
-              colorMap = populateColorMap();
-            }
-            toBeSent.colorMap = JSON.stringify(colorMap);
-            toBeSent.num = ui.value;
-            CoordinateService.getClustersForTimeRange(toBeSent).then(function(data) {
-              createDom();
-            }, function(err) {
-              if (err) throw err;
-              alertify.error("Something is wrong with API: CoordinateService -> getClustersForTimeRange");
-            })
+            updateOnSliderChange(true, ui.value);
           }
         });
       });
@@ -536,7 +523,7 @@ app.controller("HomeController", ['$scope',
       }
     }
 
-    function updateOnSliderChange(){
+    function updateOnSliderChange(rangeFlag, rangeVal){
       populateWeight();
       var colorMap;
       var toBeSent = {};
@@ -548,6 +535,10 @@ app.controller("HomeController", ['$scope',
       });
       if (!colorMap) {
         colorMap = populateColorMap();
+      }
+      toBeSent.dateRange = $("#slider-range").slider("option", "value");
+      if(rangeFlag && rangeVal){
+        toBeSent.dateRange = rangeVal;
       }
       ShareData.data.filters.filterList = obj;
       toBeSent.updatedFilters = obj;
