@@ -152,7 +152,11 @@ app.controller("HomeController", ['$scope',
           handleAttr.text(ui.value);
         },
         change: function(event, ui) {
-          createDom();
+          if(ClusterService.checkForFilters($scope.filters.filterList)){
+            updateOnSliderChange();
+          }else{
+              createDom();
+          }
         }
       });
       $("#sliderEncoding").slider({
@@ -171,7 +175,11 @@ app.controller("HomeController", ['$scope',
           handleEncoding.text(ui.value);
         },
         change: function(event, ui) {
-          createDom();
+          if(ClusterService.checkForFilters($scope.filters.filterList)){
+            updateOnSliderChange();
+          }else{
+              createDom();
+          }
         }
       });
       $("#sliderDescription").slider({
@@ -193,7 +201,11 @@ app.controller("HomeController", ['$scope',
           handleDesc.text(ui.value);
         },
         change: function(event, ui) {
-          createDom();
+          if(ClusterService.checkForFilters($scope.filters.filterList)){
+            updateOnSliderChange();
+          }else{
+              createDom();
+          }
         }
       });
     });
@@ -259,9 +271,20 @@ app.controller("HomeController", ['$scope',
     }
 
     function bringBubblesOnTop() {
-      var tempG = $('#mainG');
-      $('#mainG').remove();
-      $('svg').append(tempG);
+      // var tempG = $('#mainG');
+      // $('#mainG').remove();
+      // $('svg').append(tempG);
+      var listOfGs = $("g[id^='mainG']");
+      var mainG;
+      var toBeDeleted;
+      _.forEach(listOfGs, function(g){
+        if(g.innnerHTML != ""){
+          mainG = g;
+          toBeDeleted = g;
+        }
+      })
+      $(toBeDeleted).remove();
+      $('svg').append(mainG);
     }
 
     function populateColorMap() {
@@ -509,6 +532,53 @@ app.controller("HomeController", ['$scope',
       }
     }
 
+    function updateOnSliderChange(){
+      populateWeight();
+      var colorMap;
+      var toBeSent = {};
+      var obj = angular.fromJson(angular.toJson($scope.filters));
+      _.forEach(obj.filterList, function(filter, key) {
+        if (filter.map && filter.map.users) {
+          colorMap = getColorMapForUpdate(filter.map.users);
+        }
+      });
+      if (!colorMap) {
+        colorMap = populateColorMap();
+      }
+      ShareData.data.filters.filterList = obj;
+      toBeSent.updatedFilters = obj;
+      toBeSent.colorMap = JSON.stringify(colorMap);
+      CoordinateService.updateClusters(toBeSent).then(function(data) {
+
+        removePaths();
+        items = document.getElementById("mainG");
+        removeAllChilds(items);
+        main = document.getElementById("main");
+        items = appendSVG(main, "g");
+        attr(items, {
+          id: "mainG"
+        });
+        let x = angular.fromJson(data.data.filterMap);
+        $scope.filters.filterList = x.filterList;
+        clusters = data.data.coordinatesList;
+        var newItems = data.data.clusters;
+        $scope.clusterBoard = data.data.clusters;
+        ShareData.clusters = data.data.coordinatesList;
+        attributeOccurenceMap = ShareData.data.dataCoverage.attributeOccurenceMap;
+        attributesMap = ShareData.data.attributesMap;
+        createClusters(clusters);
+        bringBubblesOnTop();
+        createMapForTooltips(data.data.coordinatesList);
+        var numSlider = ClusterService.getNumberForSlider();
+        intializeSlider();
+        $("#slider-range").slider("option", "max", numSlider);
+        $("#slider-range").slider("option", "value", numSlider);
+        $scope.usedUnusedColor();
+      }, function(err) {
+        if (err) throw err;
+      });
+    }
+
     $scope.usedUnusedColor = function() {
       _.forEach(ShareData.data.attributesMap, function(val, key) {
         if (val == 0) {
@@ -608,14 +678,9 @@ app.controller("HomeController", ['$scope',
         clusters = data.data.coordinatesList;
         var newItems = data.data.clusters;
         $scope.clusterBoard = data.data.clusters;
-        $scope.$apply();
-        $scope.$digest();
         ShareData.clusters = data.data.coordinatesList;
         attributeOccurenceMap = ShareData.data.dataCoverage.attributeOccurenceMap;
         attributesMap = ShareData.data.attributesMap;
-        // $scope.dataCoverage.countAttributes = Object.keys(data.data.dataCoverage.attributesMap).sort(function(a, b) {
-        //   return data.data.dataCoverage.attributesMap[b] - data.data.dataCoverage.attributesMap[a]
-        // });
         createClusters(clusters);
         bringBubblesOnTop();
         createMapForTooltips(data.data.coordinatesList);

@@ -57,6 +57,18 @@ app.service("ClusterService", function($http, ShareData) {
     return counter;
   }
 
+  this.checkForFilters = function(filters) {
+    var filtersPresent = false;
+    _.forEach(filters, function(filter, key){
+      if(filter && filter.map){
+        if(filter.map.users || filter.map.charts || filter.map.attributes){
+          filtersPresent = true;
+        }
+      }
+    })
+    return filtersPresent;
+  }
+
   this.getTemplateForSuggestions = function(data1, data2){
     let comp1 = "<div>";
     let comp2 = "</div>";
