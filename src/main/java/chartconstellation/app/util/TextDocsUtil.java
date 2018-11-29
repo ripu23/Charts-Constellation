@@ -79,7 +79,6 @@ public class TextDocsUtil {
 
         List<FeatureDistance> attrDistances2 = attributeUtil.computerAttributeDistance(collection2);
 
-        System.out.println(attrDistances2.size());
 
         dbUtil.updateAttributeCollection(configuration.getDataset2mongoDatabase(),
                 configuration.getDataset2attributeDistanceCollection(),
@@ -88,7 +87,6 @@ public class TextDocsUtil {
         List<FeatureDistance> descriptionDistances2 =
                 docutil.convertJsonToFeatureList(configuration.getDataset2descriptionDistancePath());
 
-        System.out.println(descriptionDistances2.size());
 
         dbUtil.updateAttributeCollection(configuration.getDataset2mongoDatabase()
                 , configuration.getDataset2descriptionCollection()
@@ -103,6 +101,8 @@ public class TextDocsUtil {
         dbUtil.updateFeaturesCollection(configuration.getDataset2mongoDatabase()
                 , configuration.getDataset2totalFeatureCollection()
                 , featureVectors2);
+
+        System.out.println("Dataset Loaded");
 
     }
 
