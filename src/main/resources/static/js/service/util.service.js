@@ -49,6 +49,24 @@ app.service("ClusterService", function($http, ShareData) {
     }
   }
 
+  this.getNumberForSlider = function() {
+    var counter = 0;
+    _.forEach(ShareData.clusters, function(cluster){
+      counter += cluster.length;
+    })
+    return counter;
+  }
+
+  this.getTemplateForSuggestions = function(data1, data2){
+    let comp1 = "<div>";
+    let comp2 = "</div>";
+    let comp3 = "<h5 class='subheader'>" + data2 + " should further explore these attributes: </h5>";
+    let comp4 = "<p>" + data1[data2];
+    let comp5 = "</p>";
+
+    return comp1 + comp3 + comp4 + comp5 + comp2;
+  }
+
   this.makeTemplateForTooltip = function(id, allDetails) {
     let imageTemplate = "<img src='../images/" + allDetails[id].chartName + ".png'  />";
     let title = "<h5 class='subheader'>" + allDetails[id].title + " </h5>";

@@ -26,4 +26,16 @@ app.service("CoordinateService", function($http, ShareData) {
         }
       })
     }
+
+    this.getClustersForTimeRange = function getClustersForTimeRange(data) {
+      return $http({
+        method: 'GET',
+        url: '/coordinates/updateFilter',
+        params: {
+          num: data.num,
+          colorMap: data.colorMap,
+          datasetId: ShareData.data.dataSetId
+        }
+      })
+    }
 })

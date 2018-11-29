@@ -129,9 +129,6 @@ div.data-coverage-span:hover {
   height: 350px;
 }
 
-.ui-tooltip {
-  max-width: 500px;
-}
 
 .custom-card{
   height: 740px;
@@ -142,4 +139,9 @@ div.data-coverage-span:hover {
 }
 .suggestion-margin{
   margin-right: 10px;
+}
+
+md-dialog{
+  width: 700px;
+  height: auto;
 }

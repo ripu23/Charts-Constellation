@@ -42,6 +42,7 @@ app.controller("HomeController", ['$scope',
     var main = document.getElementById("main");
     var items = appendSVG(main, "g");
     var tooltips;
+    var maxTooltip;
     bubbles.debug(false);
     let domCreated = ShareData.data.domCreated;
 
@@ -237,10 +238,13 @@ app.controller("HomeController", ['$scope',
         attributeOccurenceMap = data.data.dataCoverage.attributeOccurenceMap;
         ShareData.data.dataCoverage.attributeOccurenceMap = data.data.dataCoverage.attributeOccurenceMap;
         ShareData.data.attributesMap = data.data.dataCoverage.attributesMap;
+        $scope.suggestionsMap = data.data.attributeSuggestions.userExploringAttributes;
         createClusters(clusters);
         bringBubblesOnTop();
         createMapForTooltips(data.data.coordinatesList);
-        // usedUnusedColor();
+        var numSlider = ClusterService.getNumberForSlider();
+        $("#slider-range").slider("option", "max", numSlider);
+        $("#slider-range").slider("option", "value", numSlider);
         ShareData.data.domCreated = true;
       }, function(err) {
         if (err) throw err;
@@ -282,26 +286,38 @@ app.controller("HomeController", ['$scope',
 
     $(function() {
       $("#slider-range").slider({
-        range: true,
+        value: 0,
         min: 0,
-        max: 500,
-        values: [75, 300],
+        max: 0,
+        step: 1,
         slide: function(event, ui) {
-          $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+          console.log(ui.value);
+          var colorMap;
+          var toBeSent = {};
+          if (!colorMap) {
+            colorMap = populateColorMap();
+          }
+          toBeSent.colorMap = JSON.stringify(colorMap);
+          toBeSent.num = ui.value;
+          CoordinateService.getClustersForTimeRange(toBeSent).then(function(data) {
+            createDom();
+          }, function(err) {
+            if (err) throw err;
+            alertify.error("Something is wrong with API: CoordinateService -> getClustersForTimeRange");
+          })
         }
       });
-      $("#amount").val("$" + $("#slider-range").slider("values", 0) +
-        " - $" + $("#slider-range").slider("values", 1));
     });
-    
+
     $scope.showSuggestions = function(ev) {
       $mdDialog.show({
           controller: 'SuggestionsController',
           templateUrl: 'templates/suggestions.html',
           parent: angular.element(document.body),
           targetEvent: ev,
+          width: 500,
           clickOutsideToClose: true,
-          fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+          fullscreen: false // Only for -xs, -sm breakpoints.
         })
         .then(function(answer) {
           $scope.status = 'You said the information was "' + answer + '".';
@@ -379,6 +395,9 @@ app.controller("HomeController", ['$scope',
           my: "left+15 center",
           at: "right center"
         },
+        open: function(event, ui) {
+          ui.tooltip.css("max-width", "500px");
+        },
         collision: "flipfit",
         track: true,
         content: function() {
@@ -390,7 +409,7 @@ app.controller("HomeController", ['$scope',
           }
           if (element.is("td")) {
             if (element.attr('suggestions')) {
-              return element.attr('suggestions');
+              return ClusterService.getTemplateForSuggestions($scope.suggestionsMap, element.attr('suggestions'));
             }
           }
 
@@ -407,6 +426,7 @@ app.controller("HomeController", ['$scope',
     }
 
     blink('.suggestion-margin');
+
     $scope.clearFilter = function() {
       $scope.filters.filterList = [];
       $scope.chartOptions = [];
