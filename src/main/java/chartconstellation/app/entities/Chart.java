@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -78,7 +79,19 @@ public class Chart {
 	}
 	@Override
 	public String toString() {
-		return "Chart [description=" + description + ", user=" + user + ", dateTime=" + dateTime + ", chartType="
-				+ chartType + ", title=" + title + "]";
+		return "Chart [ dateTime=" + dateTime + "]";
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Chart)) return false;
+		Chart chart = (Chart) o;
+		return Objects.equals(getDateTime(), chart.getDateTime());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getDateTime());
 	}
 }
