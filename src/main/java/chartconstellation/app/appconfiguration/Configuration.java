@@ -33,6 +33,8 @@ public class Configuration {
     private ScalingConfig mdsScalingConfig;
     private List<String> dataset1Attributes;
     private List<String> dataset2Attributes;
+    private List<String> attributes1;
+    private List<String> attributes2;
 
     public String getDataset2mongoDatabase() {
         return dataset2mongoDatabase;
@@ -195,6 +197,23 @@ public class Configuration {
         this.dataset1Attributes = dataset1Attributes;
     }
 
+    public List<String> getAttributes1() {
+        return attributes1;
+    }
+
+    public void setAttributes1(List<String> attributes1) {
+        this.attributes1 = attributes1;
+    }
+
+    public List<String> getAttributes2() {
+        return attributes2;
+    }
+
+    public void setAttributes2(List<String> attributes2) {
+        this.attributes2 = attributes2;
+    }
+
+
     @Override
     public String toString() {
         return "Configuration{" +
@@ -218,6 +237,8 @@ public class Configuration {
                 ", mdsScalingConfig=" + mdsScalingConfig +
                 ", dataset1Attributes=" + dataset1Attributes +
                 ", dataset2Attributes=" + dataset2Attributes +
+                ", attributes1=" + attributes1 +
+                ", attributes2=" + attributes2 +
                 '}';
     }
 }

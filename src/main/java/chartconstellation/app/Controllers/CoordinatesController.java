@@ -88,15 +88,16 @@ public class CoordinatesController {
 
         HashMap<String, Set<String>> userExploringAttributes = new HashMap<>();
 
+        AttributeSuggestions attributeSuggestions = new AttributeSuggestions();
+
         if(datasetId.equals("olympics")) {
+            attributeSuggestions.setSuggestions(configuration.getAttributes1());
             userExploringAttributes = attributeRecommendations.getAttributeRecommendationsForAllUsers(outputResponse.getCoordinatesList(), configuration.getDataset1Attributes());
         } else {
+            attributeSuggestions.setSuggestions(configuration.getAttributes2());
             userExploringAttributes = attributeRecommendations.getAttributeRecommendationsForAllUsers(outputResponse.getCoordinatesList(), configuration.getDataset2Attributes());
         }
 
-        System.out.println(userExploringAttributes);
-
-        AttributeSuggestions attributeSuggestions = new AttributeSuggestions();
         attributeSuggestions.setUserExploringAttributes(userExploringAttributes);
 
         outputResponse.setAttributeSuggestions(attributeSuggestions);
@@ -214,6 +215,25 @@ public class CoordinatesController {
             outputResponse.setCoordinatesList(coordinatesMap.values());
             outputResponse.setClusters(clusterList);
             outputResponse.setDataCoverage(dataCoverageResponse);
+
+            HashMap<String, Set<String>> userExploringAttributes = new HashMap<>();
+            AttributeSuggestions attributeSuggestions = new AttributeSuggestions();
+
+            if(datasetId.equals("olympics")) {
+                attributeSuggestions.setSuggestions(configuration.getAttributes1());
+                userExploringAttributes = attributeRecommendations.getAttributeRecommendationsForAllUsers(outputResponse.getCoordinatesList(), configuration.getDataset1Attributes());
+            } else {
+                attributeSuggestions.setSuggestions(configuration.getAttributes2());
+                userExploringAttributes = attributeRecommendations.getAttributeRecommendationsForAllUsers(outputResponse.getCoordinatesList(), configuration.getDataset2Attributes());
+            }
+
+            System.out.println(userExploringAttributes);
+
+
+            attributeSuggestions.setUserExploringAttributes(userExploringAttributes);
+
+
+            outputResponse.setAttributeSuggestions(attributeSuggestions);
 
             System.out.println(outputResponse.toString());
             return outputResponse;
