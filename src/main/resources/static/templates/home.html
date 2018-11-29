@@ -13,13 +13,10 @@
   </div>
 
   <hr>
-  <div class="cell large-2 medium-2">
-    <div class="slider" data-slider data-initial-start="1" data-start="1" data-end="12" data-initial-end="12" data-step="1">
-      <span class="slider-handle" data-slider-handle role="slider" tabindex="1"></span>
-      <span class="slider-fill" data-slider-fill></span>
-      <span class="slider-handle" data-slider-handle role="slider" tabindex="1"></span>
-      <input type="hidden" id="timelineLeft" ng-model="timelineLeft">
-      <input type="hidden" id="timelineRight" ng-model="timelineRight">
-    </div>
+
+  <div class="cell large-1 medium-1 suggestion-margin"><button type="button" ng-click="showSuggestions($event)" class="success button float-right">Suggestions</button></div>
+  <div class="cell large-1 medium-1">
+    <div id="slider-range"></div>
   </div>
+
 </div>

@@ -11,7 +11,8 @@ app.controller("HomeController", ['$scope',
   'ClusterService',
   '$rootScope',
   '$location',
-  function($scope, DistanceService, CoordinateService, ShareData, UserService, ChartService, ClusterService, $rootScope, $location) {
+  '$mdDialog',
+  function($scope, DistanceService, CoordinateService, ShareData, UserService, ChartService, ClusterService, $rootScope, $location, $mdDialog) {
 
     let clusters = [];
     let clustersUI = {};
@@ -56,8 +57,8 @@ app.controller("HomeController", ['$scope',
 
     $rootScope.$on('routeToHome', function(event) {
 
-      if($location.path() != '/'){
-          createDom();
+      if ($location.path() != '/') {
+        createDom();
       }
 
     });
@@ -278,6 +279,37 @@ app.controller("HomeController", ['$scope',
       })
     }
 
+
+    $(function() {
+      $("#slider-range").slider({
+        range: true,
+        min: 0,
+        max: 500,
+        values: [75, 300],
+        slide: function(event, ui) {
+          $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+        }
+      });
+      $("#amount").val("$" + $("#slider-range").slider("values", 0) +
+        " - $" + $("#slider-range").slider("values", 1));
+    });
+    
+    $scope.showSuggestions = function(ev) {
+      $mdDialog.show({
+          controller: 'SuggestionsController',
+          templateUrl: 'templates/suggestions.html',
+          parent: angular.element(document.body),
+          targetEvent: ev,
+          clickOutsideToClose: true,
+          fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+        })
+        .then(function(answer) {
+          $scope.status = 'You said the information was "' + answer + '".';
+        }, function() {
+          $scope.status = 'You cancelled the dialog.';
+        });
+    }
+
     function createClusters(clustersArray) {
       clustersUI = {};
       let counter = 0;
@@ -342,7 +374,7 @@ app.controller("HomeController", ['$scope',
 
     $(function() {
       $(document).tooltip({
-        items: "circle",
+        items: "circle, [suggestions]",
         position: {
           my: "left+15 center",
           at: "right center"
@@ -351,13 +383,30 @@ app.controller("HomeController", ['$scope',
         track: true,
         content: function() {
           var element = $(this);
-          var chartName = element.attr('chartName');
-          var template = ClusterService.makeTemplateForTooltip(chartName, ShareData.data.allDetails);
-          return template;
+          if (element.is("circle")) {
+            var chartName = element.attr('chartName');
+            var template = ClusterService.makeTemplateForTooltip(chartName, ShareData.data.allDetails);
+            return template;
+          }
+          if (element.is("td")) {
+            if (element.attr('suggestions')) {
+              return element.attr('suggestions');
+            }
+          }
+
         }
       });
     });
 
+    function blink(selector) {
+      $(selector).fadeOut('slow', function() {
+        $(this).fadeIn('slow', function() {
+          blink(this);
+        });
+      });
+    }
+
+    blink('.suggestion-margin');
     $scope.clearFilter = function() {
       $scope.filters.filterList = [];
       $scope.chartOptions = [];
@@ -407,10 +456,10 @@ app.controller("HomeController", ['$scope',
       }
     }
 
-    $scope.usedUnusedColor = function(){
-      _.forEach(ShareData.data.attributesMap, function(val, key){
-        if(val == 0){
-            $("#data-coverage-member-" + key).css("background", "#ddd");
+    $scope.usedUnusedColor = function() {
+      _.forEach(ShareData.data.attributesMap, function(val, key) {
+        if (val == 0) {
+          $("#data-coverage-member-" + key).css("background", "#ddd");
         }
 
       });
