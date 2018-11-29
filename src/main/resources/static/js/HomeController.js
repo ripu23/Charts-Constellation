@@ -336,20 +336,7 @@ app.controller("HomeController", ['$scope',
         max: 0,
         step: 1,
         slide: function(event, ui) {
-          console.log(ui.value);
-          var colorMap;
-          var toBeSent = {};
-          if (!colorMap) {
-            colorMap = populateColorMap();
-          }
-          toBeSent.colorMap = JSON.stringify(colorMap);
-          toBeSent.num = ui.value;
-          CoordinateService.getClustersForTimeRange(toBeSent).then(function(data) {
-            createDom();
-          }, function(err) {
-            if (err) throw err;
-            alertify.error("Something is wrong with API: CoordinateService -> getClustersForTimeRange");
-          })
+          updateOnSliderChange(true, ui.value);
         }
       });
     }
