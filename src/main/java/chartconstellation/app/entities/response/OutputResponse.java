@@ -3,6 +3,7 @@ package chartconstellation.app.entities.response;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class OutputResponse {
 
@@ -13,6 +14,16 @@ public class OutputResponse {
     private List<Cluster> clusters;
 
     private DataCoverageResponse dataCoverage;
+
+    private AttributeSuggestions attributeSuggestions;
+
+    public AttributeSuggestions getAttributeSuggestions() {
+        return attributeSuggestions;
+    }
+
+    public void setAttributeSuggestions(AttributeSuggestions attributeSuggestions) {
+        this.attributeSuggestions = attributeSuggestions;
+    }
 
     public Collection<List<IdCoordinates>> getCoordinatesList()
     {
@@ -54,6 +65,7 @@ public class OutputResponse {
                 ", coordinatesList=" + coordinatesList +
                 ", clusters=" + clusters +
                 ", dataCoverage=" + dataCoverage +
+                ", attributeSuggestions=" + attributeSuggestions +
                 '}';
     }
 }

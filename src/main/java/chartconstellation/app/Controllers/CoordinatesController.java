@@ -2,10 +2,8 @@ package chartconstellation.app.Controllers;
 
 import chartconstellation.app.appconfiguration.Configuration;
 import chartconstellation.app.entities.*;
-import chartconstellation.app.entities.response.Cluster;
-import chartconstellation.app.entities.response.DataCoverageResponse;
-import chartconstellation.app.entities.response.IdCoordinates;
-import chartconstellation.app.entities.response.OutputResponse;
+import chartconstellation.app.entities.response.*;
+import chartconstellation.app.recommendations.AttributeRecommendations;
 import chartconstellation.app.util.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +31,9 @@ public class CoordinatesController {
 
     @Autowired
     AttributeUtil attributeUtil;
+
+    @Autowired
+    AttributeRecommendations attributeRecommendations;
 
     @RequestMapping(value="/getCoordinates", method= RequestMethod.GET)
     @ResponseBody
@@ -84,6 +85,13 @@ public class CoordinatesController {
         outputResponse.setCoordinatesList(coordinatesMap.values());
         outputResponse.setClusters(clusterList);
         outputResponse.setDataCoverage(dataCoverageResponse);
+
+        HashMap<String, Set<String>> userExploringAttributes  = attributeRecommendations.getAttributeRecommendationsForAllUsers(outputResponse.getCoordinatesList(), configuration.getDataset1Attributes());
+
+        AttributeSuggestions attributeSuggestions = new AttributeSuggestions();
+        attributeSuggestions.setUserExploringAttributes(userExploringAttributes);
+
+        outputResponse.setAttributeSuggestions(attributeSuggestions);
 
         System.out.println(outputResponse.toString());
 
