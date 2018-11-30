@@ -181,7 +181,7 @@ public class CoordinatesController {
             });
 
             System.out.println(chartObjs);
-            chartObjs = chartObjs.subList(0, dateRange);
+            chartObjs = chartObjs.subList(0, dateRange-1);
             System.out.println(chartObjs);
 
             Set<String> filteredIds = new HashSet<>();
