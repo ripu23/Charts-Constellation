@@ -181,6 +181,10 @@ public class CoordinatesController {
             });
 
             System.out.println(chartObjs);
+            int chartSize = chartObjs.size();
+            if(dateRange >= chartSize) {
+                dateRange = chartSize;
+            }
             chartObjs = chartObjs.subList(0, dateRange-1);
             System.out.println(chartObjs);
 
