@@ -22,7 +22,7 @@ app.service("CoordinateService", function($http, ShareData) {
         params: {
           filter: data.updatedFilters,
           colorMap: data.colorMap,
-          dataRange: data.dateRange,
+          dateRange: data.dateRange,
           datasetId: ShareData.data.dataSetId
         }
       })

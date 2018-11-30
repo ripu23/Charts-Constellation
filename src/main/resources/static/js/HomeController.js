@@ -260,6 +260,7 @@ app.controller("HomeController", ['$scope',
         bringBubblesOnTop();
         createMapForTooltips(data.data.coordinatesList);
         var numSlider = ClusterService.getNumberForSlider();
+        ShareData.data.numberofPoints = numSlider;
         $("#slider-range").slider("option", "max", numSlider);
         $("#slider-range").slider("option", "value", numSlider);
         ShareData.data.domCreated = true;
@@ -316,13 +317,13 @@ app.controller("HomeController", ['$scope',
       $(function() {
         $("#slider-range").slider({
           value: 0,
-          min: 0,
+          min: 1,
           max: 0,
           step: 1,
           create: function(event, ui) {
             ShareData.data.sliderDone = true;
           },
-          slide: function(event, ui) {
+          stop: function(event, ui) {
             updateOnSliderChange(true, ui.value);
           }
         });
@@ -332,10 +333,10 @@ app.controller("HomeController", ['$scope',
     function intializeSlider() {
       $("#slider-range").slider({
         value: 0,
-        min: 0,
+        min: 1,
         max: 0,
         step: 1,
-        slide: function(event, ui) {
+        stop: function(event, ui) {
           updateOnSliderChange(true, ui.value);
         }
       });
@@ -551,9 +552,8 @@ app.controller("HomeController", ['$scope',
         bringBubblesOnTop();
         createMapForTooltips(data.data.coordinatesList);
         var numSlider = ClusterService.getNumberForSlider();
-        intializeSlider();
-        $("#slider-range").slider("option", "max", numSlider);
-        $("#slider-range").slider("option", "value", numSlider);
+        // intializeSlider();
+        // $("#slider-range").slider("option", "value", numSlider);
         $scope.usedUnusedColor();
       }, function(err) {
         if (err) throw err;
@@ -655,6 +655,7 @@ app.controller("HomeController", ['$scope',
       ShareData.data.filters.filterList = obj;
       toBeSent.updatedFilters = obj;
       toBeSent.colorMap = JSON.stringify(colorMap);
+      toBeSent.dateRange = $("#slider-range").slider("option", "value");
       CoordinateService.updateClusters(toBeSent).then(function(data) {
 
         removePaths();
@@ -675,6 +676,7 @@ app.controller("HomeController", ['$scope',
         bringBubblesOnTop();
         createMapForTooltips(data.data.coordinatesList);
         var numSlider = ClusterService.getNumberForSlider();
+        ShareData.data.numberofPoints = numSlider;
         intializeSlider();
         $("#slider-range").slider("option", "max", numSlider);
         $("#slider-range").slider("option", "value", numSlider);
